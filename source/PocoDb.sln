@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoDb", "PocoDb\PocoDb.csproj", "{BACF4238-7542-42DA-B894-8FD24B34374D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoDb.Specs", "PocoDb.Specs\PocoDb.Specs.csproj", "{1BECEA69-68A9-4BA8-ABAC-E1CE935F93FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BACF4238-7542-42DA-B894-8FD24B34374D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BACF4238-7542-42DA-B894-8FD24B34374D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BACF4238-7542-42DA-B894-8FD24B34374D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BACF4238-7542-42DA-B894-8FD24B34374D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BECEA69-68A9-4BA8-ABAC-E1CE935F93FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BECEA69-68A9-4BA8-ABAC-E1CE935F93FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BECEA69-68A9-4BA8-ABAC-E1CE935F93FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BECEA69-68A9-4BA8-ABAC-E1CE935F93FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
