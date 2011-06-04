@@ -9,11 +9,11 @@ using FakeItEasy;
 namespace PocoDb.Specs
 {
     [Subject(typeof(TrackedChanges))]
-    abstract class with_a_new_TrackedChanges:Observes<TrackedChanges>
+    public abstract class with_a_new_TrackedChanges:Observes<TrackedChanges>
     {
     }
 
-    class when_an_object_is_added : with_a_new_TrackedChanges
+    public class when_an_object_is_added : with_a_new_TrackedChanges
     {
         Establish c = () =>
             {
@@ -28,7 +28,7 @@ namespace PocoDb.Specs
         static object obj;
     }
 
-    class when_a_property_is_set : with_a_new_TrackedChanges
+    public class when_a_property_is_set : with_a_new_TrackedChanges
     {
         Establish c = () =>
         {
@@ -49,7 +49,7 @@ namespace PocoDb.Specs
         static object val;
     }
 
-    class when_a_collection_is_added_to : with_a_new_TrackedChanges
+    public class when_a_collection_is_added_to : with_a_new_TrackedChanges
     {
         Establish c = () =>
         {
@@ -66,7 +66,7 @@ namespace PocoDb.Specs
         static object obj;
     }
 
-    class when_a_collection_has_an_object_removed : with_a_new_TrackedChanges
+    public class when_a_collection_has_an_object_removed : with_a_new_TrackedChanges
     {
         Establish c = () =>
         {
