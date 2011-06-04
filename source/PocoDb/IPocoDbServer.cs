@@ -1,10 +1,10 @@
-using System;
+﻿using System;
+using PocoDb.Commits;
 
 namespace PocoDb
 {
     public interface IPocoDbServer
     {
-        IPocoSession BeginSession();
-        IWritablePocoSession BeginWritableSession();
+        void Commit(ICommit commit);
     }
 }

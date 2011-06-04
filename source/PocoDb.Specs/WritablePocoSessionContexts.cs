@@ -11,8 +11,8 @@ namespace PocoDb.Specs
     [Subject(typeof (IWritablePocoSession))]
     public class with_a_new_WritablePocoSession : Observes<WritablePocoSession>
     {
-        Establish c = () => { server = depends.on<IInternalServer>(); };
+        Establish c = () => { pocoDbServer = depends.on<IPocoDbServer>(); };
 
-        protected static IInternalServer server;
+        protected static IPocoDbServer pocoDbServer;
     }
 }

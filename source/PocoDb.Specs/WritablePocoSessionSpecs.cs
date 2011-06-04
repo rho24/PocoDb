@@ -12,13 +12,13 @@ namespace PocoDb.Specs
             commitBuilder = depends.on<ICommitBuilder>();
             commit = new Commit();
 
-            A.CallTo(() => commitBuilder.Build(A<TrackedChanges>._)).Returns(commit);
+            A.CallTo(() => commitBuilder.Build(A<TrackedChanges>.Ignored)).Returns(commit);
         };
 
         Because of = () => sut.SaveChanges();
 
-        It should_create_commit = () => A.CallTo(() => commitBuilder.Build(A<TrackedChanges>._)).MustHaveHappened();
-        It should_send_commit_to_server = () => A.CallTo(() => server.Commit(commit)).MustHaveHappened();
+        It should_create_commit = () => A.CallTo(() => commitBuilder.Build(A<TrackedChanges>.Ignored)).MustHaveHappened();
+        It should_send_commit_to_server = () => A.CallTo(() => pocoDbServer.Commit(commit)).MustHaveHappened();
 
         static ICommitBuilder commitBuilder;
         static Commit commit;

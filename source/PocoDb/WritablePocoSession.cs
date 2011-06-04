@@ -7,13 +7,13 @@ namespace PocoDb
 {
     public class WritablePocoSession : IWritablePocoSession
     {
-        public IInternalServer Server { get; private set; }
+        public IPocoDbServer PocoDbServer { get; private set; }
         public ICommitBuilder CommitBuilder { get; set; }
         public ITrackedChanges Changes { get; private set; }
 
 
-        public WritablePocoSession(IInternalServer server, ICommitBuilder commitBuilder) {
-            Server = server;
+        public WritablePocoSession(IPocoDbServer pocoDbServer, ICommitBuilder commitBuilder) {
+            PocoDbServer = pocoDbServer;
             CommitBuilder = commitBuilder;
 
             Changes = new TrackedChanges();
@@ -34,7 +34,7 @@ namespace PocoDb
         public void SaveChanges() {
             var commit = CommitBuilder.Build(Changes);
 
-            Server.Commit(commit);
+            PocoDbServer.Commit(commit);
         }
 
         public void Dispose() {
