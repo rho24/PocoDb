@@ -43,6 +43,11 @@
     <Compile Include="ChangeTracking\AddObjectChange.cs" />
     <Compile Include="ChangeTracking\AddToCollectionChange.cs" />
     <Compile Include="ChangeTracking\ITrackedChanges.cs" />
+    <Compile Include="Commits\ICommit.cs" />
+    <Compile Include="Commits\ICommitBuilder.cs" />
+    <Compile Include="IPocoDbServer.cs" />
+    <Compile Include="IPocoSession.cs" />
+    <Compile Include="IWritablePocoSession.cs" />
     <Compile Include="Meta\IProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />
