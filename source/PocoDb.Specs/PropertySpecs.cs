@@ -6,9 +6,7 @@ namespace PocoDb.Specs
     [Subject(typeof (IProperty), "Equality")]
     public class when_a_property_is_compared_to_itself
     {
-        Establish c = () => {
-                prop = new Property<DummyObject, string>(o => o.FirstName);
-            };
+        Establish c = () => { prop = new Property<DummyObject, string>(o => o.FirstName); };
 
         It should_be_equal = () => prop.ShouldEqual(prop);
         It should_have_the_same_hash_code = () => prop.GetHashCode().ShouldEqual(prop.GetHashCode());
@@ -19,8 +17,7 @@ namespace PocoDb.Specs
     [Subject(typeof (IProperty), "Equality")]
     public class when_a_property_is_compared_to_a_copy
     {
-        Establish c = () =>
-        {
+        Establish c = () => {
             prop1 = new Property<DummyObject, string>(o => o.FirstName);
             prop2 = new Property<DummyObject, string>(o => o.FirstName);
         };
@@ -35,8 +32,7 @@ namespace PocoDb.Specs
     [Subject(typeof (IProperty), "Equality")]
     public class when_a_property_is_compared_to_a_different_property
     {
-        Establish c = () =>
-        {
+        Establish c = () => {
             prop1 = new Property<DummyObject, string>(o => o.FirstName);
             prop2 = new Property<DummyObject, string>(o => o.LastName);
         };

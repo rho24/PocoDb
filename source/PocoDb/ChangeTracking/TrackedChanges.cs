@@ -29,8 +29,7 @@ namespace PocoDb.ChangeTracking
             AddObjectChanges.Add(new AddObjectChange(obj));
         }
 
-        public void TrackPropertySet(object obj, IProperty prop, object val)
-        {
+        public void TrackPropertySet(object obj, IProperty prop, object val) {
             if (obj == null)
                 throw new ArgumentNullException("obj");
 
