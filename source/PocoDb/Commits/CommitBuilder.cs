@@ -7,14 +7,18 @@ namespace PocoDb.Commits
 {
     public class CommitBuilder : ICommitBuilder
     {
+        protected ICommitIdGenerator IdGenerator { get; private set; }
         public IPocoMetaBuilder PocoMetaBuilder { get; private set; }
 
-        public CommitBuilder(IPocoMetaBuilder pocoMetaBuilder) {
+        public CommitBuilder(ICommitIdGenerator idGenerator, IPocoMetaBuilder pocoMetaBuilder) {
+            IdGenerator = idGenerator;
             PocoMetaBuilder = pocoMetaBuilder;
         }
 
         public ICommit Build(ITrackedChanges changes) {
-            var commit = new Commit();
+            var id = IdGenerator.New();
+
+            var commit = new Commit(id);
 
             foreach (var addObjectChange in changes.AddObjectChanges) {
                 RecordAddObject(addObjectChange.Poco, commit);

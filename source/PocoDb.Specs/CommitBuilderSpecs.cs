@@ -4,10 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
+using PocoDb.Commits;
 using PocoDb.Meta;
 
 namespace PocoDb.Specs
 {
+    public class when_a_commit_is_build : with_a_new_CommitBuilder
+    {
+        Establish c = () => {
+            commitIdGenerator = depends.on<ICommitIdGenerator>();
+            id = fake.an<ICommitId>();
+
+            A.CallTo(() => commitIdGenerator.New()).Returns(id);
+        };
+
+        It should_contain_have_an_id_generated = () => commit.Id.ShouldEqual(id);
+
+        static ICommitIdGenerator commitIdGenerator;
+        static ICommitId id;
+    }
+
     public class when_a_new_object_is_being_tracked : with_a_new_CommitBuilder
     {
         Establish c = () => {

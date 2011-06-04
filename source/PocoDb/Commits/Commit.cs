@@ -5,6 +5,8 @@ namespace PocoDb.Commits
 {
     public class Commit : ICommit
     {
+        public ICommitId Id { get; private set; }
+
         public List<AddObject> AddObjects { get; private set; }
         public List<PropertySet> PropertySets { get; private set; }
         public List<AddToCollection> AddToCollections { get; private set; }
@@ -15,7 +17,9 @@ namespace PocoDb.Commits
         IEnumerable<AddToCollection> ICommit.AddToCollections { get { return AddToCollections; } }
         IEnumerable<RemoveFromCollection> ICommit.RemoveFromCollections { get { return RemoveFromCollections; } }
 
-        public Commit() {
+        public Commit(ICommitId id) {
+            Id = id;
+
             AddObjects = new List<AddObject>();
             PropertySets = new List<PropertySet>();
             AddToCollections = new List<AddToCollection>();

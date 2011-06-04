@@ -65,6 +65,8 @@
     <Compile Include="CommitBuilderSpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
+    <Compile Include="PocoDbServerContexts.cs" />
+    <Compile Include="PocoDbServerSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertySpecs.cs" />
     <Compile Include="TrackedChangesSpec.cs" />

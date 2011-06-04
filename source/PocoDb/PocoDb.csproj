@@ -47,13 +47,16 @@
     <Compile Include="Commits\AddToCollection.cs" />
     <Compile Include="Commits\Commit.cs" />
     <Compile Include="Commits\CommitBuilder.cs" />
+    <Compile Include="Commits\CommitId.cs" />
     <Compile Include="Commits\ICommit.cs" />
     <Compile Include="Commits\ICommitBuilder.cs" />
+    <Compile Include="Commits\ICommitId.cs" />
+    <Compile Include="Commits\ICommitIdGenerator.cs" />
+    <Compile Include="Commits\ICommitProcessor.cs" />
+    <Compile Include="Commits\ICommitStore.cs" />
     <Compile Include="Commits\PropertySet.cs" />
     <Compile Include="Commits\RemoveFromCollection.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="IInternalServer.cs" />
-    <Compile Include="InternalServer.cs" />
     <Compile Include="IPocoDbClient.cs" />
     <Compile Include="Meta\IPocoId.cs" />
     <Compile Include="Meta\IPocoIdBuilder.cs" />
@@ -68,6 +71,8 @@
     <Compile Include="ChangeTracking\PropertySetChange.cs" />
     <Compile Include="ChangeTracking\RemoveFromCollectionChange.cs" />
     <Compile Include="ChangeTracking\TrackedChanges.cs" />
+    <Compile Include="Server\IPocoDbServer.cs" />
+    <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="WritablePocoSession.cs" />
   </ItemGroup>
   <ItemGroup />

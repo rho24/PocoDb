@@ -1,7 +1,7 @@
 ﻿using System;
 using PocoDb.Commits;
 
-namespace PocoDb
+namespace PocoDb.Server
 {
     public interface IPocoDbServer
     {
