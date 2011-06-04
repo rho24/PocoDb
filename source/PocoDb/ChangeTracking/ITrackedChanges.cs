@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PocoDb.Meta;
 
 namespace PocoDb.ChangeTracking
 {

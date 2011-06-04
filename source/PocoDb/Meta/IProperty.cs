@@ -1,4 +1,4 @@
-namespace PocoDb
+namespace PocoDb.Meta
 {
     public interface IProperty
     {}

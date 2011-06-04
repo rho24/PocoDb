@@ -1,4 +1,5 @@
-﻿namespace PocoDb.ChangeTracking
+﻿using PocoDb.Meta;
+namespace PocoDb.ChangeTracking
 {
     public class PropertySetChange
     {

@@ -2,6 +2,7 @@
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using FakeItEasy;
+using PocoDb.Meta;
 
 namespace PocoDb.Specs
 {

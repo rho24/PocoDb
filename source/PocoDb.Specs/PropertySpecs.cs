@@ -1,4 +1,5 @@
 using Machine.Specifications;
+using PocoDb.Meta;
 
 namespace PocoDb.Specs
 {
