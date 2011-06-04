@@ -33,35 +33,48 @@ namespace PocoDb
         }
 
         public void TrackAddedObject(object obj) {
+            if (obj == null)
+                throw new ArgumentNullException("obj");
+
+            if (AddObjectChanges.Any(a => a.Object == obj))
+                return;
+
             AddObjectChanges.Add(new AddObjectChange(obj));
         }
 
         public void TrackPropertySet(object obj, Property prop, object val) {
+            if (obj == null)
+                throw new ArgumentNullException("obj");
+
+            if (prop == null)
+                throw new ArgumentNullException("prop");
+
+            if (PropertySetChanges.Any(p => p.Object == obj && p.Property == prop))
+                PropertySetChanges.RemoveAll(p => p.Object == obj && p.Property == prop);
+
             PropertySetChanges.Add(new PropertySetChange(obj, prop, val));
         }
 
         public void TrackAddToCollection(ICollection<object> collection, object obj) {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             AddToCollectionChanges.Add(new AddToCollectionChange(collection, obj));
         }
 
         public void TrackRemoveFromCollection(ICollection<object> collection, object obj) {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             RemoveFromCollectionChanges.Add(new RemoveFromCollectionChange(collection, obj));
         }
 
-        IEnumerable<AddObjectChange> ITrackedChanges.AddObjectChanges {
-            get { return AddObjectChanges; }
-        }
+        IEnumerable<AddObjectChange> ITrackedChanges.AddObjectChanges { get { return AddObjectChanges; } }
 
-        IEnumerable<PropertySetChange> ITrackedChanges.PropertySetChanges {
-            get { return PropertySetChanges; }
-        }
+        IEnumerable<PropertySetChange> ITrackedChanges.PropertySetChanges { get { return PropertySetChanges; } }
 
-        IEnumerable<AddToCollectionChange> ITrackedChanges.AddToCollectionChanges {
-            get { return AddToCollectionChanges; }
-        }
+        IEnumerable<AddToCollectionChange> ITrackedChanges.AddToCollectionChanges { get { return AddToCollectionChanges; } }
 
-        IEnumerable<RemoveFromCollectionChange> ITrackedChanges.RemoveFromCollectionChanges {
-            get { return RemoveFromCollectionChanges; }
-        }
+        IEnumerable<RemoveFromCollectionChange> ITrackedChanges.RemoveFromCollectionChanges { get { return RemoveFromCollectionChanges; } }
     }
 }
