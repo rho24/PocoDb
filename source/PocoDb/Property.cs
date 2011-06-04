@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 
 namespace PocoDb
 {
-    public class Property:Expression
-    {
-    }
+    public class Property : Expression
+    {}
 }

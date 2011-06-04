@@ -9,6 +9,12 @@ namespace PocoDb
     {
         public object Object { get; private set; }
         public Property Property { get; private set; }
-        public object value { get; set; }
+        public object Value { get; private set; }
+
+        public PropertySetChange(object o, Property property, object value) {
+            Object = o;
+            Property = property;
+            Value = value;
+        }
     }
 }
