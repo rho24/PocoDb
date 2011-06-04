@@ -1,4 +1,6 @@
-﻿namespace PocoDb.ChangeTracking
+﻿using System;
+
+namespace PocoDb.ChangeTracking
 {
     public class AddObjectChange
     {

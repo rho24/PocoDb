@@ -1,3 +1,5 @@
+using System;
+
 namespace PocoDb.Specs
 {
     public class DummyObject

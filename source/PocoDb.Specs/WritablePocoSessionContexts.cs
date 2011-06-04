@@ -1,3 +1,4 @@
+using System;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 

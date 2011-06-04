@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using System.Linq;
-using Machine.Specifications;
 using FakeItEasy;
+using Machine.Specifications;
 using PocoDb.ChangeTracking;
-using System;
 using PocoDb.Meta;
 
 namespace PocoDb.Specs

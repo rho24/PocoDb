@@ -1,7 +1,8 @@
-﻿using developwithpassion.specifications.fakeiteasy;
+﻿using System;
+using developwithpassion.specifications.fakeiteasy;
+using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
-using FakeItEasy;
 using PocoDb.Meta;
 
 namespace PocoDb.Specs

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using PocoDb.Meta;
 
 namespace PocoDb.Commits

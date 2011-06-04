@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using PocoDb.Meta;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PocoDb.Commits
 {
