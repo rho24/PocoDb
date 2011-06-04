@@ -1,5 +1,7 @@
 ﻿using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
+using PocoDb.ChangeTracking;
+using FakeItEasy;
 
 namespace PocoDb.Specs
 {
@@ -28,14 +30,14 @@ namespace PocoDb.Specs
         Establish c = () =>
         {
             obj = new object();
-            prop = new Property();
+            prop = A.Fake<IProperty>();
             val = new object();
 
             sut_setup.run(sut => sut.TrackPropertySet(obj, prop, val));
         };
 
         protected static object obj;
-        protected static Property prop;
+        protected static IProperty prop;
         protected static object val;
     }
 

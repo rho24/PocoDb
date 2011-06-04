@@ -40,14 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddObjectChange.cs" />
-    <Compile Include="AddToCollectionChange.cs" />
+    <Compile Include="ChangeTracking\AddObjectChange.cs" />
+    <Compile Include="ChangeTracking\AddToCollectionChange.cs" />
+    <Compile Include="ChangeTracking\ITrackedChanges.cs" />
+    <Compile Include="IProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
-    <Compile Include="PropertySetChange.cs" />
-    <Compile Include="RemoveFromCollectionChange.cs" />
-    <Compile Include="TrackedChanges.cs" />
+    <Compile Include="ChangeTracking\PropertySetChange.cs" />
+    <Compile Include="ChangeTracking\RemoveFromCollectionChange.cs" />
+    <Compile Include="ChangeTracking\TrackedChanges.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

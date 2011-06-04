@@ -1,23 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace PocoDb
+namespace PocoDb.ChangeTracking
 {
-    public interface ITrackedChanges
-    {
-        IEnumerable<AddObjectChange> AddObjectChanges { get; }
-        IEnumerable<PropertySetChange> PropertySetChanges { get; }
-        IEnumerable<AddToCollectionChange> AddToCollectionChanges { get; }
-        IEnumerable<RemoveFromCollectionChange> RemoveFromCollectionChanges { get; }
-
-        void TrackAddedObject(object obj);
-        void TrackPropertySet(object obj, Property prop, object val);
-        void TrackAddToCollection(ICollection<object> collection, object obj);
-        void TrackRemoveFromCollection(ICollection<object> collection, object obj);
-    }
-
     public class TrackedChanges : ITrackedChanges
     {
         public List<AddObjectChange> AddObjectChanges { get; private set; }
@@ -42,7 +28,8 @@ namespace PocoDb
             AddObjectChanges.Add(new AddObjectChange(obj));
         }
 
-        public void TrackPropertySet(object obj, Property prop, object val) {
+        public void TrackPropertySet(object obj, IProperty prop, object val)
+        {
             if (obj == null)
                 throw new ArgumentNullException("obj");
 

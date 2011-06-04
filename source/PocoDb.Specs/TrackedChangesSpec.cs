@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using FakeItEasy;
-using PocoDb.Specs;
-using PocoDb;
+using PocoDb.ChangeTracking;
 using System;
 
 namespace PocoDb.Specs
@@ -43,7 +41,7 @@ namespace PocoDb.Specs
     {
         Establish c = () => {
             obj = new object();
-            prop = new Property();
+            prop = A.Fake<IProperty>();
             val = new object();
         };
 
@@ -55,7 +53,7 @@ namespace PocoDb.Specs
         It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(val);
 
         static object obj;
-        static Property prop;
+        static IProperty prop;
         static object val;
     }
 
@@ -77,7 +75,7 @@ namespace PocoDb.Specs
     {
         Establish c = () => {
             obj = null;
-            prop = new Property();
+            prop = A.Fake<IProperty>();
             val = new object();
         };
 
@@ -86,7 +84,7 @@ namespace PocoDb.Specs
         It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
         static object obj;
-        static Property prop;
+        static IProperty prop;
         static object val;
     }
 
@@ -104,7 +102,7 @@ namespace PocoDb.Specs
         It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
         static object obj;
-        static Property prop;
+        static IProperty prop;
         static object val;
     }
 
@@ -113,7 +111,7 @@ namespace PocoDb.Specs
     {
         Establish c = () => {
             obj = new object();
-            prop = new Property();
+            prop = A.Fake<IProperty>();
             val = null;
         };
 
@@ -125,7 +123,7 @@ namespace PocoDb.Specs
         It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(val);
 
         static object obj;
-        static Property prop;
+        static IProperty prop;
         static object val;
     }
 
