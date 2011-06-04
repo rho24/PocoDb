@@ -61,12 +61,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommitBuilderContexts.cs" />
+    <Compile Include="CommitBuilderSpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertySpecs.cs" />
     <Compile Include="TrackedChangesSpec.cs" />
     <Compile Include="TrackedChangesContexts.cs" />
+    <Compile Include="WritablePocoSessionContexts.cs" />
+    <Compile Include="WritablePocoSessionSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

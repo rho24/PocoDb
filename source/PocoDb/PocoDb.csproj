@@ -43,17 +43,27 @@
     <Compile Include="ChangeTracking\AddObjectChange.cs" />
     <Compile Include="ChangeTracking\AddToCollectionChange.cs" />
     <Compile Include="ChangeTracking\ITrackedChanges.cs" />
+    <Compile Include="Commits\Commit.cs" />
+    <Compile Include="Commits\CommitBuilder.cs" />
     <Compile Include="Commits\ICommit.cs" />
     <Compile Include="Commits\ICommitBuilder.cs" />
+    <Compile Include="Commits\PropertySet.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="IInternalServer.cs" />
     <Compile Include="IPocoDbServer.cs" />
+    <Compile Include="Meta\IPocoId.cs" />
+    <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="IWritablePocoSession.cs" />
+    <Compile Include="Meta\IPocoMeta.cs" />
+    <Compile Include="Meta\IPocoMetaBuilder.cs" />
     <Compile Include="Meta\IProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />
     <Compile Include="ChangeTracking\PropertySetChange.cs" />
     <Compile Include="ChangeTracking\RemoveFromCollectionChange.cs" />
     <Compile Include="ChangeTracking\TrackedChanges.cs" />
+    <Compile Include="WritablePocoSession.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
