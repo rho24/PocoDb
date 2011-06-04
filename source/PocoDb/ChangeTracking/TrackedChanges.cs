@@ -20,41 +20,41 @@ namespace PocoDb.ChangeTracking
             RemoveFromCollectionChanges = new List<RemoveFromCollectionChange>();
         }
 
-        public void TrackAddedObject(object obj) {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
+        public void TrackAddedObject(object poco) {
+            if (poco == null)
+                throw new ArgumentNullException("poco");
 
-            if (AddObjectChanges.Any(a => a.Object == obj))
+            if (AddObjectChanges.Any(a => a.Poco == poco))
                 return;
 
-            AddObjectChanges.Add(new AddObjectChange(obj));
+            AddObjectChanges.Add(new AddObjectChange(poco));
         }
 
-        public void TrackPropertySet(object obj, IProperty prop, object val) {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
+        public void TrackPropertySet(object poco, IProperty property, object value) {
+            if (poco == null)
+                throw new ArgumentNullException("poco");
 
-            if (prop == null)
-                throw new ArgumentNullException("prop");
+            if (property == null)
+                throw new ArgumentNullException("property");
 
-            if (PropertySetChanges.Any(p => p.Object == obj && p.Property == prop))
-                PropertySetChanges.RemoveAll(p => p.Object == obj && p.Property == prop);
+            if (PropertySetChanges.Any(p => p.Poco == poco && p.Property == property))
+                PropertySetChanges.RemoveAll(p => p.Poco == poco && p.Property == property);
 
-            PropertySetChanges.Add(new PropertySetChange(obj, prop, val));
+            PropertySetChanges.Add(new PropertySetChange(poco, property, value));
         }
 
-        public void TrackAddToCollection(ICollection collection, object obj) {
+        public void TrackAddToCollection(ICollection collection, object value) {
             if (collection == null)
                 throw new ArgumentNullException("collection");
 
-            AddToCollectionChanges.Add(new AddToCollectionChange(collection, obj));
+            AddToCollectionChanges.Add(new AddToCollectionChange(collection, value));
         }
 
-        public void TrackRemoveFromCollection(ICollection collection, object obj) {
+        public void TrackRemoveFromCollection(ICollection collection, object value) {
             if (collection == null)
                 throw new ArgumentNullException("collection");
 
-            RemoveFromCollectionChanges.Add(new RemoveFromCollectionChange(collection, obj));
+            RemoveFromCollectionChanges.Add(new RemoveFromCollectionChange(collection, value));
         }
 
         IEnumerable<AddObjectChange> ITrackedChanges.AddObjectChanges { get { return AddObjectChanges; } }

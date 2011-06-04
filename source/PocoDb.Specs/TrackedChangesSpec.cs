@@ -17,7 +17,7 @@ namespace PocoDb.Specs
         Because of = () => sut.TrackAddedObject(poco);
 
         It should_contain_an_AddObjectChange = () => sut.AddObjectChanges.Count().ShouldEqual(1);
-        It should_reference_the_added_object = () => sut.AddObjectChanges.First().Object.ShouldEqual(poco);
+        It should_reference_the_added_object = () => sut.AddObjectChanges.First().Poco.ShouldEqual(poco);
 
         static object poco;
     }
@@ -50,7 +50,7 @@ namespace PocoDb.Specs
         Because of = () => sut.TrackPropertySet(poco, property, value);
 
         It should_contain_a_PropertySetChange = () => sut.PropertySetChanges.Count().ShouldEqual(1);
-        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(poco);
+        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Poco.ShouldEqual(poco);
         It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(property);
         It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(value);
 
@@ -120,7 +120,7 @@ namespace PocoDb.Specs
         Because of = () => sut.TrackPropertySet(poco, property, value);
 
         It should_contain_a_PropertySetChange = () => sut.PropertySetChanges.Count().ShouldEqual(1);
-        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(poco);
+        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Poco.ShouldEqual(poco);
         It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(property);
         It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(value);
 

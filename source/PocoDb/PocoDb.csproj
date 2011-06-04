@@ -43,6 +43,7 @@
     <Compile Include="ChangeTracking\AddObjectChange.cs" />
     <Compile Include="ChangeTracking\AddToCollectionChange.cs" />
     <Compile Include="ChangeTracking\ITrackedChanges.cs" />
+    <Compile Include="Commits\AddObject.cs" />
     <Compile Include="Commits\AddToCollection.cs" />
     <Compile Include="Commits\Commit.cs" />
     <Compile Include="Commits\CommitBuilder.cs" />

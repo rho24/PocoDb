@@ -11,9 +11,9 @@ namespace PocoDb.ChangeTracking
         IEnumerable<AddToCollectionChange> AddToCollectionChanges { get; }
         IEnumerable<RemoveFromCollectionChange> RemoveFromCollectionChanges { get; }
 
-        void TrackAddedObject(object obj);
-        void TrackPropertySet(object obj, IProperty prop, object val);
-        void TrackAddToCollection(ICollection collection, object obj);
-        void TrackRemoveFromCollection(ICollection collection, object obj);
+        void TrackAddedObject(object poco);
+        void TrackPropertySet(object poco, IProperty property, object value);
+        void TrackAddToCollection(ICollection collection, object value);
+        void TrackRemoveFromCollection(ICollection collection, object value);
     }
 }

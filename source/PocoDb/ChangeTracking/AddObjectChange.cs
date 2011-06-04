@@ -2,10 +2,10 @@
 {
     public class AddObjectChange
     {
-        public object Object { get; private set; }
+        public object Poco { get; private set; }
 
-        public AddObjectChange(object o) {
-            Object = o;
+        public AddObjectChange(object poco) {
+            Poco = poco;
         }
     }
 }

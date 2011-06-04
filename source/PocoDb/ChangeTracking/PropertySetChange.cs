@@ -4,12 +4,12 @@ namespace PocoDb.ChangeTracking
 {
     public class PropertySetChange
     {
-        public object Object { get; private set; }
+        public object Poco { get; private set; }
         public IProperty Property { get; private set; }
         public object Value { get; private set; }
 
-        public PropertySetChange(object o, IProperty property, object value) {
-            Object = o;
+        public PropertySetChange(object poco, IProperty property, object value) {
+            Poco = poco;
             Property = property;
             Value = value;
         }

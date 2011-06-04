@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections;
+using PocoDb.Meta;
 
 namespace PocoDb.Commits
 {
     public class AddToCollection
     {
-        public ICollection Collection { get; private set; }
+        public IPocoId CollectionId { get; private set; }
         public object Value { get; private set; }
 
-        public AddToCollection(ICollection collection, object value) {
+        public AddToCollection(IPocoId collectionId, object value) {
             Value = value;
-            Collection = collection;
+            CollectionId = collectionId;
         }
     }
 }
