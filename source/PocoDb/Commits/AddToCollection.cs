@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections;
 
-namespace PocoDb.ChangeTracking
+namespace PocoDb.Commits
 {
-    public class AddToCollectionChange
+    public class AddToCollection
     {
         public ICollection Collection { get; private set; }
         public object Value { get; private set; }
 
-        public AddToCollectionChange(ICollection collection, object value) {
-            Collection = collection;
+        public AddToCollection(ICollection collection, object value) {
             Value = value;
+            Collection = collection;
         }
     }
 }

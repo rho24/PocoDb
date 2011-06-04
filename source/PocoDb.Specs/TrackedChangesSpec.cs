@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 using FakeItEasy;
@@ -11,20 +12,20 @@ namespace PocoDb.Specs
     [Subject(typeof (ITrackedChanges), "Adding an object")]
     public class when_an_object_is_added : with_a_new_TrackedChanges
     {
-        Establish c = () => { obj = new object(); };
+        Establish c = () => { poco = new object(); };
 
-        Because of = () => sut.TrackAddedObject(obj);
+        Because of = () => sut.TrackAddedObject(poco);
 
         It should_contain_an_AddObjectChange = () => sut.AddObjectChanges.Count().ShouldEqual(1);
-        It should_reference_the_added_object = () => sut.AddObjectChanges.First().Object.ShouldEqual(obj);
+        It should_reference_the_added_object = () => sut.AddObjectChanges.First().Object.ShouldEqual(poco);
 
-        static object obj;
+        static object poco;
     }
 
     [Subject(typeof (ITrackedChanges), "Adding an object")]
     public class when_an_object_is_added_again : with_an_object_added
     {
-        Because of = () => sut.TrackAddedObject(obj);
+        Because of = () => sut.TrackAddedObject(poco);
 
         It should_only_track_the_object_once = () => sut.AddObjectChanges.Count().ShouldEqual(1);
     }
@@ -41,109 +42,109 @@ namespace PocoDb.Specs
     public class when_a_property_is_set : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = new object();
-            prop = A.Fake<IProperty>();
-            val = new object();
+            poco = new object();
+            property = A.Fake<IProperty>();
+            value = new object();
         };
 
-        Because of = () => sut.TrackPropertySet(obj, prop, val);
+        Because of = () => sut.TrackPropertySet(poco, property, value);
 
         It should_contain_a_PropertySetChange = () => sut.PropertySetChanges.Count().ShouldEqual(1);
-        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(obj);
-        It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(prop);
-        It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(val);
+        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(poco);
+        It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(property);
+        It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(value);
 
-        static object obj;
-        static IProperty prop;
-        static object val;
+        static object poco;
+        static IProperty property;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Setting a property")]
     public class when_an_property_is_set_again : with_a_property_set
     {
-        Establish c = () => newVal = new object();
+        Establish c = () => newValue = new object();
 
-        Because of = () => sut.TrackPropertySet(obj, prop, newVal);
+        Because of = () => sut.TrackPropertySet(poco, property, newValue);
 
         It should_only_track_one_property_set = () => sut.PropertySetChanges.Count().ShouldEqual(1);
-        It should_reference_the_new_value = () => sut.PropertySetChanges.First().Value.ShouldEqual(newVal);
+        It should_reference_the_new_value = () => sut.PropertySetChanges.First().Value.ShouldEqual(newValue);
 
-        static object newVal;
+        static object newValue;
     }
 
     [Subject(typeof (ITrackedChanges), "Setting a property")]
     public class when_a_property_is_set_with_a_null_parent : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = null;
-            prop = A.Fake<IProperty>();
-            val = new object();
+            poco = null;
+            property = A.Fake<IProperty>();
+            value = new object();
         };
 
-        Because of = () => spec.catch_exception(() => sut.TrackPropertySet(obj, prop, val));
+        Because of = () => spec.catch_exception(() => sut.TrackPropertySet(poco, property, value));
 
         It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
-        static object obj;
-        static IProperty prop;
-        static object val;
+        static object poco;
+        static IProperty property;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Setting a property")]
     public class when_a_property_is_set_with_a_null_property : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = new object();
-            prop = null;
-            val = new object();
+            poco = new object();
+            property = null;
+            value = new object();
         };
 
-        Because of = () => spec.catch_exception(() => sut.TrackPropertySet(obj, prop, val));
+        Because of = () => spec.catch_exception(() => sut.TrackPropertySet(poco, property, value));
 
         It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
-        static object obj;
-        static IProperty prop;
-        static object val;
+        static object poco;
+        static IProperty property;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Setting a property")]
     public class when_a_property_is_set_with_a_null_value : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = new object();
-            prop = A.Fake<IProperty>();
-            val = null;
+            poco = new object();
+            property = A.Fake<IProperty>();
+            value = null;
         };
 
-        Because of = () => sut.TrackPropertySet(obj, prop, val);
+        Because of = () => sut.TrackPropertySet(poco, property, value);
 
         It should_contain_a_PropertySetChange = () => sut.PropertySetChanges.Count().ShouldEqual(1);
-        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(obj);
-        It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(prop);
-        It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(val);
+        It should_reference_the_parent_object = () => sut.PropertySetChanges.First().Object.ShouldEqual(poco);
+        It should_reference_the_property = () => sut.PropertySetChanges.First().Property.ShouldEqual(property);
+        It should_reference_the_child_object = () => sut.PropertySetChanges.First().Value.ShouldEqual(value);
 
-        static object obj;
-        static IProperty prop;
-        static object val;
+        static object poco;
+        static IProperty property;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Adding to a collection")]
     public class when_a_collection_is_added_to : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            collection = A.Fake<ICollection<object>>();
-            obj = new object();
+            collection = A.Fake<ICollection>();
+            value = new object();
         };
 
-        Because of = () => sut.TrackAddToCollection(collection, obj);
+        Because of = () => sut.TrackAddToCollection(collection, value);
 
         It should_contain_a_AddToCollectionChange = () => sut.AddToCollectionChanges.Count().ShouldEqual(1);
         It should_reference_the_collection = () => sut.AddToCollectionChanges.First().Collection.ShouldEqual(collection);
-        It should_reference_the_added_object = () => sut.AddToCollectionChanges.First().Object.ShouldEqual(obj);
+        It should_reference_the_added_object = () => sut.AddToCollectionChanges.First().Value.ShouldEqual(value);
 
-        static ICollection<object> collection;
-        static object obj;
+        static ICollection collection;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Adding to a collection")]
@@ -151,37 +152,37 @@ namespace PocoDb.Specs
     {
         Establish c = () => {
             collection = null;
-            obj = new object();
+            value = new object();
         };
 
-        Because of = () => spec.catch_exception(() => sut.TrackAddToCollection(collection, obj));
+        Because of = () => spec.catch_exception(() => sut.TrackAddToCollection(collection, value));
 
         It should_throw_an_argument_null_exception = () =>
                                                      spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
-        static ICollection<object> collection;
-        static object obj;
+        static ICollection collection;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Removing from a collection")]
     public class when_a_collection_has_an_object_removed : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            collection = A.Fake<ICollection<object>>();
-            obj = new object();
+            collection = A.Fake<ICollection>();
+            value = new object();
         };
 
-        Because of = () => sut.TrackRemoveFromCollection(collection, obj);
+        Because of = () => sut.TrackRemoveFromCollection(collection, value);
 
         It should_contain_a_RemoveFromCollectionChange = () => sut.RemoveFromCollectionChanges.Count().ShouldEqual(1);
 
         It should_reference_the_collection =
             () => sut.RemoveFromCollectionChanges.First().Collection.ShouldEqual(collection);
 
-        It should_reference_the_removed_object = () => sut.RemoveFromCollectionChanges.First().Object.ShouldEqual(obj);
+        It should_reference_the_removed_object = () => sut.RemoveFromCollectionChanges.First().Value.ShouldEqual(value);
 
-        static ICollection<object> collection;
-        static object obj;
+        static ICollection collection;
+        static object value;
     }
 
     [Subject(typeof (ITrackedChanges), "Removing from a collection")]
@@ -189,14 +190,14 @@ namespace PocoDb.Specs
     {
         Establish c = () => {
             collection = null;
-            obj = new object();
+            value = new object();
         };
 
-        Because of = () => spec.catch_exception(() => sut.TrackRemoveFromCollection(collection, obj));
+        Because of = () => spec.catch_exception(() => sut.TrackRemoveFromCollection(collection, value));
 
         It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
-        static ICollection<object> collection;
-        static object obj;
+        static ICollection collection;
+        static object value;
     }
 }

@@ -7,5 +7,7 @@ namespace PocoDb.Commits
     {
         IEnumerable<IPocoMeta> AddedMetas { get; }
         IEnumerable<PropertySet> PropertySets { get; }
+        IEnumerable<AddToCollection> AddToCollections { get; }
+        IEnumerable<RemoveFromCollection> RemoveFromCollections { get; }
     }
 }

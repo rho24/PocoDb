@@ -16,27 +16,27 @@ namespace PocoDb.Specs
     public abstract class with_an_object_added : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = new object();
+            poco = new object();
 
-            sut_setup.run(sut => sut.TrackAddedObject(obj));
+            sut_setup.run(sut => sut.TrackAddedObject(poco));
         };
 
-        protected static object obj;
+        protected static object poco;
     }
 
     [Subject(typeof (TrackedChanges))]
     public abstract class with_a_property_set : with_a_new_TrackedChanges
     {
         Establish c = () => {
-            obj = new object();
-            prop = A.Fake<IProperty>();
-            val = new object();
+            poco = new object();
+            property = A.Fake<IProperty>();
+            value = new object();
 
-            sut_setup.run(sut => sut.TrackPropertySet(obj, prop, val));
+            sut_setup.run(sut => sut.TrackPropertySet(poco, property, value));
         };
 
-        protected static object obj;
-        protected static IProperty prop;
-        protected static object val;
+        protected static object poco;
+        protected static IProperty property;
+        protected static object value;
     }
 }

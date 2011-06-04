@@ -5,6 +5,7 @@ using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Meta;
+using System.Collections;
 
 namespace PocoDb.Specs
 {
@@ -44,5 +45,42 @@ namespace PocoDb.Specs
         static DummyObject poco;
         static IPocoId pocoId;
         static IProperty property;
+    }
+
+    public class when_an_add_to_collection_is_being_tracked : with_a_new_CommitBuilder
+    {
+        Establish c = () => {
+            collection = new List<string>();
+            value = "value";
+
+            trackedChanges.TrackAddToCollection(collection, value);
+        };
+
+        It should_contain_an_AddToCollection = () => commit.AddToCollections.Count().ShouldEqual(1);
+        It should_reference_the_collection = () => commit.AddToCollections.First().Collection.ShouldEqual(collection);
+        It should_reference_the_value = () => commit.AddToCollections.First().Value.ShouldEqual(value);
+
+        static ICollection collection;
+        static string value;
+    }
+
+    public class when_an_remove_from_collection_is_being_tracked : with_a_new_CommitBuilder
+    {
+        Establish c = () => {
+            collection = new List<string>();
+            value = "value";
+
+            trackedChanges.TrackRemoveFromCollection(collection, value);
+        };
+
+        It should_contain_a_RemovedFromCollection = () => commit.RemoveFromCollections.Count().ShouldEqual(1);
+
+        It should_reference_the_collection =
+            () => commit.RemoveFromCollections.First().Collection.ShouldEqual(collection);
+
+        It should_reference_the_value = () => commit.RemoveFromCollections.First().Value.ShouldEqual(value);
+
+        static ICollection collection;
+        static string value;
     }
 }

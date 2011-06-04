@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PocoDb.Meta;
+using System.Collections;
 
 namespace PocoDb.ChangeTracking
 {
@@ -12,7 +13,7 @@ namespace PocoDb.ChangeTracking
 
         void TrackAddedObject(object obj);
         void TrackPropertySet(object obj, IProperty prop, object val);
-        void TrackAddToCollection(ICollection<object> collection, object obj);
-        void TrackRemoveFromCollection(ICollection<object> collection, object obj);
+        void TrackAddToCollection(ICollection collection, object obj);
+        void TrackRemoveFromCollection(ICollection collection, object obj);
     }
 }
