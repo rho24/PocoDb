@@ -4,6 +4,7 @@ namespace PocoDb.Meta
 {
     public interface IMetaStore
     {
-        void Add(IPocoMeta meta);
+        void Save(IPocoMeta meta);
+        IPocoMeta Get(IPocoId id);
     }
 }

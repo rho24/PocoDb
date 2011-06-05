@@ -63,7 +63,7 @@ namespace PocoDb.Commits
             if (addToCollectionChange.Value.IsPocoType()) {
                 var valueId = ResolveId(addToCollectionChange.Value, commit);
                 commit.AddToCollections.Add(new AddToCollection(collectionId, valueId));
-                    //TODO: Don't like value being used for IMetaId.
+                //TODO: Don't like value being used for IMetaId.
             }
             else
                 commit.AddToCollections.Add(new AddToCollection(collectionId,
@@ -76,7 +76,7 @@ namespace PocoDb.Commits
             if (removeFromCollectionChange.Value.IsPocoType()) {
                 var valueId = ResolveId(removeFromCollectionChange.Value, commit);
                 commit.RemoveFromCollections.Add(new RemoveFromCollection(collectionId, valueId));
-                    //TODO: Don't like value being used for IMetaId.
+                //TODO: Don't like value being used for IMetaId.
             }
             else
                 commit.RemoveFromCollections.Add(new RemoveFromCollection(collectionId, removeFromCollectionChange.Value));
