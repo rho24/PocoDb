@@ -4,7 +4,7 @@ using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Server;
 
-namespace PocoDb
+namespace PocoDb.Session
 {
     public class WritablePocoSession : IWritablePocoSession
     {

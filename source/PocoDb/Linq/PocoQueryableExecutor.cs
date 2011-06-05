@@ -4,10 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using PocoDb.Extensions;
 using PocoDb.Queries;
+using PocoDb.Session;
 
 namespace PocoDb.Linq
 {
-    public class PocoQueryableExecutor
+    public class PocoQueryableExecutor : IPocoQueryableExecutor
     {
         public IInternalPocoSession Session { get; private set; }
 

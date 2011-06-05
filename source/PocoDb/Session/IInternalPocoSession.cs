@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using PocoDb.Meta;
 using PocoDb.Server;
 
-namespace PocoDb
+namespace PocoDb.Session
 {
     public interface IInternalPocoSession
     {

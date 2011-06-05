@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using PocoDb.ChangeTracking;
 
-namespace PocoDb
+namespace PocoDb.Session
 {
     public interface IWritablePocoSession : IPocoSession
     {

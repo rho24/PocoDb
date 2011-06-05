@@ -5,7 +5,7 @@ using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Server;
 
-namespace PocoDb
+namespace PocoDb.Session
 {
     public class PocoSession : IPocoSession, IInternalPocoSession
     {

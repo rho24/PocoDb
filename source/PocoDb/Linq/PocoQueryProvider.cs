@@ -6,9 +6,9 @@ namespace PocoDb.Linq
 {
     public class PocoQueryProvider : IQueryProvider
     {
-        protected PocoQueryableExecutor Executor { get; private set; }
+        protected IPocoQueryableExecutor Executor { get; private set; }
 
-        public PocoQueryProvider(PocoQueryableExecutor executor) {
+        public PocoQueryProvider(IPocoQueryableExecutor executor) {
             Executor = executor;
         }
 

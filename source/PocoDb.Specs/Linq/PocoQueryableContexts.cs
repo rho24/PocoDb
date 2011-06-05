@@ -11,14 +11,11 @@ namespace PocoDb.Specs.Linq
     public class with_a_new_PocoQueryable<T> : Observes<PocoQueryable<T>>
     {
         Establish c = () => {
-            session = fake.an<IInternalPocoSession>();
-            server = fake.an<IPocoDbServer>();
-            A.CallTo(() => session.Server).Returns(server);
-            sut_factory.create_using(
-                () => new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(session))));
+            executor = fake.an<IPocoQueryableExecutor>();
+
+            sut_factory.create_using(() => new PocoQueryable<T>(new PocoQueryProvider(executor)));
         };
 
-        protected static IInternalPocoSession session;
-        protected static IPocoDbServer server;
+        protected static IPocoQueryableExecutor executor;
     }
 }
