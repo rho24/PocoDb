@@ -1,5 +1,6 @@
 ﻿using System;
 using PocoDb.Commits;
+using PocoDb.Queries;
 
 namespace PocoDb.Server
 {
@@ -13,6 +14,10 @@ namespace PocoDb.Server
             IdGenerator = idGenerator;
             CommitStore = commitStore;
             CommitProcessor = commitProcessor;
+        }
+
+        public PocoQueryResult Query(PocoQuery query) {
+            throw new NotImplementedException();
         }
 
         public void Commit(ICommit commit) {

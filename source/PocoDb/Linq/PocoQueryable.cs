@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using PocoDb.Server;
+
+namespace PocoDb.Linq
+{
+    public class PocoQueryable<T> : IQueryable<T>
+    {
+        public IQueryProvider Provider { get; private set; }
+        public Type ElementType { get; private set; }
+        public Expression Expression { get; private set; }
+
+        public PocoQueryable(IPocoDbServer server) {
+            Provider = new PocoQueryProvider(server);
+            ElementType = typeof (T);
+            Expression = Expression.Constant(this);
+        }
+
+        public PocoQueryable(PocoQueryProvider provider, Type elementType, Expression expression) {
+            Provider = provider;
+            ElementType = elementType;
+            Expression = expression;
+        }
+
+        public IEnumerator<T> GetEnumerator() {
+            return (Provider.Execute<IEnumerable<T>>(Expression)).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
+        }
+    }
+}

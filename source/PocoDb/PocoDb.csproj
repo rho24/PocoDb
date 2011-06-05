@@ -57,8 +57,12 @@
     <Compile Include="Commits\ICommitStore.cs" />
     <Compile Include="Commits\PropertySet.cs" />
     <Compile Include="Commits\RemoveFromCollection.cs" />
+    <Compile Include="Extensions\LambdaExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IPocoDbClient.cs" />
+    <Compile Include="Linq\PocoQueryProvider.cs" />
+    <Compile Include="Linq\PocoQueryable.cs" />
     <Compile Include="Meta\IMetaStore.cs" />
     <Compile Include="Meta\IPocoId.cs" />
     <Compile Include="Meta\IPocoIdBuilder.cs" />
@@ -68,11 +72,14 @@
     <Compile Include="Meta\IPocoMetaBuilder.cs" />
     <Compile Include="Meta\IProperty.cs" />
     <Compile Include="PocoDbClient.cs" />
+    <Compile Include="PocoSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />
     <Compile Include="ChangeTracking\PropertySetChange.cs" />
     <Compile Include="ChangeTracking\RemoveFromCollectionChange.cs" />
     <Compile Include="ChangeTracking\TrackedChanges.cs" />
+    <Compile Include="Queries\PocoQuery.cs" />
+    <Compile Include="Queries\PocoQueryResult.cs" />
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="WritablePocoSession.cs" />
