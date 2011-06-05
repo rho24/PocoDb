@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="CommitBuilderContexts.cs" />
     <Compile Include="CommitBuilderSpecs.cs" />
+    <Compile Include="CommitProcessorContexts.cs" />
+    <Compile Include="CommitProcessorSpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="PocoDbServerContexts.cs" />

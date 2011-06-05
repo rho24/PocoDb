@@ -48,6 +48,7 @@
     <Compile Include="Commits\Commit.cs" />
     <Compile Include="Commits\CommitBuilder.cs" />
     <Compile Include="Commits\CommitId.cs" />
+    <Compile Include="Commits\CommitProcessor.cs" />
     <Compile Include="Commits\ICommit.cs" />
     <Compile Include="Commits\ICommitBuilder.cs" />
     <Compile Include="Commits\ICommitId.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Commits\RemoveFromCollection.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="IPocoDbClient.cs" />
+    <Compile Include="Meta\IMetaStore.cs" />
     <Compile Include="Meta\IPocoId.cs" />
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
