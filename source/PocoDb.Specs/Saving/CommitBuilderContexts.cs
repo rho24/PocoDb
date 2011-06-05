@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Saving
 {
     [Subject(typeof (ICommitBuilder))]
     public class with_a_new_CommitBuilder : Observes<CommitBuilder>

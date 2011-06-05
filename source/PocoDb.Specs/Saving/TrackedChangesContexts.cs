@@ -5,7 +5,7 @@ using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Saving
 {
     [Subject(typeof (TrackedChanges))]
     public abstract class with_a_new_TrackedChanges : Observes<ITrackedChanges>

@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Server
 {
     [Subject(typeof (ICommitProcessor))]
     public class with_a_new_CommitProcessor : Observes<CommitProcessor>

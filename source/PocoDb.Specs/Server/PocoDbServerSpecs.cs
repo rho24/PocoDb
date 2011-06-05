@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Commits;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Server
 {
     public class when_a_commit_is_recieved : with_a_new_PocoDbServer
     {

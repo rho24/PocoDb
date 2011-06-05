@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Queries;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Linq
 {
     public class when_calling_GetEnumerator : with_a_new_PocoQueryable<DummyObject>
     {

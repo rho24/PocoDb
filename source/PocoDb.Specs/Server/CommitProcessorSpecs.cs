@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Server
 {
     public class when_applying_a_commit_with_an_AddObject : with_a_new_CommitProcessor
     {

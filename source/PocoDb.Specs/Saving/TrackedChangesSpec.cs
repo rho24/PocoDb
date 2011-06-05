@@ -6,7 +6,7 @@ using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Saving
 {
     [Subject(typeof (ITrackedChanges), "Adding an object")]
     public class when_an_object_is_added : with_a_new_TrackedChanges
@@ -156,8 +156,7 @@ namespace PocoDb.Specs
 
         Because of = () => spec.catch_exception(() => sut.TrackAddToCollection(collection, value));
 
-        It should_throw_an_argument_null_exception = () =>
-                                                     spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
+        It should_throw_an_argument_null_exception = () => spec.exception_thrown.ShouldBeOfType<ArgumentNullException>();
 
         static ICollection collection;
         static object value;

@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Linq;
 using PocoDb.Server;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Linq
 {
     [Subject(typeof (PocoQueryable<>))]
     public class with_a_new_PocoQueryable<T> : Observes<PocoQueryable<T>>

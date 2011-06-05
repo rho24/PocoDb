@@ -61,25 +61,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommitBuilderContexts.cs" />
-    <Compile Include="CommitBuilderSpecs.cs" />
-    <Compile Include="CommitProcessorContexts.cs" />
-    <Compile Include="CommitProcessorSpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
-    <Compile Include="PocoDbServerContexts.cs" />
-    <Compile Include="PocoDbServerSpecs.cs" />
-    <Compile Include="PocoQueryableContexts.cs" />
-    <Compile Include="PocoQueryableSpecs.cs" />
+    <Compile Include="Linq\PocoQueryableContexts.cs" />
+    <Compile Include="Linq\PocoQueryableSpecs.cs" />
     <Compile Include="PocoSessionContexts.cs" />
     <Compile Include="PocoSessionSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertySpecs.cs" />
-    <Compile Include="TrackedChangesSpec.cs" />
-    <Compile Include="TrackedChangesContexts.cs" />
+    <Compile Include="Server\CommitProcessorContexts.cs" />
+    <Compile Include="Server\CommitProcessorSpecs.cs" />
+    <Compile Include="Server\PocoDbServerContexts.cs" />
+    <Compile Include="Server\PocoDbServerSpecs.cs" />
     <Compile Include="WritablePocoSessionContexts.cs" />
     <Compile Include="WritablePocoSessionSpecs.cs" />
+    <Compile Include="Saving\CommitBuilderContexts.cs" />
+    <Compile Include="Saving\CommitBuilderSpecs.cs" />
+    <Compile Include="Saving\TrackedChangesContexts.cs" />
+    <Compile Include="Saving\TrackedChangesSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

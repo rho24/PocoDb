@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Saving
 {
     public class when_a_commit_is_build : with_a_new_CommitBuilder
     {
