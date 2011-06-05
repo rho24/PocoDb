@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using PocoDb.Extensions;
-using PocoDb.Queries;
-using PocoDb.Server;
 
 namespace PocoDb.Linq
 {
     public class PocoQueryProvider : IQueryProvider
     {
-        public IPocoDbServer Server { get; private set; }
+        protected PocoQueryableExecutor Executor { get; private set; }
 
-        public PocoQueryProvider(IPocoDbServer server) {
-            Server = server;
+        public PocoQueryProvider(PocoQueryableExecutor executor) {
+            Executor = executor;
         }
 
         public IQueryable CreateQuery(Expression expression) {
@@ -29,21 +25,7 @@ namespace PocoDb.Linq
         }
 
         public T Execute<T>(Expression expression) {
-            var returnType = typeof (T);
-
-            if (returnType.IsEnumerable())
-                return
-                    (T)
-                    LambdaExtensions.InvokeGeneric(() => ExecuteEnumerable<object>(expression),
-                                                   returnType.EnumerableInnerType());
-
-            return default(T);
-        }
-
-        IEnumerable<T> ExecuteEnumerable<T>(Expression expression) {
-            var result = Server.Query(new PocoQuery(expression));
-
-            return Enumerable.Empty<T>();
+            return Executor.Execute<T>(expression);
         }
     }
 }

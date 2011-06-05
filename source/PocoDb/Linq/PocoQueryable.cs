@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using PocoDb.Server;
 
 namespace PocoDb.Linq
 {
@@ -13,8 +12,8 @@ namespace PocoDb.Linq
         public Type ElementType { get; private set; }
         public Expression Expression { get; private set; }
 
-        public PocoQueryable(IPocoDbServer server) {
-            Provider = new PocoQueryProvider(server);
+        public PocoQueryable(PocoQueryProvider provider) {
+            Provider = provider;
             ElementType = typeof (T);
             Expression = Expression.Constant(this);
         }

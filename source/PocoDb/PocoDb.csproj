@@ -60,7 +60,9 @@
     <Compile Include="Extensions\LambdaExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IInternalPocoSession.cs" />
     <Compile Include="IPocoDbClient.cs" />
+    <Compile Include="Linq\PocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryProvider.cs" />
     <Compile Include="Linq\PocoQueryable.cs" />
     <Compile Include="Meta\IMetaStore.cs" />
