@@ -5,8 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using FakeItEasy;
 using Machine.Specifications;
-using PocoDb.Linq;
-using PocoDb.Queries;
 
 namespace PocoDb.Specs.Linq
 {

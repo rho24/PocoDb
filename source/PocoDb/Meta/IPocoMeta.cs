@@ -8,5 +8,6 @@ namespace PocoDb.Meta
         IPocoId Id { get; }
         IDictionary<IProperty, object> Properties { get; }
         ICollection<object> Collection { get; }
+        Type Type { get; }
     }
 }

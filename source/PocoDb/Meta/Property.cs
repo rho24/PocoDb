@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace PocoDb.Meta
 {
     public class Property<T, P> : IProperty
     {
-        Expression<Func<T, P>> Exp { get; set; }
-        //public Type ParentType { get; private set; }
-        //public string PropertyName { get; private set; }
+        Expression<Func<T, P>> Expression { get; set; }
 
-        public Property(Expression<Func<T, P>> property) {
-            Exp = property;
+        public Property(Expression<Func<T, P>> expression) {
+            Expression = expression;
+        }
+
+        public void Set(object poco, object value) {
+            var prop = ((Expression.Body as MemberExpression).Member) as PropertyInfo;
+
+            prop.SetValue(poco, value, null);
         }
 
         public override bool Equals(object obj) {
@@ -19,12 +24,13 @@ namespace PocoDb.Meta
             if (other == null)
                 return base.Equals(obj);
 
-            return Exp.Type.Equals(other.Exp.Type) &&
-                   (Exp.Body as MemberExpression).Member.Name.Equals((other.Exp.Body as MemberExpression).Member.Name);
+            return Expression.Type.Equals(other.Expression.Type) &&
+                   (Expression.Body as MemberExpression).Member.Name.Equals(
+                       (other.Expression.Body as MemberExpression).Member.Name);
         }
 
         public override int GetHashCode() {
-            return Exp.Type.GetHashCode() ^ (Exp.Body as MemberExpression).Member.Name.GetHashCode();
+            return Expression.Type.GetHashCode() ^ (Expression.Body as MemberExpression).Member.Name.GetHashCode();
         }
     }
 }

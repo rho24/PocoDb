@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicPocoBuilderContexts.cs" />
+    <Compile Include="BasicPocoBuilderSpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
