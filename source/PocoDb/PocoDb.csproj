@@ -88,6 +88,7 @@
     <Compile Include="Pocos\IPocoProxyBuilder.cs" />
     <Compile Include="Pocos\ReadOnlyPocoProxyBuilder.cs" />
     <Compile Include="Pocos\ProxyException.cs" />
+    <Compile Include="Pocos\WritableCollectionProxyBuilder.cs" />
     <Compile Include="Pocos\WriteablePocoProxyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />

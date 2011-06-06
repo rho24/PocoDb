@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PocoDb.Meta;
@@ -43,14 +42,14 @@ namespace PocoDb.ChangeTracking
             PropertySetChanges.Add(new PropertySetChange(poco, property, value));
         }
 
-        public void TrackAddToCollection(ICollection collection, object value) {
+        public void TrackAddToCollection(object collection, object value) {
             if (collection == null)
                 throw new ArgumentNullException("collection");
 
             AddToCollectionChanges.Add(new AddToCollectionChange(collection, value));
         }
 
-        public void TrackRemoveFromCollection(ICollection collection, object value) {
+        public void TrackRemoveFromCollection(object collection, object value) {
             if (collection == null)
                 throw new ArgumentNullException("collection");
 

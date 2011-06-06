@@ -7,7 +7,7 @@ using PocoDb.Meta;
 
 namespace PocoDb.Specs.Poco
 {
-    public class when_a_collection_proxy_is_built : with_a_new_ReadOnlyCollectionProxyBuilder
+    public class when_a_writable_collection_proxy_is_built : with_a_new_WritableCollectionProxyBuilder
     {
         Establish c = () => {
             meta = fake.an<IPocoMeta>();
@@ -24,7 +24,7 @@ namespace PocoDb.Specs.Poco
         static object proxy;
     }
 
-    public class when_a_collection_proxy_with_a_value_is_built : with_a_new_ReadOnlyCollectionProxyBuilder
+    public class when_a_writable_collection_proxy_with_a_value_is_built : with_a_new_ReadOnlyCollectionProxyBuilder
     {
         Establish c = () => {
             meta = fake.an<IPocoMeta>();
@@ -40,13 +40,28 @@ namespace PocoDb.Specs.Poco
         static ICollection<string> proxy;
     }
 
-    public class when_a_collection_proxy_with_a_value_has_the_same_value_added :
-        with_a_ReadOnlyCollectionProxy_with_value
+    public class when_a_writable_collection_proxy_has_a_value_added : with_a_WritableCollectionProxy
+    {
+        Establish c = () => { };
+
+        Because of = () => proxy.Add("value");
+
+        It should_contain_the_value_twice = () => proxy.Contains("value").ShouldBeTrue();
+
+        It should_track_the_new_value =
+            () => A.CallTo(() => trackedChanges.TrackAddToCollection(proxy, "value")).MustHaveHappened();
+    }
+
+    public class when_a_writable_collection_proxy_with_a_value_has_the_same_value_added :
+        with_a_WritableCollectionProxy_with_value
     {
         Establish c = () => { };
 
         Because of = () => proxy.Add("value");
 
         It should_contain_the_value_twice = () => proxy.Where(v => v == "value").Count().ShouldEqual(2);
+
+        It should_track_the_new_value =
+            () => A.CallTo(() => trackedChanges.TrackAddToCollection(proxy, "value")).MustHaveHappened();
     }
 }

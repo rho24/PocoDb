@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 
 namespace PocoDb.ChangeTracking
 {
     public class RemoveFromCollectionChange
     {
-        public ICollection Collection { get; private set; }
+        public object Collection { get; private set; }
         public object Value { get; private set; }
 
-        public RemoveFromCollectionChange(ICollection collection, object value) {
+        public RemoveFromCollectionChange(object collection, object value) {
             Collection = collection;
             Value = value;
         }
