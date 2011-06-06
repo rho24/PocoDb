@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 using Castle.DynamicProxy;
 using PocoDb.Extensions;
@@ -16,7 +16,7 @@ namespace PocoDb.Pocos
 
         public BasicPocoBuilder() {
             Generator = new ProxyGenerator();
-            ProxyOptions = new ProxyGenerationOptions(new PocoPropertyHook());
+            ProxyOptions = new ProxyGenerationOptions(new PropertyGetHook());
         }
 
         public void Initialise(IInternalPocoSession session) {
@@ -26,13 +26,11 @@ namespace PocoDb.Pocos
         public object Build(IPocoMeta meta) {
             ProxyOptions.AddMixinInstance(new PocoProxy(meta));
 
-            var pocoPropertyInterceptor = new PocoPropertyInterceptor(meta, Session);
+            var pocoPropertyInterceptor =
+                LambdaExtensions.InvokeGeneric(() => new PocoPropertyInterceptor<object>(meta, Session), meta.Type) as
+                IInterceptor;
 
             var proxy = Generator.CreateClassProxy(meta.Type, ProxyOptions, pocoPropertyInterceptor);
-
-            foreach (var propertyAndValue in meta.Properties.Where(p => !p.Value.IsPocoType())) {
-                propertyAndValue.Key.Set(proxy, propertyAndValue.Value);
-            }
 
             return proxy;
         }
@@ -46,18 +44,43 @@ namespace PocoDb.Pocos
             }
         }
 
-        class PocoPropertyInterceptor : IInterceptor
+        class PocoPropertyInterceptor<T> : IInterceptor
         {
-            public PocoPropertyInterceptor(IPocoMeta meta, IInternalPocoSession session) {}
+            public IPocoMeta Meta { get; private set; }
+            public IInternalPocoSession Session { get; private set; }
+            public List<IProperty> InitialisedProperties { get; private set; }
 
-            public void Intercept(IInvocation invocation) {}
+            public PocoPropertyInterceptor(IPocoMeta meta, IInternalPocoSession session) {
+                Meta = meta;
+                Session = session;
+
+                InitialisedProperties = new List<IProperty>();
+            }
+
+            public void Intercept(IInvocation invocation) {
+                LambdaExtensions.InvokeGeneric(() => Intercept<object>(invocation), invocation.Method.ReturnType);
+            }
+
+            void Intercept<P>(IInvocation invocation) {
+                var property = new Property<T, P>(invocation.Method);
+
+                if (!InitialisedProperties.Contains(property)) {
+                    var value = Meta.Properties[property];
+                    if (value is IPocoId)
+                        value = Session.GetPoco((IPocoId) value);
+
+                    property.Set(invocation.InvocationTarget, value);
+                    InitialisedProperties.Add(property);
+                }
+
+                invocation.Proceed();
+            }
         }
 
-        class PocoPropertyHook : IProxyGenerationHook
+        class PropertyGetHook : IProxyGenerationHook
         {
             public bool ShouldInterceptMethod(Type type, MethodInfo methodInfo) {
-                return methodInfo.Name.StartsWith("get_", StringComparison.Ordinal) &&
-                       methodInfo.ReturnType.IsPocoType();
+                return methodInfo.Name.StartsWith("get_", StringComparison.Ordinal);
             }
 
             public void NonProxyableMemberNotification(Type type, MemberInfo memberInfo) {}

@@ -63,6 +63,7 @@
     <Compile Include="Commits\RemoveFromCollection.cs" />
     <Compile Include="Extensions\LambdaExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IPocoDbClient.cs" />
     <Compile Include="Linq\IPocoQueryableExecutor.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="PocoDbClient.cs" />
     <Compile Include="Pocos\BasicPocoBuilder.cs" />
     <Compile Include="Pocos\IPocoBuilder.cs" />
+    <Compile Include="Pocos\ProxyException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />
     <Compile Include="ChangeTracking\PropertySetChange.cs" />

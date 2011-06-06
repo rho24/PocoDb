@@ -1,9 +1,60 @@
 using System;
+using System.Reflection;
 using Machine.Specifications;
 using PocoDb.Meta;
 
 namespace PocoDb.Specs
 {
+    [Subject(typeof (IProperty), "Constructing")]
+    public class when_a_constructing_with_an_expression
+    {
+        Establish c = () => { expectedProperty = new Property<DummyObject, string>(o => o.FirstName); };
+
+        Because of = () => property = new Property<DummyObject, string>(o => o.FirstName);
+
+        It should_construct = () => property.ShouldNotBeNull();
+        It should_have_equaliy = () => property.ShouldEqual(expectedProperty);
+
+        static Property<DummyObject, string> property;
+        static Property<DummyObject, string> expectedProperty;
+    }
+
+    [Subject(typeof (IProperty), "Constructing")]
+    public class when_a_constructing_with_a_getter_method_info
+    {
+        Establish c = () => {
+            methodInfo = typeof (DummyObject).GetMethod("get_FirstName");
+            expectedProperty = new Property<DummyObject, string>(o => o.FirstName);
+        };
+
+        Because of = () => property = new Property<DummyObject, string>(methodInfo);
+
+        It should_construct = () => property.ShouldNotBeNull();
+        It should_have_equaliy = () => property.ShouldEqual(expectedProperty);
+
+        static MethodInfo methodInfo;
+        static Property<DummyObject, string> property;
+        static Property<DummyObject, string> expectedProperty;
+    }
+
+    [Subject(typeof (IProperty), "Constructing")]
+    public class when_a_constructing_with_a_setter_method_info
+    {
+        Establish c = () => {
+            methodInfo = typeof (DummyObject).GetMethod("set_FirstName");
+            expectedProperty = new Property<DummyObject, string>(o => o.FirstName);
+        };
+
+        Because of = () => property = new Property<DummyObject, string>(methodInfo);
+
+        It should_construct = () => property.ShouldNotBeNull();
+        It should_have_equaliy = () => property.ShouldEqual(expectedProperty);
+
+        static MethodInfo methodInfo;
+        static Property<DummyObject, string> property;
+        static Property<DummyObject, string> expectedProperty;
+    }
+
     [Subject(typeof (IProperty), "Equality")]
     public class when_a_property_is_compared_to_itself
     {

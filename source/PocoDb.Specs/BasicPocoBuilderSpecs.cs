@@ -23,7 +23,6 @@ namespace PocoDb.Specs
         static object poco;
     }
 
-
     public class when_a_poco_with_a_value_property_is_built : with_a_new_BasicPocoBuilder
     {
         Establish c = () => {
@@ -39,5 +38,29 @@ namespace PocoDb.Specs
 
         static IPocoMeta meta;
         static DummyObject poco;
+    }
+
+    public class when_a_poco_with_a_poco_property_is_built : with_a_new_BasicPocoBuilder
+    {
+        Establish c = () => {
+            meta = fake.an<IPocoMeta>();
+            childId = fake.an<IPocoId>();
+            childPoco = fake.an<DummyObject>();
+
+            A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
+            A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>()
+                                                    {{new Property<DummyObject, DummyObject>(p => p.Child), childId}});
+
+            A.CallTo(() => session.GetPoco(childId)).Returns(childPoco);
+        };
+
+        Because of = () => poco = sut.Build(meta) as DummyObject;
+
+        It should_have_its_property_set = () => poco.Child.ShouldEqual(childPoco);
+
+        static IPocoMeta meta;
+        static DummyObject poco;
+        static IPocoId childId;
+        static DummyObject childPoco;
     }
 }

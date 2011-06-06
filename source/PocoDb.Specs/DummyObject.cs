@@ -6,5 +6,6 @@ namespace PocoDb.Specs
     {
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
+        public virtual DummyObject Child { get; set; }
     }
 }

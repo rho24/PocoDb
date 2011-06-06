@@ -1,50 +1,61 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace PocoDb.Extensions
 {
     //TODO: need to clean this up alot.
     public static class LambdaExtensions
     {
-        public static void InvokeGeneric(this Expression<Action> exp, Type genericType) {
-            throw new NotImplementedException();
+        public static void InvokeGeneric(this Expression<Action> expression, Type genericType) {
+            GetObjectAndMethodAndArguments(expression.Body, genericType);
         }
 
         public static object InvokeGeneric(this Expression<Func<object>> expression, Type genericType) {
-            var body = expression.Body as UnaryExpression;
-            if (body != null) {
-                //Static method.
+            return GetObjectAndMethodAndArguments(expression.Body, genericType);
+        }
 
-                var operand = body.Operand as MethodCallExpression;
-                if (operand == null)
-                    throw new ArgumentException("expression is not a method call");
+        static object GetObjectAndMethodAndArguments(Expression expression, Type genericType) {
+            if (expression is UnaryExpression) {
+                //static method
+                return GetObjectAndMethodAndArguments(((UnaryExpression) expression).Operand, genericType);
+            }
 
-                var method = operand.Method;
-                if (!method.IsGenericMethod)
+            if (expression is MethodCallExpression) {
+                var methodCall = (MethodCallExpression) expression;
+
+                if (!methodCall.Method.IsGenericMethod)
                     throw new ArgumentException("expression is not a generic method");
 
-                var arguments = operand.Arguments;
+                var obj = GetObjectValue(methodCall.Object);
+                var method = methodCall.Method.GetGenericMethodDefinition().MakeGenericMethod(genericType);
+                var args = methodCall.Arguments.Select(a => GetObjectValue(a)).ToArray();
 
-                return method.MakeGenericMethod(genericType).Invoke(null, arguments.ToArray());
+                return method.Invoke(obj, args);
             }
-            else {
-                var operand = expression.Body as MethodCallExpression;
-                if (operand == null)
-                    throw new ArgumentException("expression is not a method call");
 
-                var method = operand.Method;
-                if (!method.IsGenericMethod)
+            if (expression is NewExpression) {
+                var constructorCall = (NewExpression) expression;
+
+                if (!constructorCall.Type.IsGenericType)
                     throw new ArgumentException("expression is not a generic method");
 
-                var obj = GetObjectValue(operand.Object);
+                var constructor = constructorCall.Type.GetGenericTypeDefinition().MakeGenericType(genericType)
+                    .GetConstructor(constructorCall.Constructor.GetParameters().Select(p => p.ParameterType).ToArray());
+                var args = constructorCall.Arguments.Select(a => GetObjectValue(a)).ToArray();
 
-                var arguments = operand.Arguments;
-
-                var newMethod = method.GetGenericMethodDefinition().MakeGenericMethod(genericType);
-
-                return newMethod.Invoke(obj, arguments.Select(i => GetObjectValue(i)).ToArray());
+                return constructor.Invoke(args);
             }
+
+            throw new ArgumentException("expression is not a method call");
+        }
+
+        class ObjectAndMethodAndArguments
+        {
+            public object Object { get; set; }
+            public MethodBase Method { get; set; }
+            public object[] Arguments { get; set; }
         }
 
         static object GetObjectValue(Expression expression) {
@@ -62,7 +73,7 @@ namespace PocoDb.Extensions
                 return getter();
             }
 
-            throw new NotSupportedException("Can't resolve object for this case");
+            return null;
         }
     }
 }
