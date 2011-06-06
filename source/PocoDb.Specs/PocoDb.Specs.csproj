@@ -74,6 +74,8 @@
     <Compile Include="Poco\ReadOnlyPocoProxyBuilderSpecs.cs" />
     <Compile Include="PocoSessionContexts.cs" />
     <Compile Include="PocoSessionSpecs.cs" />
+    <Compile Include="Poco\WriteablePocoProxyBuilderContexts.cs" />
+    <Compile Include="Poco\WriteablePocoProxyBuilderSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertySpecs.cs" />
     <Compile Include="Server\CommitProcessorContexts.cs" />

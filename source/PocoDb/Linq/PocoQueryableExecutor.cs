@@ -20,8 +20,8 @@ namespace PocoDb.Linq
             var returnType = typeof (T);
 
             if (returnType.IsEnumerable())
-                return (T) LambdaExtensions.InvokeGeneric(() => ExecuteEnumerable<object>(expression),
-                                                          returnType.EnumerableInnerType());
+                return (T) GenericHelper.InvokeGeneric(() => ExecuteEnumerable<object>(expression),
+                                                       returnType.EnumerableInnerType());
 
             var result = GetQueryResult(expression);
 

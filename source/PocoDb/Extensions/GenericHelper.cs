@@ -6,7 +6,7 @@ using System.Reflection;
 namespace PocoDb.Extensions
 {
     //TODO: need to clean this up alot.
-    public static class LambdaExtensions
+    public static class GenericHelper
     {
         public static void InvokeGeneric(this Expression<Action> expression, Type genericType) {
             GetObjectAndMethodAndArguments(expression.Body, genericType);

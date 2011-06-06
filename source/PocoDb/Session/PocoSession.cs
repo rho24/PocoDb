@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PocoDb.ChangeTracking;
 using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Pocos;
@@ -14,6 +15,7 @@ namespace PocoDb.Session
         protected IPocoFactory PocoFactory { get; private set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
+        public ITrackedChanges Changes { get; private set; }
 
         public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory) {
             Server = server;
@@ -22,6 +24,7 @@ namespace PocoDb.Session
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
+            Changes = new TrackedChanges();
         }
 
         public IQueryable<T> Get<T>() {

@@ -21,7 +21,7 @@ namespace PocoDb.Pocos
 
             var innerType = meta.Type.GetGenericArguments()[0];
 
-            return LambdaExtensions.InvokeGeneric(() => new ReadOnlyCollectionProxy<object>(meta, Session), innerType);
+            return GenericHelper.InvokeGeneric(() => new ReadOnlyCollectionProxy<object>(meta, Session), innerType);
         }
 
         class ReadOnlyCollectionProxy<T> : ICollection<T>

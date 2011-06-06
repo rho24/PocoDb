@@ -6,7 +6,7 @@ using PocoDb.Session;
 
 namespace PocoDb.Specs.Poco
 {
-    [Subject(typeof (IPocoProxyBuilder))]
+    [Subject(typeof (ReadOnlyPocoProxyBuilder))]
     public class with_a_new_ReadOnlyPocoProxyBuilder : Observes<ReadOnlyPocoProxyBuilder>
     {
         Establish c = () => {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using PocoDb.Extensions;
 
 namespace PocoDb.Meta
 {
@@ -20,13 +21,10 @@ namespace PocoDb.Meta
         }
 
         public Property(MethodInfo method) {
-            if (
-                !(method.IsSpecialName &&
-                  (method.Name.StartsWith("get_", StringComparison.Ordinal) ||
-                   method.Name.StartsWith("set_", StringComparison.Ordinal))))
+            if (!method.IsProperty())
                 throw new ArgumentException("method is not a property");
 
-            Info = typeof (T).GetProperty(method.Name.Substring(4));
+            Info = method.GetPropertyInfo();
 
             if (Info == null)
                 throw new ArgumentException("method is not a property");
@@ -37,6 +35,10 @@ namespace PocoDb.Meta
 
         public void Set(object poco, object value) {
             Info.SetValue(poco, value, null);
+        }
+
+        public object Get(object poco) {
+            return Info.GetValue(poco, null);
         }
 
         public override bool Equals(object obj) {
