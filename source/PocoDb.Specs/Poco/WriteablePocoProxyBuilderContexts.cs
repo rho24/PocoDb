@@ -34,7 +34,9 @@ namespace PocoDb.Specs.Poco
             A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
             A.CallTo(() => meta.Properties).Returns(
                 new Dictionary<IProperty, object>() {
-                                                        {new Property<DummyObject, string>(d => d.FirstName), null}
+                                                        {new Property<DummyObject, string>(d => d.FirstName), null},
+                                                        {new Property<DummyObject, string>(d => d.LastName), null},
+                                                        {new Property<DummyObject, DummyObject>(d => d.Child), null}
                                                     });
 
             sut_setup.run(sut => proxy = (DummyObject) sut.BuildProxy(meta));
@@ -42,5 +44,26 @@ namespace PocoDb.Specs.Poco
 
         protected static IPocoMeta meta;
         protected static DummyObject proxy;
+    }
+
+    [Subject(typeof (WriteablePocoProxyBuilder))]
+    public class with_a_writable_poco_proxy_with_values : with_a_new_WriteablePocoProxyBuilder
+    {
+        Establish c = () => {
+            meta = fake.an<IPocoMeta>();
+            A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
+            A.CallTo(() => meta.Properties).Returns(
+                new Dictionary<IProperty, object>() {
+                                                        {new Property<DummyObject, string>(d => d.FirstName), "value"},
+                                                        {new Property<DummyObject, string>(d => d.LastName), "value"},
+                                                        {new Property<DummyObject, DummyObject>(d => d.Child), childId}
+                                                    });
+
+            sut_setup.run(sut => proxy = (DummyObject) sut.BuildProxy(meta));
+        };
+
+        protected static IPocoMeta meta;
+        protected static DummyObject proxy;
+        protected static IPocoId childId;
     }
 }
