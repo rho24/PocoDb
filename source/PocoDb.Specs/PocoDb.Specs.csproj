@@ -61,13 +61,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicPocoBuilderContexts.cs" />
-    <Compile Include="BasicPocoBuilderSpecs.cs" />
+    <Compile Include="PocoFactoryContexts.cs" />
+    <Compile Include="PocoFactorySpecs.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
     <Compile Include="Linq\PocoQueryableContexts.cs" />
     <Compile Include="Linq\PocoQueryableSpecs.cs" />
+    <Compile Include="ReadOnlyPocoProxyBuilderContexts.cs" />
+    <Compile Include="ReadOnlyPocoProxyBuilderSpecs.cs" />
     <Compile Include="PocoSessionContexts.cs" />
     <Compile Include="PocoSessionSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

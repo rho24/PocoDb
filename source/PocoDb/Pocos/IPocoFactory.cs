@@ -4,7 +4,7 @@ using PocoDb.Session;
 
 namespace PocoDb.Pocos
 {
-    public interface IPocoBuilder
+    public interface IPocoFactory
     {
         void Initialise(IInternalPocoSession session);
         object Build(IPocoMeta meta);

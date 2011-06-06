@@ -11,14 +11,14 @@ namespace PocoDb.Session
     public class PocoSession : IPocoSession, IInternalPocoSession
     {
         public IPocoDbServer Server { get; private set; }
-        protected IPocoBuilder PocoBuilder { get; private set; }
+        protected IPocoFactory PocoFactory { get; private set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
 
-        public PocoSession(IPocoDbServer server, IPocoBuilder pocoBuilder) {
+        public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory) {
             Server = server;
-            PocoBuilder = pocoBuilder;
-            PocoBuilder.Initialise(this);
+            PocoFactory = pocoFactory;
+            PocoFactory.Initialise(this);
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
@@ -33,7 +33,7 @@ namespace PocoDb.Session
             if (meta == null)
                 throw new ArgumentException("id is not recognised");
 
-            return PocoBuilder.Build(meta);
+            return PocoFactory.Build(meta);
         }
 
         public void Dispose() {

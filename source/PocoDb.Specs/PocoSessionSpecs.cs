@@ -22,7 +22,7 @@ namespace PocoDb.Specs
     public class when_getting_an_object : with_a_new_PocoSession
     {
         Establish c = () => {
-            pocoBuilder = depends.on<IPocoBuilder>();
+            pocoFactory = depends.on<IPocoFactory>();
 
             id = fake.an<IPocoId>();
             meta = fake.an<IPocoMeta>();
@@ -32,10 +32,10 @@ namespace PocoDb.Specs
 
         Because of = () => sut.GetPoco(id);
 
-        It should_call_BuildPoco = () => A.CallTo(() => pocoBuilder.Build(A<IPocoMeta>.Ignored)).MustHaveHappened();
-        It should_call_Use_the_relevant_meta = () => A.CallTo(() => pocoBuilder.Build(meta)).MustHaveHappened();
+        It should_call_BuildPoco = () => A.CallTo(() => pocoFactory.Build(A<IPocoMeta>.Ignored)).MustHaveHappened();
+        It should_call_Use_the_relevant_meta = () => A.CallTo(() => pocoFactory.Build(meta)).MustHaveHappened();
 
-        static IPocoBuilder pocoBuilder;
+        static IPocoFactory pocoFactory;
         static IPocoId id;
         static IPocoMeta meta;
     }
