@@ -75,7 +75,9 @@
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="Meta\IPocoMeta.cs" />
-    <Compile Include="Meta\IPocoMetaBuilder.cs" />
+    <Compile Include="Pocos\ReadOnlyCollectionProxyBuilder.cs" />
+    <Compile Include="Pocos\ICollectionProxyBuilder.cs" />
+    <Compile Include="Pocos\IPocoMetaBuilder.cs" />
     <Compile Include="Meta\IProperty.cs" />
     <Compile Include="PocoDbClient.cs" />
     <Compile Include="Pocos\PocoFactory.cs" />

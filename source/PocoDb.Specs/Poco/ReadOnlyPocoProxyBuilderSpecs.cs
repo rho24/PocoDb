@@ -6,7 +6,25 @@ using PocoDb.Meta;
 
 namespace PocoDb.Specs.Poco
 {
-    public class when_a_proxy_with_a_value_property_is_built : with_a_new_ReadOnlyPocoProxyBuilder
+    public class when_a_poco_proxy_is_built : with_a_new_ReadOnlyPocoProxyBuilder
+    {
+        Establish c = () => {
+            meta = fake.an<IPocoMeta>();
+            A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
+            A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>());
+        };
+
+        Because of = () => proxy = sut.BuildProxy(meta);
+
+        It should_not_be_null = () => proxy.ShouldNotBeNull();
+        It should_be_the_correct_type = () => proxy.ShouldBeOfType<DummyObject>();
+
+        static IPocoMeta meta;
+        static object proxy;
+    }
+
+
+    public class when_a_poco_proxy_with_a_value_property_is_built : with_a_new_ReadOnlyPocoProxyBuilder
     {
         Establish c = () => {
             meta = fake.an<IPocoMeta>();
@@ -23,7 +41,7 @@ namespace PocoDb.Specs.Poco
         static DummyObject poco;
     }
 
-    public class when_a_proxy_with_a_poco_property_is_built : with_a_new_ReadOnlyPocoProxyBuilder
+    public class when_a_poco_proxy_with_a_poco_property_is_built : with_a_new_ReadOnlyPocoProxyBuilder
     {
         Establish c = () => {
             meta = fake.an<IPocoMeta>();

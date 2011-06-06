@@ -14,9 +14,11 @@ namespace PocoDb.Specs.Poco
             sut_setup.run(sut => sut.Initialise(session));
 
             proxyBuilder = depends.on<IPocoProxyBuilder>();
+            collectionProxyBuilder = depends.on<ICollectionProxyBuilder>();
         };
 
         protected static IInternalPocoSession session;
         protected static IPocoProxyBuilder proxyBuilder;
+        protected static ICollectionProxyBuilder collectionProxyBuilder;
     }
 }

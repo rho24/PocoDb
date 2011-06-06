@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PocoDb.Extensions
 {
@@ -13,6 +14,22 @@ namespace PocoDb.Extensions
                 throw new ArgumentException("type is not IEnumerable");
 
             return type.GetGenericArguments()[0];
+        }
+
+        public static bool IsPocoType(this Type type) {
+            if (type == typeof (string) ||
+                type == typeof (int) ||
+                type == typeof (float) ||
+                type == typeof (long) ||
+                type == typeof (double) ||
+                type == typeof (DateTime))
+                return false;
+
+            return true;
+        }
+
+        public static bool IsCollectionType(this Type type) {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof (ICollection<>);
         }
     }
 }
