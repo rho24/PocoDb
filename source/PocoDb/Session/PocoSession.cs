@@ -13,6 +13,7 @@ namespace PocoDb.Session
         public IPocoDbServer Server { get; private set; }
         protected IPocoBuilder PocoBuilder { get; private set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
+        public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
 
         public PocoSession(IPocoDbServer server, IPocoBuilder pocoBuilder) {
             Server = server;
@@ -20,6 +21,7 @@ namespace PocoDb.Session
             PocoBuilder.Initialise(this);
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
+            TrackedPocos = new Dictionary<IPocoId, object>();
         }
 
         public IQueryable<T> Get<T>() {

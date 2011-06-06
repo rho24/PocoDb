@@ -24,7 +24,8 @@ namespace PocoDb.Pocos
         }
 
         public object Build(IPocoMeta meta) {
-            ProxyOptions.AddMixinInstance(new PocoProxy(meta));
+            if (Session.TrackedPocos.ContainsKey(meta.Id))
+                return Session.TrackedPocos[meta.Id];
 
             var pocoPropertyInterceptor =
                 LambdaExtensions.InvokeGeneric(() => new PocoPropertyInterceptor<object>(meta, Session), meta.Type) as
@@ -32,16 +33,9 @@ namespace PocoDb.Pocos
 
             var proxy = Generator.CreateClassProxy(meta.Type, ProxyOptions, pocoPropertyInterceptor);
 
+            Session.TrackedPocos.Add(meta.Id, proxy);
+
             return proxy;
-        }
-
-        class PocoProxy
-        {
-            public IPocoMeta Meta { get; private set; }
-
-            public PocoProxy(IPocoMeta meta) {
-                Meta = meta;
-            }
         }
 
         class PocoPropertyInterceptor<T> : IInterceptor

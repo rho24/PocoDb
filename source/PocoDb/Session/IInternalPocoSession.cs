@@ -9,6 +9,7 @@ namespace PocoDb.Session
     {
         IPocoDbServer Server { get; }
         IDictionary<IPocoId, IPocoMeta> Metas { get; }
+        IDictionary<IPocoId, object> TrackedPocos { get; }
         object GetPoco(IPocoId id);
     }
 }
