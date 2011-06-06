@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Poco
 {
     public class when_a_proxy_with_a_value_property_is_built : with_a_new_ReadOnlyPocoProxyBuilder
     {

@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Pocos;
 using PocoDb.Session;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Poco
 {
     [Subject(typeof (IPocoProxyBuilder))]
     public class with_a_new_ReadOnlyPocoProxyBuilder : Observes<ReadOnlyPocoProxyBuilder>
