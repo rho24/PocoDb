@@ -17,5 +17,21 @@ namespace PocoDb.Extensions
 
             return value.GetType().IsCollectionType();
         }
+
+
+        public static bool ImplementsCollectionType(this object value) {
+            if (value == null)
+                return false;
+
+            return value.GetType().ImplementsCollectionType();
+        }
+
+        public static Type GetCollectionType(this object value) {
+            return value.GetType().GetCollectionType();
+        }
+
+        public static Type GetCollectionInnerType(this object value) {
+            return value.GetType().GetCollectionInnerType();
+        }
     }
 }

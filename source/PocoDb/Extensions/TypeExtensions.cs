@@ -35,9 +35,29 @@ namespace PocoDb.Extensions
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof (ICollection<>);
         }
 
+
+        public static bool ImplementsCollectionType(this Type type) {
+            return type.GetInterface("ICollection`1") != null;
+        }
+
+        public static Type GetCollectionType(this Type type) {
+            if (!type.ImplementsCollectionType())
+                throw new ArgumentException("value is not an ICollection<>");
+
+            return type.GetInterface("ICollection`1");
+        }
+
+        public static Type GetCollectionInnerType(this Type type) {
+            if (!type.ImplementsCollectionType())
+                throw new ArgumentException("value is not an ICollection<>");
+
+            return type.GetInterface("ICollection`1").GetGenericArguments()[0];
+        }
+
+
         public static IEnumerable<IProperty> PublicVirtualProperties(this Type type) {
             return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => p.CanRead && p.CanWrite && p.GetGetMethod().IsVirtual)
+                .Where(p => p.CanRead && p.CanWrite && p.GetGetMethod().IsVirtual && p.GetIndexParameters().Count() == 0)
                 .Select(p => Property.Create(p));
         }
     }
