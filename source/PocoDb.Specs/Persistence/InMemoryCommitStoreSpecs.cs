@@ -16,7 +16,7 @@ namespace PocoDb.Specs.Persistence
 
         Because of = () => sut.Save(commit);
 
-        It should_be_retrievable = () => sut.GetCommit(id).ShouldEqual(commit);
+        It should_be_retrievable = () => sut.Get(id).ShouldEqual(commit);
 
         static ICommit commit;
         static ICommitId id;
@@ -24,9 +24,7 @@ namespace PocoDb.Specs.Persistence
 
     public class when_retrieving_a_non_existant_commit : with_a_new_InMemoryCommitStore
     {
-        Establish c = () => { commit = fake.an<ICommit>(); };
-
-        Because of = () => commit = sut.GetCommit(fake.an<ICommitId>());
+        Because of = () => commit = sut.Get(fake.an<ICommitId>());
 
         It should_return_null = () => commit.ShouldBeNull();
 

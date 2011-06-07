@@ -17,7 +17,7 @@ namespace PocoDb.Persistence
             Commits.Add(commit);
         }
 
-        public ICommit GetCommit(ICommitId id) {
+        public ICommit Get(ICommitId id) {
             return Commits.Where(c => c.Id == id).FirstOrDefault();
         }
     }

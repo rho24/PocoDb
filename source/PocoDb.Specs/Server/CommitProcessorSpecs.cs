@@ -17,7 +17,7 @@ namespace PocoDb.Specs.Server
 
         Because of = () => sut.Apply(commit);
 
-        It should_add_the_meta_to_the_store = () => A.CallTo(() => metaStore.Save(meta)).MustHaveHappened();
+        It should_add_the_meta_to_the_store = () => A.CallTo(() => metaStore.AddNew(meta)).MustHaveHappened();
 
         static IPocoMeta meta;
     }
@@ -31,14 +31,14 @@ namespace PocoDb.Specs.Server
             metaProperties = new Dictionary<IProperty, object>();
             A.CallTo(() => meta.Properties).Returns(metaProperties);
 
-            A.CallTo(() => metaStore.Get(id)).Returns(meta);
+            A.CallTo(() => metaStore.GetWritable(id)).Returns(meta);
             A.CallTo(() => commit.SetProperties).Returns(new[] {new SetProperty(id, property, "value")});
         };
 
         Because of = () => sut.Apply(commit);
 
         It should_update_the_metas_property = () => meta.Properties[property].ShouldEqual("value");
-        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Save(meta)).MustHaveHappened();
+        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Update(meta)).MustHaveHappened();
 
         static IPocoId id;
         static IPocoMeta meta;
@@ -53,7 +53,7 @@ namespace PocoDb.Specs.Server
             meta = fake.an<IPocoMeta>();
             metaCollection = new List<object>();
 
-            A.CallTo(() => metaStore.Get(id)).Returns(meta);
+            A.CallTo(() => metaStore.GetWritable(id)).Returns(meta);
             A.CallTo(() => commit.CollectionAdditions).Returns(new[] {new CollectionAddition(id, "value")});
             A.CallTo(() => meta.Collection).Returns(metaCollection);
         };
@@ -61,7 +61,7 @@ namespace PocoDb.Specs.Server
         Because of = () => sut.Apply(commit);
 
         It should_add_to_the_metas_collection = () => meta.Collection.ShouldContain("value");
-        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Save(meta)).MustHaveHappened();
+        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Update(meta)).MustHaveHappened();
 
         static IPocoId id;
         static IPocoMeta meta;
@@ -75,7 +75,7 @@ namespace PocoDb.Specs.Server
             meta = fake.an<IPocoMeta>();
             metaCollection = new List<object>() {"value"};
 
-            A.CallTo(() => metaStore.Get(id)).Returns(meta);
+            A.CallTo(() => metaStore.GetWritable(id)).Returns(meta);
             A.CallTo(() => commit.CollectionRemovals).Returns(new[] {new CollectionRemoval(id, "value")});
             A.CallTo(() => meta.Collection).Returns(metaCollection);
         };
@@ -83,7 +83,7 @@ namespace PocoDb.Specs.Server
         Because of = () => sut.Apply(commit);
 
         It should_add_to_the_metas_collection = () => meta.Collection.ShouldNotContain("value");
-        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Save(meta)).MustHaveHappened();
+        It should_save_the_meta_to_the_store = () => A.CallTo(() => metaStore.Update(meta)).MustHaveHappened();
 
         static IPocoId id;
         static IPocoMeta meta;

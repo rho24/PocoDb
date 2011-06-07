@@ -70,6 +70,8 @@
     <Compile Include="Meta\PocoMetaBuilderSpecs.cs" />
     <Compile Include="Persistence\InMemoryCommitStoreContexts.cs" />
     <Compile Include="Persistence\InMemoryCommitStoreSpecs.cs" />
+    <Compile Include="Persistence\InMemoryMetaStoreContexts.cs" />
+    <Compile Include="Persistence\InMemoryMetaStoreSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
     <Compile Include="PocoDbClientSpecs.cs" />
     <Compile Include="Poco\PocoFactoryContexts.cs" />

@@ -13,28 +13,28 @@ namespace PocoDb.Commits
 
         public void Apply(ICommit commit) {
             foreach (var addObject in commit.AddedPocos) {
-                MetaStore.Save(addObject.Meta);
+                MetaStore.AddNew(addObject.Meta);
             }
 
             foreach (var propertySet in commit.SetProperties) {
-                var meta = MetaStore.Get(propertySet.PocoId);
+                var meta = MetaStore.GetWritable(propertySet.PocoId);
                 meta.Properties[propertySet.Property] = propertySet.Value;
 
-                MetaStore.Save(meta);
+                MetaStore.Update(meta);
             }
 
             foreach (var addToCollection in commit.CollectionAdditions) {
-                var meta = MetaStore.Get(addToCollection.CollectionId);
+                var meta = MetaStore.GetWritable(addToCollection.CollectionId);
                 meta.Collection.Add(addToCollection.Value);
 
-                MetaStore.Save(meta);
+                MetaStore.Update(meta);
             }
 
             foreach (var removeFromCollection in commit.CollectionRemovals) {
-                var meta = MetaStore.Get(removeFromCollection.CollectionId);
+                var meta = MetaStore.GetWritable(removeFromCollection.CollectionId);
                 meta.Collection.Remove(removeFromCollection.Value);
 
-                MetaStore.Save(meta);
+                MetaStore.Update(meta);
             }
         }
     }
