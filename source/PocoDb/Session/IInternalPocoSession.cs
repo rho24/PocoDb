@@ -11,7 +11,11 @@ namespace PocoDb.Session
         IPocoDbServer Server { get; }
         IDictionary<IPocoId, IPocoMeta> Metas { get; }
         IDictionary<IPocoId, object> TrackedPocos { get; }
-        ITrackedChanges Changes { get; }
         object GetPoco(IPocoId id);
+    }
+
+    public interface IInternalWriteablePocoSession : IInternalPocoSession
+    {
+        ITrackedChanges Changes { get; }
     }
 }

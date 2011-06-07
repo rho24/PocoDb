@@ -1,5 +1,4 @@
 using System;
-using PocoDb.Session;
 
 namespace PocoDb
 {

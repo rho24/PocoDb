@@ -9,7 +9,7 @@ namespace PocoDb.Pocos
 {
     public class WriteablePocoProxyBuilder : IPocoProxyBuilder
     {
-        public IInternalPocoSession Session { get; private set; }
+        public IInternalWriteablePocoSession Session { get; private set; }
         public ProxyGenerator Generator { get; private set; }
         public ProxyGenerationOptions ProxyOptions { get; private set; }
 
@@ -18,7 +18,7 @@ namespace PocoDb.Pocos
             ProxyOptions = new ProxyGenerationOptions(new PropertyHook());
         }
 
-        public void Initialise(IInternalPocoSession session) {
+        public void Initialise(IInternalWriteablePocoSession session) {
             Session = session;
         }
 
@@ -32,11 +32,11 @@ namespace PocoDb.Pocos
         public class WritablePropertyInterceptor<T> : IInterceptor
         {
             public IPocoMeta Meta { get; private set; }
-            public IInternalPocoSession Session { get; private set; }
+            public IInternalWriteablePocoSession Session { get; private set; }
             protected List<IProperty> CurrentlyInitialisingProperties { get; private set; }
             public List<IProperty> InitialisedProperties { get; private set; }
 
-            public WritablePropertyInterceptor(IPocoMeta meta, IInternalPocoSession session) {
+            public WritablePropertyInterceptor(IPocoMeta meta, IInternalWriteablePocoSession session) {
                 Meta = meta;
                 Session = session;
 

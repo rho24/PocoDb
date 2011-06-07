@@ -66,6 +66,8 @@
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
     <Compile Include="Linq\PocoQueryableContexts.cs" />
     <Compile Include="Linq\PocoQueryableSpecs.cs" />
+    <Compile Include="PocoDbClientContexts.cs" />
+    <Compile Include="PocoDbClientSpecs.cs" />
     <Compile Include="Poco\PocoFactoryContexts.cs" />
     <Compile Include="Poco\PocoFactorySpecs.cs" />
     <Compile Include="Poco\ReadOnlyCollectionProxyBuilderContexts.cs" />

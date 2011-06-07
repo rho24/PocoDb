@@ -52,6 +52,7 @@
     <Compile Include="Commits\Commit.cs" />
     <Compile Include="Commits\CommitBuilder.cs" />
     <Compile Include="Commits\CommitId.cs" />
+    <Compile Include="Commits\CommitIdGenerator.cs" />
     <Compile Include="Commits\CommitProcessor.cs" />
     <Compile Include="Commits\ICommit.cs" />
     <Compile Include="Commits\ICommitBuilder.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IPocoDbClient.cs" />
+    <Compile Include="IWritablePocoSession.cs" />
     <Compile Include="Linq\IPocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryProvider.cs" />
@@ -76,6 +78,9 @@
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="Meta\IPocoMeta.cs" />
+    <Compile Include="Meta\PocoMetaBuilder.cs" />
+    <Compile Include="Persistence\InMemoryCommitStore.cs" />
+    <Compile Include="Persistence\InMemoryMetaStore.cs" />
     <Compile Include="Pocos\PocoProxyPropertyGetterInterceptor.cs" />
     <Compile Include="Pocos\PropertyHook.cs" />
     <Compile Include="Pocos\ReadOnlyCollectionProxyBuilder.cs" />
@@ -100,7 +105,6 @@
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="Session\IInternalPocoSession.cs" />
-    <Compile Include="Session\IWritablePocoSession.cs" />
     <Compile Include="Session\PocoSession.cs" />
     <Compile Include="Session\WritablePocoSession.cs" />
   </ItemGroup>
