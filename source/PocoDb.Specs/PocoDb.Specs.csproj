@@ -68,6 +68,8 @@
     <Compile Include="Linq\PocoQueryableSpecs.cs" />
     <Compile Include="Meta\PocoMetaBuilderContexts.cs" />
     <Compile Include="Meta\PocoMetaBuilderSpecs.cs" />
+    <Compile Include="Persistence\InMemoryCommitStoreContexts.cs" />
+    <Compile Include="Persistence\InMemoryCommitStoreSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
     <Compile Include="PocoDbClientSpecs.cs" />
     <Compile Include="Poco\PocoFactoryContexts.cs" />
