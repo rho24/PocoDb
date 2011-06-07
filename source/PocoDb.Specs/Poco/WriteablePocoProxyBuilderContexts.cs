@@ -14,7 +14,7 @@ namespace PocoDb.Specs.Poco
     public class with_a_new_WriteablePocoProxyBuilder : Observes<WriteablePocoProxyBuilder>
     {
         Establish c = () => {
-            session = fake.an<IInternalWriteablePocoSession>();
+            session = fake.an<IInternalWritablePocoSession>();
             changes = fake.an<IChangeTracker>();
 
             A.CallTo(() => session.ChangeTracker).Returns(changes);
@@ -22,7 +22,7 @@ namespace PocoDb.Specs.Poco
             sut_setup.run(sut => sut.Initialise(session));
         };
 
-        protected static IInternalWriteablePocoSession session;
+        protected static IInternalWritablePocoSession session;
         protected static IChangeTracker changes;
     }
 

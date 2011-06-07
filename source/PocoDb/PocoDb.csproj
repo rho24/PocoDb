@@ -81,6 +81,7 @@
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="Meta\IPocoMeta.cs" />
+    <Compile Include="Meta\PocoIdBuilder.cs" />
     <Compile Include="Meta\PocoMetaBuilder.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Pocos\PropertyHook.cs" />
     <Compile Include="Pocos\ReadOnlyCollectionProxyBuilder.cs" />
     <Compile Include="Pocos\ICollectionProxyBuilder.cs" />
-    <Compile Include="Pocos\IPocoMetaBuilder.cs" />
+    <Compile Include="Meta\IPocoMetaBuilder.cs" />
     <Compile Include="Meta\IProperty.cs" />
     <Compile Include="PocoDbClient.cs" />
     <Compile Include="Pocos\PocoFactory.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="Session\IInternalPocoSession.cs" />
-    <Compile Include="Session\IInternalWriteablePocoSession.cs" />
+    <Compile Include="Session\IInternalWritablePocoSession.cs" />
     <Compile Include="Session\PocoSession.cs" />
     <Compile Include="Session\WritablePocoSession.cs" />
   </ItemGroup>

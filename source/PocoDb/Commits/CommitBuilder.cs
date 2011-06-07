@@ -2,17 +2,23 @@
 using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
+using PocoDb.Session;
 
 namespace PocoDb.Commits
 {
     public class CommitBuilder : ICommitBuilder
     {
+        public IInternalWritablePocoSession Session { get; private set; }
         protected ICommitIdGenerator IdGenerator { get; private set; }
         public IPocoMetaBuilder PocoMetaBuilder { get; private set; }
 
         public CommitBuilder(ICommitIdGenerator idGenerator, IPocoMetaBuilder pocoMetaBuilder) {
             IdGenerator = idGenerator;
             PocoMetaBuilder = pocoMetaBuilder;
+        }
+
+        public void Initialise(IInternalWritablePocoSession session) {
+            Session = session;
         }
 
         public ICommit Build(ITrackedChanges trackedChanges) {
@@ -39,11 +45,12 @@ namespace PocoDb.Commits
             return commit;
         }
 
-        IPocoId RecordAddObject(object poco, Commit commit) {
-            var meta = PocoMetaBuilder.Build(poco);
-            commit.AddedPocos.Add(new AddedPoco(meta));
+        void RecordAddObject(object poco, Commit commit) {
+            var metas = PocoMetaBuilder.Build(poco);
 
-            return meta.Id;
+            foreach (var meta in metas) {
+                commit.AddedPocos.Add(new AddedPoco(meta));
+            }
         }
 
         void RecordPropertySet(TrackedSetProperty trackedSetProperty, Commit commit) {
@@ -83,9 +90,12 @@ namespace PocoDb.Commits
         }
 
         IPocoId ResolveId(object poco, Commit commit) {
-            var id = PocoMetaBuilder.Resolve(poco);
+            if (Session.TrackedIds.ContainsKey(poco))
+                return Session.TrackedIds[poco];
 
-            return id ?? RecordAddObject(poco, commit);
+            RecordAddObject(poco, commit);
+
+            return Session.TrackedIds[poco];
         }
     }
 }

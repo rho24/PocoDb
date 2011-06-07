@@ -14,6 +14,7 @@ namespace PocoDb.Session
         public IPocoFactory PocoFactory { get; private set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
+        public IDictionary<object, IPocoId> TrackedIds { get; private set; }
 
         public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory) {
             Server = server;
@@ -21,6 +22,7 @@ namespace PocoDb.Session
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
+            TrackedIds = new Dictionary<object, IPocoId>();
         }
 
         //IPocoSession

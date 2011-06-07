@@ -66,6 +66,8 @@
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
     <Compile Include="Linq\PocoQueryableContexts.cs" />
     <Compile Include="Linq\PocoQueryableSpecs.cs" />
+    <Compile Include="Meta\PocoMetaBuilderContexts.cs" />
+    <Compile Include="Meta\PocoMetaBuilderSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
     <Compile Include="PocoDbClientSpecs.cs" />
     <Compile Include="Poco\PocoFactoryContexts.cs" />
@@ -102,6 +104,7 @@
       <Name>PocoDb</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

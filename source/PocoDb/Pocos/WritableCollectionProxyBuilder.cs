@@ -9,9 +9,9 @@ namespace PocoDb.Pocos
 {
     public class WritableCollectionProxyBuilder : ICollectionProxyBuilder
     {
-        public IInternalWriteablePocoSession Session { get; private set; }
+        public IInternalWritablePocoSession Session { get; private set; }
 
-        public void Initialise(IInternalWriteablePocoSession session) {
+        public void Initialise(IInternalWritablePocoSession session) {
             Session = session;
         }
 
@@ -27,10 +27,10 @@ namespace PocoDb.Pocos
         class WritableCollectionProxy<T> : ICollection<T>
         {
             public IPocoMeta Meta { get; private set; }
-            public IInternalWriteablePocoSession Session { get; private set; }
+            public IInternalWritablePocoSession Session { get; private set; }
             public ICollection<T> InnerCollection { get; private set; }
 
-            public WritableCollectionProxy(IPocoMeta meta, IInternalWriteablePocoSession session) {
+            public WritableCollectionProxy(IPocoMeta meta, IInternalWritablePocoSession session) {
                 Meta = meta;
                 Session = session;
 

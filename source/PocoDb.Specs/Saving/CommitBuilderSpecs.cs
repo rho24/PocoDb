@@ -31,6 +31,8 @@ namespace PocoDb.Specs.Saving
             poco = new DummyObject();
 
             A.CallTo(() => changes.AddedPocos).Returns(new[] {new TrackedAddedPoco(poco)}.ToArray());
+
+            A.CallTo(() => pocoMetaBuilder.Build(poco)).Returns(new[] {fake.an<IPocoMeta>()});
         };
 
         It should_contain_an_added_PocoMeta = () => commit.AddedPocos.Count().ShouldEqual(1);
@@ -49,14 +51,13 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedSetProperty(poco, property, "value")}.ToArray());
 
             pocoId = A.Fake<IPocoId>();
-            A.CallTo(() => pocoMetaBuilder.Resolve(poco)).Returns(pocoId);
+            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{poco, pocoId}});
         };
 
         It should_contain_a_set_property = () => commit.SetProperties.Count().ShouldEqual(1);
         It should_reference_the_PocoId = () => commit.SetProperties.First().PocoId.ShouldEqual(pocoId);
         It should_reference_the_Property = () => commit.SetProperties.First().Property.ShouldEqual(property);
         It should_reference_the_value = () => commit.SetProperties.First().Value.ShouldEqual("value");
-        It should_resolve_the_PocoMeta = () => A.CallTo(() => pocoMetaBuilder.Resolve(poco)).MustHaveHappened();
 
         static DummyObject poco;
         static IPocoId pocoId;
@@ -72,7 +73,7 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedCollectionAddition(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
-            A.CallTo(() => pocoMetaBuilder.Resolve(collection)).Returns(collectionId);
+            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{collection, collectionId}});
         };
 
         It should_contain_an_AddToCollection = () => commit.CollectionAdditions.Count().ShouldEqual(1);
@@ -95,7 +96,7 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedCollectionRemoval(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
-            A.CallTo(() => pocoMetaBuilder.Resolve(collection)).Returns(collectionId);
+            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{collection, collectionId}});
         };
 
         It should_contain_a_RemovedFromCollection = () => commit.CollectionRemovals.Count().ShouldEqual(1);

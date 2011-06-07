@@ -35,13 +35,16 @@ namespace PocoDb
             var collectionProxyBuilder = new WritableCollectionProxyBuilder();
             var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
             var idGenerator = new CommitIdGenerator();
-            var pocoMetaBuilder = new PocoMetaBuilder();
+            var pocoIdBuilder = new PocoIdBuilder();
+            var pocoMetaBuilder = new PocoMetaBuilder(pocoIdBuilder);
             var commitBuilder = new CommitBuilder(idGenerator, pocoMetaBuilder);
             var session = new WritablePocoSession(Server, pocoFactory, commitBuilder);
 
             pocoProxyBuilder.Initialise(session);
             collectionProxyBuilder.Initialise(session);
             pocoFactory.Initialise(session);
+            pocoMetaBuilder.Initialise(session);
+            commitBuilder.Initialise(session);
 
             return session;
         }

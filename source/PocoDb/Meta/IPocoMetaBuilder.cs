@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PocoDb.Meta
 {
     public interface IPocoMetaBuilder
     {
-        IPocoMeta Build(object poco);
-        IPocoId Resolve(object poco);
+        IEnumerable<IPocoMeta> Build(object poco);
     }
 }

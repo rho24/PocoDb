@@ -10,13 +10,14 @@ using PocoDb.Server;
 
 namespace PocoDb.Session
 {
-    public class WritablePocoSession : IWritablePocoSession, IInternalWriteablePocoSession
+    public class WritablePocoSession : IWritablePocoSession, IInternalWritablePocoSession
     {
         public IPocoDbServer Server { get; private set; }
         public IPocoFactory PocoFactory { get; private set; }
         public ICommitBuilder CommitBuilder { get; set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
+        public IDictionary<object, IPocoId> TrackedIds { get; private set; }
         public IChangeTracker ChangeTracker { get; private set; }
 
 
@@ -27,6 +28,7 @@ namespace PocoDb.Session
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
+            TrackedIds = new Dictionary<object, IPocoId>();
             ChangeTracker = new ChangeTracker();
         }
 
