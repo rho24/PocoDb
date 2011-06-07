@@ -25,17 +25,21 @@ namespace PocoDb.Meta
             Session.TrackedIds.Add(poco, id);
 
             var meta = new PocoMeta(id, poco.GetType());
+            newMetas.Add(meta);
 
             foreach (var property in meta.Type.PublicVirtualProperties()) {
                 var value = property.Get(poco);
 
-                if (value.IsPocoType())
-                    throw new NotImplementedException();
+                if (value.IsPocoType()) {
+                    if (!Session.TrackedIds.ContainsKey(value))
+                        newMetas.AddRange(Build(value));
 
-                meta.Properties.Add(property, value);
+                    var childId = Session.TrackedIds[value];
+                    meta.Properties.Add(property, childId);
+                }
+                else
+                    meta.Properties.Add(property, value);
             }
-
-            newMetas.Add(meta);
 
             return newMetas;
         }

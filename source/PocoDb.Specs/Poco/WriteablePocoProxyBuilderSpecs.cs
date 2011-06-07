@@ -29,7 +29,7 @@ namespace PocoDb.Specs.Poco
             meta = fake.an<IPocoMeta>();
             A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
             A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>()
-                                                    {{new Property<DummyObject, string>(p => p.FirstName), "value"}});
+            {{new Property<DummyObject, string>(p => p.FirstName), "value"}});
         };
 
         Because of = () => poco = sut.BuildProxy(meta) as DummyObject;
@@ -49,7 +49,7 @@ namespace PocoDb.Specs.Poco
 
             A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
             A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>()
-                                                    {{new Property<DummyObject, DummyObject>(p => p.Child), childId}});
+            {{new Property<DummyObject, DummyObject>(p => p.Child), childId}});
 
             A.CallTo(() => session.GetPoco(childId)).Returns(childPoco);
         };
