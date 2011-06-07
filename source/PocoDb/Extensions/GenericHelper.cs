@@ -8,18 +8,18 @@ namespace PocoDb.Extensions
     //TODO: need to clean this up alot.
     public static class GenericHelper
     {
-        public static void InvokeGeneric(this Expression<Action> expression, Type genericType) {
-            GetObjectAndMethodAndArguments(expression.Body, genericType);
+        public static void InvokeGeneric(Expression<Action> expression, params Type[] genericTypes) {
+            GetObjectAndMethodAndArguments(expression.Body, genericTypes);
         }
 
-        public static object InvokeGeneric(this Expression<Func<object>> expression, Type genericType) {
-            return GetObjectAndMethodAndArguments(expression.Body, genericType);
+        public static object InvokeGeneric(Expression<Func<object>> expression, params Type[] genericTypes) {
+            return GetObjectAndMethodAndArguments(expression.Body, genericTypes);
         }
 
-        static object GetObjectAndMethodAndArguments(Expression expression, Type genericType) {
+        static object GetObjectAndMethodAndArguments(Expression expression, params Type[] genericTypes) {
             if (expression is UnaryExpression) {
                 //static method
-                return GetObjectAndMethodAndArguments(((UnaryExpression) expression).Operand, genericType);
+                return GetObjectAndMethodAndArguments(((UnaryExpression) expression).Operand, genericTypes);
             }
 
             if (expression is MethodCallExpression) {
@@ -29,7 +29,7 @@ namespace PocoDb.Extensions
                     throw new ArgumentException("expression is not a generic method");
 
                 var obj = GetObjectValue(methodCall.Object);
-                var method = methodCall.Method.GetGenericMethodDefinition().MakeGenericMethod(genericType);
+                var method = methodCall.Method.GetGenericMethodDefinition().MakeGenericMethod(genericTypes);
                 var args = methodCall.Arguments.Select(a => GetObjectValue(a)).ToArray();
 
                 return method.Invoke(obj, args);
@@ -41,7 +41,7 @@ namespace PocoDb.Extensions
                 if (!constructorCall.Type.IsGenericType)
                     throw new ArgumentException("expression is not a generic method");
 
-                var constructor = constructorCall.Type.GetGenericTypeDefinition().MakeGenericType(genericType)
+                var constructor = constructorCall.Type.GetGenericTypeDefinition().MakeGenericType(genericTypes)
                     .GetConstructor(constructorCall.Constructor.GetParameters().Select(p => p.ParameterType).ToArray());
                 var args = constructorCall.Arguments.Select(a => GetObjectValue(a)).ToArray();
 

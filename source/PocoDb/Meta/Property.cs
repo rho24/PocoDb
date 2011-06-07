@@ -9,15 +9,11 @@ namespace PocoDb.Meta
     {
         public PropertyInfo Info { get; private set; }
 
-        public Property(Expression<Func<T, P>> expression) {
-            var memberAccess = expression.Body as MemberExpression;
-            if (memberAccess == null)
-                throw new ArgumentException("expression is not a property");
+        public Property(PropertyInfo property) {
+            if (property == null)
+                throw new ArgumentNullException("property");
 
-            Info = memberAccess.Member as PropertyInfo;
-
-            if (Info == null)
-                throw new ArgumentException("expression is not a property");
+            Info = property;
         }
 
         public Property(MethodInfo method) {
@@ -31,6 +27,17 @@ namespace PocoDb.Meta
 
             if (Info.PropertyType != typeof (P))
                 throw new ArgumentException("Property is not correct type");
+        }
+
+        public Property(Expression<Func<T, P>> expression) {
+            var memberAccess = expression.Body as MemberExpression;
+            if (memberAccess == null)
+                throw new ArgumentException("expression is not a property");
+
+            Info = memberAccess.Member as PropertyInfo;
+
+            if (Info == null)
+                throw new ArgumentException("expression is not a property");
         }
 
         public void Set(object poco, object value) {
@@ -52,6 +59,16 @@ namespace PocoDb.Meta
 
         public override int GetHashCode() {
             return Info.GetHashCode();
+        }
+    }
+
+    public static class Property
+    {
+        public static IProperty Create(PropertyInfo propertyInfo) {
+            return
+                (IProperty)
+                GenericHelper.InvokeGeneric(() => new Property<object, object>(propertyInfo), propertyInfo.DeclaringType,
+                                            propertyInfo.PropertyType);
         }
     }
 }

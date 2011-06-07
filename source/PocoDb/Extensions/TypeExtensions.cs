@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using PocoDb.Meta;
 
 namespace PocoDb.Extensions
 {
@@ -30,6 +33,12 @@ namespace PocoDb.Extensions
 
         public static bool IsCollectionType(this Type type) {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof (ICollection<>);
+        }
+
+        public static IEnumerable<IProperty> PublicVirtualProperties(this Type type) {
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => p.CanRead && p.CanWrite && p.GetGetMethod().IsVirtual)
+                .Select(p => Property.Create(p));
         }
     }
 }
