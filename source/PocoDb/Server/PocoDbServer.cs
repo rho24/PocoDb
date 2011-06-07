@@ -8,7 +8,7 @@ namespace PocoDb.Server
     {
         public ICommitIdGenerator IdGenerator { get; private set; }
         protected ICommitStore CommitStore { get; private set; }
-        protected ICommitProcessor CommitProcessor { get; set; }
+        protected ICommitProcessor CommitProcessor { get; private set; }
 
         public PocoDbServer(ICommitIdGenerator idGenerator, ICommitStore commitStore, ICommitProcessor commitProcessor) {
             IdGenerator = idGenerator;
