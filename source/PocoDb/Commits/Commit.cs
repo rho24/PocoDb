@@ -7,23 +7,23 @@ namespace PocoDb.Commits
     {
         public ICommitId Id { get; private set; }
 
-        public List<AddObject> AddObjects { get; private set; }
-        public List<PropertySet> PropertySets { get; private set; }
-        public List<AddToCollection> AddToCollections { get; private set; }
-        public List<RemoveFromCollection> RemoveFromCollections { get; private set; }
+        public List<AddedPoco> AddedPocos { get; private set; }
+        public List<SetProperty> SetProperties { get; private set; }
+        public List<CollectionAddition> CollectionAdditions { get; private set; }
+        public List<CollectionRemoval> CollectionRemovals { get; private set; }
 
-        IEnumerable<AddObject> ICommit.AddObjects { get { return AddObjects; } }
-        IEnumerable<PropertySet> ICommit.PropertySets { get { return PropertySets; } }
-        IEnumerable<AddToCollection> ICommit.AddToCollections { get { return AddToCollections; } }
-        IEnumerable<RemoveFromCollection> ICommit.RemoveFromCollections { get { return RemoveFromCollections; } }
+        IEnumerable<AddedPoco> ICommit.AddedPocos { get { return AddedPocos; } }
+        IEnumerable<SetProperty> ICommit.SetProperties { get { return SetProperties; } }
+        IEnumerable<CollectionAddition> ICommit.CollectionAdditions { get { return CollectionAdditions; } }
+        IEnumerable<CollectionRemoval> ICommit.CollectionRemovals { get { return CollectionRemovals; } }
 
         public Commit(ICommitId id) {
             Id = id;
 
-            AddObjects = new List<AddObject>();
-            PropertySets = new List<PropertySet>();
-            AddToCollections = new List<AddToCollection>();
-            RemoveFromCollections = new List<RemoveFromCollection>();
+            AddedPocos = new List<AddedPoco>();
+            SetProperties = new List<SetProperty>();
+            CollectionAdditions = new List<CollectionAddition>();
+            CollectionRemovals = new List<CollectionRemoval>();
         }
     }
 }

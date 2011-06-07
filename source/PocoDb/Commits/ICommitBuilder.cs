@@ -5,6 +5,6 @@ namespace PocoDb.Commits
 {
     public interface ICommitBuilder
     {
-        ICommit Build(ITrackedChanges changes);
+        ICommit Build(ITrackedChanges trackedChanges);
     }
 }

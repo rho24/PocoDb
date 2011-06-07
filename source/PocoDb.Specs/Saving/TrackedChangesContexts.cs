@@ -7,13 +7,13 @@ using PocoDb.Meta;
 
 namespace PocoDb.Specs.Saving
 {
-    [Subject(typeof (TrackedChanges))]
-    public abstract class with_a_new_TrackedChanges : Observes<ITrackedChanges>
+    [Subject(typeof (ChangeTracker))]
+    public abstract class with_a_new_TrackedChanges : Observes<ChangeTracker>
     {
-        Establish c = () => sut_factory.create_using(() => new TrackedChanges());
+        Establish c = () => { };
     }
 
-    [Subject(typeof (TrackedChanges))]
+    [Subject(typeof (ChangeTracker))]
     public abstract class with_an_object_added : with_a_new_TrackedChanges
     {
         Establish c = () => {
@@ -25,7 +25,7 @@ namespace PocoDb.Specs.Saving
         protected static object poco;
     }
 
-    [Subject(typeof (TrackedChanges))]
+    [Subject(typeof (ChangeTracker))]
     public abstract class with_a_property_set : with_a_new_TrackedChanges
     {
         Establish c = () => {

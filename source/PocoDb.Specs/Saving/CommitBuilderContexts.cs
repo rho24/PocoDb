@@ -13,13 +13,13 @@ namespace PocoDb.Specs.Saving
         Establish c = () => {
             pocoMetaBuilder = depends.on<IPocoMetaBuilder>();
 
-            trackedChanges = new TrackedChanges();
+            changes = fake.an<ITrackedChanges>();
         };
 
-        Because of = () => commit = sut.Build(trackedChanges);
+        Because of = () => commit = sut.Build(changes);
 
         protected static IPocoMetaBuilder pocoMetaBuilder;
-        protected static ITrackedChanges trackedChanges;
+        protected static ITrackedChanges changes;
         protected static ICommit commit;
     }
 }

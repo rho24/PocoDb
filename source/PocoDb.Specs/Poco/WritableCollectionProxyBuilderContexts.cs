@@ -15,15 +15,15 @@ namespace PocoDb.Specs.Poco
     {
         Establish c = () => {
             session = fake.an<IInternalWriteablePocoSession>();
-            trackedChanges = fake.an<ITrackedChanges>();
+            changeTracker = fake.an<IChangeTracker>();
 
-            A.CallTo(() => session.Changes).Returns(trackedChanges);
+            A.CallTo(() => session.ChangeTracker).Returns(changeTracker);
 
             sut_setup.run(sut => sut.Initialise(session));
         };
 
         protected static IInternalWriteablePocoSession session;
-        protected static ITrackedChanges trackedChanges;
+        protected static IChangeTracker changeTracker;
     }
 
     [Subject(typeof (WritableCollectionProxyBuilder))]

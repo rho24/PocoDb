@@ -15,24 +15,24 @@ namespace PocoDb.Commits
             PocoMetaBuilder = pocoMetaBuilder;
         }
 
-        public ICommit Build(ITrackedChanges changes) {
+        public ICommit Build(ITrackedChanges trackedChanges) {
             var id = IdGenerator.New();
 
             var commit = new Commit(id);
 
-            foreach (var addObjectChange in changes.AddObjectChanges) {
+            foreach (var addObjectChange in trackedChanges.AddedPocos) {
                 RecordAddObject(addObjectChange.Poco, commit);
             }
 
-            foreach (var propertySetChange in changes.PropertySetChanges) {
+            foreach (var propertySetChange in trackedChanges.SetProperties) {
                 RecordPropertySet(propertySetChange, commit);
             }
 
-            foreach (var addToCollectionChange in changes.AddToCollectionChanges) {
+            foreach (var addToCollectionChange in trackedChanges.CollectionAdditions) {
                 RecordAddToCollection(addToCollectionChange, commit);
             }
 
-            foreach (var removeFromCollectionChange in changes.RemoveFromCollectionChanges) {
+            foreach (var removeFromCollectionChange in trackedChanges.CollectionRemovals) {
                 RecordRemoveFromCollection(removeFromCollectionChange, commit);
             }
 
@@ -41,45 +41,45 @@ namespace PocoDb.Commits
 
         IPocoId RecordAddObject(object poco, Commit commit) {
             var meta = PocoMetaBuilder.Build(poco);
-            commit.AddObjects.Add(new AddObject(meta));
+            commit.AddedPocos.Add(new AddedPoco(meta));
 
             return meta.Id;
         }
 
-        void RecordPropertySet(PropertySetChange propertySetChange, Commit commit) {
-            var pocoId = ResolveId(propertySetChange.Poco, commit);
+        void RecordPropertySet(TrackedSetProperty trackedSetProperty, Commit commit) {
+            var pocoId = ResolveId(trackedSetProperty.Poco, commit);
 
-            if (propertySetChange.Value.IsPocoType()) {
-                var valueId = ResolveId(propertySetChange.Value, commit);
-                commit.PropertySets.Add(new PropertySet(pocoId, propertySetChange.Property, valueId));
+            if (trackedSetProperty.Value.IsPocoType()) {
+                var valueId = ResolveId(trackedSetProperty.Value, commit);
+                commit.SetProperties.Add(new SetProperty(pocoId, trackedSetProperty.Property, valueId));
             }
             else
-                commit.PropertySets.Add(new PropertySet(pocoId, propertySetChange.Property, propertySetChange.Value));
+                commit.SetProperties.Add(new SetProperty(pocoId, trackedSetProperty.Property, trackedSetProperty.Value));
         }
 
-        void RecordAddToCollection(AddToCollectionChange addToCollectionChange, Commit commit) {
-            var collectionId = ResolveId(addToCollectionChange.Collection, commit);
+        void RecordAddToCollection(TrackedCollectionAddition trackedCollectionAddition, Commit commit) {
+            var collectionId = ResolveId(trackedCollectionAddition.Collection, commit);
 
-            if (addToCollectionChange.Value.IsPocoType()) {
-                var valueId = ResolveId(addToCollectionChange.Value, commit);
-                commit.AddToCollections.Add(new AddToCollection(collectionId, valueId));
+            if (trackedCollectionAddition.Value.IsPocoType()) {
+                var valueId = ResolveId(trackedCollectionAddition.Value, commit);
+                commit.CollectionAdditions.Add(new CollectionAddition(collectionId, valueId));
                 //TODO: Don't like value being used for IMetaId.
             }
             else
-                commit.AddToCollections.Add(new AddToCollection(collectionId,
-                                                                addToCollectionChange.Value));
+                commit.CollectionAdditions.Add(new CollectionAddition(collectionId,
+                                                                      trackedCollectionAddition.Value));
         }
 
-        void RecordRemoveFromCollection(RemoveFromCollectionChange removeFromCollectionChange, Commit commit) {
-            var collectionId = ResolveId(removeFromCollectionChange.Collection, commit);
+        void RecordRemoveFromCollection(TrackedCollectionRemoval trackedCollectionRemoval, Commit commit) {
+            var collectionId = ResolveId(trackedCollectionRemoval.Collection, commit);
 
-            if (removeFromCollectionChange.Value.IsPocoType()) {
-                var valueId = ResolveId(removeFromCollectionChange.Value, commit);
-                commit.RemoveFromCollections.Add(new RemoveFromCollection(collectionId, valueId));
+            if (trackedCollectionRemoval.Value.IsPocoType()) {
+                var valueId = ResolveId(trackedCollectionRemoval.Value, commit);
+                commit.CollectionRemovals.Add(new CollectionRemoval(collectionId, valueId));
                 //TODO: Don't like value being used for IMetaId.
             }
             else
-                commit.RemoveFromCollections.Add(new RemoveFromCollection(collectionId, removeFromCollectionChange.Value));
+                commit.CollectionRemovals.Add(new CollectionRemoval(collectionId, trackedCollectionRemoval.Value));
         }
 
         IPocoId ResolveId(object poco, Commit commit) {

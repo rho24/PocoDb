@@ -82,7 +82,7 @@ namespace PocoDb.Pocos
                 var currentValue = property.Get(poco);
 
                 if (newValue != currentValue)
-                    Session.Changes.TrackPropertySet(poco, property, newValue);
+                    Session.ChangeTracker.TrackPropertySet(poco, property, newValue);
             }
         }
     }

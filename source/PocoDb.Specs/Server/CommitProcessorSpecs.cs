@@ -12,7 +12,7 @@ namespace PocoDb.Specs.Server
         Establish c = () => {
             meta = fake.an<IPocoMeta>();
 
-            A.CallTo(() => commit.AddObjects).Returns(new[] {new AddObject(meta)});
+            A.CallTo(() => commit.AddedPocos).Returns(new[] {new AddedPoco(meta)});
         };
 
         Because of = () => sut.Apply(commit);
@@ -32,7 +32,7 @@ namespace PocoDb.Specs.Server
             A.CallTo(() => meta.Properties).Returns(metaProperties);
 
             A.CallTo(() => metaStore.Get(id)).Returns(meta);
-            A.CallTo(() => commit.PropertySets).Returns(new[] {new PropertySet(id, property, "value")});
+            A.CallTo(() => commit.SetProperties).Returns(new[] {new SetProperty(id, property, "value")});
         };
 
         Because of = () => sut.Apply(commit);
@@ -54,7 +54,7 @@ namespace PocoDb.Specs.Server
             metaCollection = new List<object>();
 
             A.CallTo(() => metaStore.Get(id)).Returns(meta);
-            A.CallTo(() => commit.AddToCollections).Returns(new[] {new AddToCollection(id, "value")});
+            A.CallTo(() => commit.CollectionAdditions).Returns(new[] {new CollectionAddition(id, "value")});
             A.CallTo(() => meta.Collection).Returns(metaCollection);
         };
 
@@ -76,7 +76,7 @@ namespace PocoDb.Specs.Server
             metaCollection = new List<object>() {"value"};
 
             A.CallTo(() => metaStore.Get(id)).Returns(meta);
-            A.CallTo(() => commit.RemoveFromCollections).Returns(new[] {new RemoveFromCollection(id, "value")});
+            A.CallTo(() => commit.CollectionRemovals).Returns(new[] {new CollectionRemoval(id, "value")});
             A.CallTo(() => meta.Collection).Returns(metaCollection);
         };
 

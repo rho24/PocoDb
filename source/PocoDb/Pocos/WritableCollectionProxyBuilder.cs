@@ -52,13 +52,13 @@ namespace PocoDb.Pocos
             public bool IsReadOnly { get { return false; } }
 
             public void Add(T item) {
-                Session.Changes.TrackAddToCollection(this, item);
+                Session.ChangeTracker.TrackAddToCollection(this, item);
                 InnerCollection.Add(item);
             }
 
             public void Clear() {
                 foreach (var value in InnerCollection) {
-                    Session.Changes.TrackRemoveFromCollection(this, value);
+                    Session.ChangeTracker.TrackRemoveFromCollection(this, value);
                 }
 
                 InnerCollection.Clear();
@@ -73,7 +73,7 @@ namespace PocoDb.Pocos
             }
 
             public bool Remove(T item) {
-                Session.Changes.TrackRemoveFromCollection(this, item);
+                Session.ChangeTracker.TrackRemoveFromCollection(this, item);
                 return InnerCollection.Remove(item);
             }
 

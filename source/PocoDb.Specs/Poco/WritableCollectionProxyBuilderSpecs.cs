@@ -49,7 +49,7 @@ namespace PocoDb.Specs.Poco
         It should_contain_the_value_twice = () => proxy.Contains("value").ShouldBeTrue();
 
         It should_track_the_new_value =
-            () => A.CallTo(() => trackedChanges.TrackAddToCollection(proxy, "value")).MustHaveHappened();
+            () => A.CallTo(() => changeTracker.TrackAddToCollection(proxy, "value")).MustHaveHappened();
     }
 
     public class when_a_writable_collection_proxy_with_a_value_has_the_same_value_added :
@@ -62,6 +62,6 @@ namespace PocoDb.Specs.Poco
         It should_contain_the_value_twice = () => proxy.Where(v => v == "value").Count().ShouldEqual(2);
 
         It should_track_the_new_value =
-            () => A.CallTo(() => trackedChanges.TrackAddToCollection(proxy, "value")).MustHaveHappened();
+            () => A.CallTo(() => changeTracker.TrackAddToCollection(proxy, "value")).MustHaveHappened();
     }
 }

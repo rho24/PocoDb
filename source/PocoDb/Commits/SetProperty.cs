@@ -1,16 +1,16 @@
 ﻿using System;
 using PocoDb.Meta;
 
-namespace PocoDb.ChangeTracking
+namespace PocoDb.Commits
 {
-    public class PropertySetChange
+    public class SetProperty
     {
-        public object Poco { get; private set; }
+        public IPocoId PocoId { get; private set; }
         public IProperty Property { get; private set; }
         public object Value { get; private set; }
 
-        public PropertySetChange(object poco, IProperty property, object value) {
-            Poco = poco;
+        public SetProperty(IPocoId pocoId, IProperty property, object value) {
+            PocoId = pocoId;
             Property = property;
             Value = value;
         }

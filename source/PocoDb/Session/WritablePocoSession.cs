@@ -17,7 +17,7 @@ namespace PocoDb.Session
         public ICommitBuilder CommitBuilder { get; set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
-        public ITrackedChanges Changes { get; private set; }
+        public IChangeTracker ChangeTracker { get; private set; }
 
 
         public WritablePocoSession(IPocoDbServer server, IPocoFactory pocoFactory, ICommitBuilder commitBuilder) {
@@ -27,13 +27,17 @@ namespace PocoDb.Session
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
-            Changes = new TrackedChanges();
+            ChangeTracker = new ChangeTracker();
         }
+
 
         //IPocoSession
         public IQueryable<T> Get<T>() {
             return new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(this)));
         }
+
+        //IWritablePocoSession
+        ITrackedChanges IWritablePocoSession.Changes { get { return ChangeTracker.Changes; } }
 
         //IWritablePocoSession
         public IQueryable<T> GetWritable<T>() {
@@ -47,7 +51,7 @@ namespace PocoDb.Session
 
         //IWritablePocoSession
         public void SaveChanges() {
-            var commit = CommitBuilder.Build(Changes);
+            var commit = CommitBuilder.Build(ChangeTracker.Changes);
 
             Server.Commit(commit);
         }

@@ -3,11 +3,11 @@ using PocoDb.Meta;
 
 namespace PocoDb.Commits
 {
-    public class AddObject
+    public class AddedPoco
     {
         public IPocoMeta Meta { get; private set; }
 
-        public AddObject(IPocoMeta meta) {
+        public AddedPoco(IPocoMeta meta) {
             Meta = meta;
         }
     }

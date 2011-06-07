@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
@@ -6,7 +6,7 @@ using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Pocos;
 
-namespace PocoDb.Specs
+namespace PocoDb.Specs.Session
 {
     public class when_querying_by_type : with_a_new_PocoSession
     {

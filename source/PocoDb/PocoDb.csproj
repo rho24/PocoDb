@@ -44,11 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangeTracking\AddObjectChange.cs" />
-    <Compile Include="ChangeTracking\AddToCollectionChange.cs" />
+    <Compile Include="ChangeTracking\ITrackedChange.cs" />
+    <Compile Include="ChangeTracking\TrackedAddedPoco.cs" />
+    <Compile Include="ChangeTracking\TrackedCollectionAddition.cs" />
+    <Compile Include="ChangeTracking\IChangeTracker.cs" />
     <Compile Include="ChangeTracking\ITrackedChanges.cs" />
-    <Compile Include="Commits\AddObject.cs" />
-    <Compile Include="Commits\AddToCollection.cs" />
+    <Compile Include="ChangeTracking\TrackedChanges.cs" />
+    <Compile Include="Commits\AddedPoco.cs" />
+    <Compile Include="Commits\CollectionAddition.cs" />
     <Compile Include="Commits\Commit.cs" />
     <Compile Include="Commits\CommitBuilder.cs" />
     <Compile Include="Commits\CommitId.cs" />
@@ -60,8 +63,8 @@
     <Compile Include="Commits\ICommitIdGenerator.cs" />
     <Compile Include="Commits\ICommitProcessor.cs" />
     <Compile Include="Commits\ICommitStore.cs" />
-    <Compile Include="Commits\PropertySet.cs" />
-    <Compile Include="Commits\RemoveFromCollection.cs" />
+    <Compile Include="Commits\SetProperty.cs" />
+    <Compile Include="Commits\CollectionRemoval.cs" />
     <Compile Include="Extensions\GenericHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -97,14 +100,15 @@
     <Compile Include="Pocos\WriteablePocoProxyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meta\Property.cs" />
-    <Compile Include="ChangeTracking\PropertySetChange.cs" />
-    <Compile Include="ChangeTracking\RemoveFromCollectionChange.cs" />
-    <Compile Include="ChangeTracking\TrackedChanges.cs" />
+    <Compile Include="ChangeTracking\TrackedSetProperty.cs" />
+    <Compile Include="ChangeTracking\TrackedCollectionRemoval.cs" />
+    <Compile Include="ChangeTracking\ChangeTracker.cs" />
     <Compile Include="Queries\PocoQuery.cs" />
     <Compile Include="Queries\PocoQueryResult.cs" />
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="Session\IInternalPocoSession.cs" />
+    <Compile Include="Session\IInternalWriteablePocoSession.cs" />
     <Compile Include="Session\PocoSession.cs" />
     <Compile Include="Session\WritablePocoSession.cs" />
   </ItemGroup>

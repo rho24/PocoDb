@@ -3,14 +3,14 @@ using PocoDb.Meta;
 
 namespace PocoDb.Commits
 {
-    public class AddToCollection
+    public class CollectionRemoval
     {
         public IPocoId CollectionId { get; private set; }
         public object Value { get; private set; }
 
-        public AddToCollection(IPocoId collectionId, object value) {
-            Value = value;
+        public CollectionRemoval(IPocoId collectionId, object value) {
             CollectionId = collectionId;
+            Value = value;
         }
     }
 }

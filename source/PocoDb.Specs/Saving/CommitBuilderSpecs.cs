@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
+using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Meta;
 
@@ -29,10 +30,10 @@ namespace PocoDb.Specs.Saving
         Establish c = () => {
             poco = new DummyObject();
 
-            trackedChanges.TrackAddedObject(poco);
+            A.CallTo(() => changes.AddedPocos).Returns(new[] {new TrackedAddedPoco(poco)}.ToArray());
         };
 
-        It should_contain_an_added_PocoMeta = () => commit.AddObjects.Count().ShouldEqual(1);
+        It should_contain_an_added_PocoMeta = () => commit.AddedPocos.Count().ShouldEqual(1);
         It should_create_a_PocoMeta = () => A.CallTo(() => pocoMetaBuilder.Build(poco)).MustHaveHappened();
 
         static DummyObject poco;
@@ -44,16 +45,17 @@ namespace PocoDb.Specs.Saving
             poco = new DummyObject();
             property = new Property<DummyObject, string>(o => o.FirstName);
 
-            trackedChanges.TrackPropertySet(poco, property, "Changed");
+            A.CallTo(() => changes.SetProperties).Returns(
+                new[] {new TrackedSetProperty(poco, property, "value")}.ToArray());
 
             pocoId = A.Fake<IPocoId>();
             A.CallTo(() => pocoMetaBuilder.Resolve(poco)).Returns(pocoId);
         };
 
-        It should_contain_a_set_property = () => commit.PropertySets.Count().ShouldEqual(1);
-        It should_reference_the_PocoId = () => commit.PropertySets.First().PocoId.ShouldEqual(pocoId);
-        It should_reference_the_Property = () => commit.PropertySets.First().Property.ShouldEqual(property);
-        It should_reference_the_value = () => commit.PropertySets.First().Value.ShouldEqual("Changed");
+        It should_contain_a_set_property = () => commit.SetProperties.Count().ShouldEqual(1);
+        It should_reference_the_PocoId = () => commit.SetProperties.First().PocoId.ShouldEqual(pocoId);
+        It should_reference_the_Property = () => commit.SetProperties.First().Property.ShouldEqual(property);
+        It should_reference_the_value = () => commit.SetProperties.First().Value.ShouldEqual("value");
         It should_resolve_the_PocoMeta = () => A.CallTo(() => pocoMetaBuilder.Resolve(poco)).MustHaveHappened();
 
         static DummyObject poco;
@@ -65,23 +67,22 @@ namespace PocoDb.Specs.Saving
     {
         Establish c = () => {
             collection = new List<string>();
-            value = "value";
 
-            trackedChanges.TrackAddToCollection(collection, value);
+            A.CallTo(() => changes.CollectionAdditions).Returns(
+                new[] {new TrackedCollectionAddition(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
             A.CallTo(() => pocoMetaBuilder.Resolve(collection)).Returns(collectionId);
         };
 
-        It should_contain_an_AddToCollection = () => commit.AddToCollections.Count().ShouldEqual(1);
+        It should_contain_an_AddToCollection = () => commit.CollectionAdditions.Count().ShouldEqual(1);
 
         It should_reference_the_collection =
-            () => commit.AddToCollections.First().CollectionId.ShouldEqual(collectionId);
+            () => commit.CollectionAdditions.First().CollectionId.ShouldEqual(collectionId);
 
-        It should_reference_the_value = () => commit.AddToCollections.First().Value.ShouldEqual(value);
+        It should_reference_the_value = () => commit.CollectionAdditions.First().Value.ShouldEqual("value");
 
         static ICollection collection;
-        static string value;
         static IPocoId collectionId;
     }
 
@@ -89,23 +90,22 @@ namespace PocoDb.Specs.Saving
     {
         Establish c = () => {
             collection = new List<string>();
-            value = "value";
 
-            trackedChanges.TrackRemoveFromCollection(collection, value);
+            A.CallTo(() => changes.CollectionRemovals).Returns(
+                new[] {new TrackedCollectionRemoval(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
             A.CallTo(() => pocoMetaBuilder.Resolve(collection)).Returns(collectionId);
         };
 
-        It should_contain_a_RemovedFromCollection = () => commit.RemoveFromCollections.Count().ShouldEqual(1);
+        It should_contain_a_RemovedFromCollection = () => commit.CollectionRemovals.Count().ShouldEqual(1);
 
         It should_reference_the_collection =
-            () => commit.RemoveFromCollections.First().CollectionId.ShouldEqual(collectionId);
+            () => commit.CollectionRemovals.First().CollectionId.ShouldEqual(collectionId);
 
-        It should_reference_the_value = () => commit.RemoveFromCollections.First().Value.ShouldEqual(value);
+        It should_reference_the_value = () => commit.CollectionRemovals.First().Value.ShouldEqual("value");
 
         static ICollection collection;
-        static string value;
         static IPocoId collectionId;
     }
 }

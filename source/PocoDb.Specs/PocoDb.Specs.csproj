@@ -74,8 +74,6 @@
     <Compile Include="Poco\ReadOnlyCollectionProxyBuilderSpecs.cs" />
     <Compile Include="Poco\ReadOnlyPocoProxyBuilderContexts.cs" />
     <Compile Include="Poco\ReadOnlyPocoProxyBuilderSpecs.cs" />
-    <Compile Include="PocoSessionContexts.cs" />
-    <Compile Include="PocoSessionSpecs.cs" />
     <Compile Include="Poco\WritableCollectionProxyBuilderContexts.cs" />
     <Compile Include="Poco\WritableCollectionProxyBuilderSpecs.cs" />
     <Compile Include="Poco\WriteablePocoProxyBuilderContexts.cs" />
@@ -86,8 +84,10 @@
     <Compile Include="Server\CommitProcessorSpecs.cs" />
     <Compile Include="Server\PocoDbServerContexts.cs" />
     <Compile Include="Server\PocoDbServerSpecs.cs" />
-    <Compile Include="WritablePocoSessionContexts.cs" />
-    <Compile Include="WritablePocoSessionSpecs.cs" />
+    <Compile Include="Session\PocoSessionContexts.cs" />
+    <Compile Include="Session\PocoSessionSpecs.cs" />
+    <Compile Include="Session\WritablePocoSessionContexts.cs" />
+    <Compile Include="Session\WritablePocoSessionSpecs.cs" />
     <Compile Include="Saving\CommitBuilderContexts.cs" />
     <Compile Include="Saving\CommitBuilderSpecs.cs" />
     <Compile Include="Saving\TrackedChangesContexts.cs" />

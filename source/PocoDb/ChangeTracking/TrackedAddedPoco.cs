@@ -2,11 +2,11 @@
 
 namespace PocoDb.ChangeTracking
 {
-    public class AddObjectChange
+    public class TrackedAddedPoco : ITrackedChange
     {
         public object Poco { get; private set; }
 
-        public AddObjectChange(object poco) {
+        public TrackedAddedPoco(object poco) {
             Poco = poco;
         }
     }

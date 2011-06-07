@@ -2,12 +2,12 @@
 
 namespace PocoDb.ChangeTracking
 {
-    public class RemoveFromCollectionChange
+    public class TrackedCollectionAddition : ITrackedChange
     {
         public object Collection { get; private set; }
         public object Value { get; private set; }
 
-        public RemoveFromCollectionChange(object collection, object value) {
+        public TrackedCollectionAddition(object collection, object value) {
             Collection = collection;
             Value = value;
         }

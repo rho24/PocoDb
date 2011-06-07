@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Machine.Specifications;
 using PocoDb.Session;
 
@@ -19,6 +20,8 @@ namespace PocoDb.Specs
 
         It should_return_a_PocoSession = () => session.ShouldBeOfType<WritablePocoSession>();
 
-        static IPocoSession session;
+        It should_have_no_changes = () => session.Changes.AllChanges.Count().ShouldEqual(0);
+
+        static IWritablePocoSession session;
     }
 }
