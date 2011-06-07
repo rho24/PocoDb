@@ -2,7 +2,7 @@
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Commits;
-using PocoDb.Meta;
+using PocoDb.Persistence;
 
 namespace PocoDb.Specs.Server
 {

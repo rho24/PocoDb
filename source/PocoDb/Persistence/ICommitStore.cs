@@ -1,6 +1,7 @@
 ﻿using System;
+using PocoDb.Commits;
 
-namespace PocoDb.Commits
+namespace PocoDb.Persistence
 {
     public interface ICommitStore
     {

@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Commits;
+using PocoDb.Persistence;
 
 namespace PocoDb.Specs.Server
 {

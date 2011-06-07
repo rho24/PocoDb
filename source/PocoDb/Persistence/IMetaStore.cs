@@ -1,6 +1,7 @@
 ﻿using System;
+using PocoDb.Meta;
 
-namespace PocoDb.Meta
+namespace PocoDb.Persistence
 {
     public interface IMetaStore
     {

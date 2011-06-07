@@ -1,5 +1,5 @@
 ﻿using System;
-using PocoDb.Meta;
+using PocoDb.Persistence;
 
 namespace PocoDb.Commits
 {

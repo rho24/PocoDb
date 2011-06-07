@@ -62,7 +62,6 @@
     <Compile Include="Commits\ICommitId.cs" />
     <Compile Include="Commits\ICommitIdGenerator.cs" />
     <Compile Include="Commits\ICommitProcessor.cs" />
-    <Compile Include="Commits\ICommitStore.cs" />
     <Compile Include="Commits\SetProperty.cs" />
     <Compile Include="Commits\CollectionRemoval.cs" />
     <Compile Include="Extensions\GenericHelper.cs" />
@@ -76,13 +75,14 @@
     <Compile Include="Linq\PocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryProvider.cs" />
     <Compile Include="Linq\PocoQueryable.cs" />
-    <Compile Include="Meta\IMetaStore.cs" />
     <Compile Include="Meta\IPocoId.cs" />
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="Meta\IPocoMeta.cs" />
     <Compile Include="Meta\PocoIdBuilder.cs" />
     <Compile Include="Meta\PocoMetaBuilder.cs" />
+    <Compile Include="Persistence\ICommitStore.cs" />
+    <Compile Include="Persistence\IMetaStore.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
     <Compile Include="Pocos\PocoProxyPropertyGetterInterceptor.cs" />
