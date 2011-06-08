@@ -7,23 +7,25 @@ namespace PocoDb.Server
 {
     public class PocoDbServer : IPocoDbServer
     {
-        public ICommitIdGenerator IdGenerator { get; private set; }
-        protected ICommitStore CommitStore { get; private set; }
-        protected ICommitProcessor CommitProcessor { get; private set; }
+        protected IQueryProcessor QueryProcessor { get; private set; }
+        public ICommitProcessor CommitProcessor { get; private set; }
 
-        public PocoDbServer(ICommitIdGenerator idGenerator, ICommitStore commitStore, ICommitProcessor commitProcessor) {
-            IdGenerator = idGenerator;
+        public IMetaStore MetaStore { get; private set; }
+        public ICommitStore CommitStore { get; private set; }
+
+        public PocoDbServer(IMetaStore metaStore, ICommitStore commitStore, IQueryProcessor queryProcessor,
+                            ICommitProcessor commitProcessor) {
+            MetaStore = metaStore;
             CommitStore = commitStore;
+            QueryProcessor = queryProcessor;
             CommitProcessor = commitProcessor;
         }
 
-        public PocoQueryResult Query(PocoQuery query) {
-            throw new NotImplementedException();
+        public IPocoQueryResult Query(IPocoQuery query) {
+            return QueryProcessor.Process(query);
         }
 
         public void Commit(ICommit commit) {
-            var id = IdGenerator.New();
-
             CommitStore.Save(commit);
 
             CommitProcessor.Apply(commit);

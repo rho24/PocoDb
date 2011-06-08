@@ -1,8 +1,10 @@
 using System;
 using PocoDb.Commits;
+using PocoDb.Indexing;
 using PocoDb.Meta;
 using PocoDb.Persistence;
 using PocoDb.Pocos;
+using PocoDb.Queries;
 using PocoDb.Server;
 using PocoDb.Session;
 
@@ -13,8 +15,13 @@ namespace PocoDb
         IPocoDbServer Server { get; set; }
 
         public PocoDbClient() {
-            Server = new PocoDbServer(new CommitIdGenerator(), new InMemoryCommitStore(),
-                                      new CommitProcessor(new InMemoryMetaStore()));
+            var queryProcessor = new QueryProcessor(new IndexManager());
+            var commitProcessor = new CommitProcessor();
+            Server = new PocoDbServer(new InMemoryMetaStore(), new InMemoryCommitStore(), queryProcessor,
+                                      commitProcessor);
+
+            queryProcessor.Initialise(Server);
+            commitProcessor.Initialise(Server);
         }
 
         public IPocoSession BeginSession() {

@@ -34,7 +34,7 @@ namespace PocoDb.Linq
             return result.Ids.Select(id => (T) Session.GetPoco(id));
         }
 
-        PocoQueryResult GetQueryResult(Expression expression) {
+        IPocoQueryResult GetQueryResult(Expression expression) {
             var result = Session.Server.Query(new PocoQuery(expression));
 
             foreach (var meta in result.Metas) {

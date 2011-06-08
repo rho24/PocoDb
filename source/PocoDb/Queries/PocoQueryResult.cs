@@ -4,10 +4,10 @@ using PocoDb.Meta;
 
 namespace PocoDb.Queries
 {
-    public class PocoQueryResult
+    public class PocoQueryResult : IPocoQueryResult
     {
-        public IEnumerable<IPocoMeta> Metas { get; private set; }
-        public IEnumerable<IPocoId> Ids { get; private set; }
+        public IEnumerable<IPocoMeta> Metas { get; set; }
+        public IEnumerable<IPocoId> Ids { get; set; }
 
         public PocoQueryResult() {
             Metas = new List<IPocoMeta>();

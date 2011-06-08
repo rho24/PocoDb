@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace PocoDb.Queries
 {
-    public class PocoQuery
+    public class PocoQuery : IPocoQuery
     {
         public Expression Expression { get; private set; }
 
