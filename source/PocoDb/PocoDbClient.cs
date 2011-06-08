@@ -15,11 +15,16 @@ namespace PocoDb
         IPocoDbServer Server { get; set; }
 
         public PocoDbClient() {
-            var queryProcessor = new QueryProcessor();
+            var partialQueryReplacer = new QueryableToEnumerableConverter();
+            var queryProcessor = new QueryProcessor(partialQueryReplacer);
             var commitProcessor = new CommitProcessor();
             var indexManager = new IndexManager();
+            var pocoProxyBuilder = new ReadOnlyPocoProxyBuilder();
+            var collectionProxyBuilder = new ReadOnlyCollectionProxyBuilder();
+            var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
+
             Server = new PocoDbServer(new InMemoryMetaStore(), new InMemoryCommitStore(), queryProcessor,
-                                      commitProcessor, indexManager);
+                                      commitProcessor, indexManager, pocoFactory);
 
             queryProcessor.Initialise(Server);
             commitProcessor.Initialise(Server);
@@ -33,7 +38,6 @@ namespace PocoDb
 
             pocoProxyBuilder.Initialise(session);
             collectionProxyBuilder.Initialise(session);
-            pocoFactory.Initialise(session);
 
             return session;
         }
@@ -50,9 +54,6 @@ namespace PocoDb
 
             pocoProxyBuilder.Initialise(session);
             collectionProxyBuilder.Initialise(session);
-            pocoFactory.Initialise(session);
-            pocoMetaBuilder.Initialise(session);
-            commitBuilder.Initialise(session);
 
             return session;
         }

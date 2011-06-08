@@ -27,13 +27,16 @@ namespace PocoDb.Specs.Session
             id = fake.an<IPocoId>();
             meta = fake.an<IPocoMeta>();
 
-            sut_setup.run(sut => sut.Metas.Add(id, meta));
+            sut_setup.run(sut => sut.IdsMetasAndProxies.Metas.Add(id, meta));
         };
 
         Because of = () => sut.GetPoco(id);
 
-        It should_call_BuildPoco = () => A.CallTo(() => pocoFactory.Build(A<IPocoMeta>.Ignored)).MustHaveHappened();
-        It should_call_Use_the_relevant_meta = () => A.CallTo(() => pocoFactory.Build(meta)).MustHaveHappened();
+        It should_call_BuildPoco =
+            () => A.CallTo(() => pocoFactory.Build(A<IPocoMeta>.Ignored, sut.IdsMetasAndProxies)).MustHaveHappened();
+
+        It should_call_Use_the_relevant_meta =
+            () => A.CallTo(() => pocoFactory.Build(meta, sut.IdsMetasAndProxies)).MustHaveHappened();
 
         static IPocoFactory pocoFactory;
         static IPocoId id;

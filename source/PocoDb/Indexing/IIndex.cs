@@ -7,8 +7,9 @@ namespace PocoDb.Indexing
 {
     public interface IIndex
     {
-        IEnumerable<IPocoId> GetIds();
+        Expression IndexExpression { get; }
 
+        IEnumerable<IPocoId> GetIds();
         IndexMatch GetMatch(Expression expression);
         void NotifyMetaChange(IPocoMeta meta);
     }

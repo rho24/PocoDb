@@ -4,7 +4,7 @@ using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Meta;
-using PocoDb.Session;
+using PocoDb.Pocos;
 
 namespace PocoDb.Specs.Saving
 {
@@ -13,16 +13,14 @@ namespace PocoDb.Specs.Saving
     {
         Establish c = () => {
             pocoMetaBuilder = depends.on<IPocoMetaBuilder>();
-            session = fake.an<IInternalWritablePocoSession>();
-            sut_setup.run(sut => sut.Initialise(session));
-
+            idsMetasAndProxies = new IdsMetasAndProxies();
             changes = fake.an<ITrackedChanges>();
         };
 
-        Because of = () => commit = sut.Build(changes);
+        Because of = () => commit = sut.Build(changes, idsMetasAndProxies);
 
         protected static IPocoMetaBuilder pocoMetaBuilder;
-        protected static IInternalWritablePocoSession session;
+        protected static IIdsMetasAndProxies idsMetasAndProxies;
         protected static ITrackedChanges changes;
         protected static ICommit commit;
     }

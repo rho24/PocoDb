@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using PocoDb.Linq;
 using PocoDb.Meta;
@@ -12,17 +11,14 @@ namespace PocoDb.Session
     {
         public IPocoDbServer Server { get; private set; }
         public IPocoFactory PocoFactory { get; private set; }
-        public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
-        public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
-        public IDictionary<object, IPocoId> TrackedIds { get; private set; }
+        public IIdsMetasAndProxies IdsMetasAndProxies { get; private set; }
+
 
         public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory) {
             Server = server;
             PocoFactory = pocoFactory;
 
-            Metas = new Dictionary<IPocoId, IPocoMeta>();
-            TrackedPocos = new Dictionary<IPocoId, object>();
-            TrackedIds = new Dictionary<object, IPocoId>();
+            IdsMetasAndProxies = new IdsMetasAndProxies();
         }
 
         //IPocoSession
@@ -32,16 +28,16 @@ namespace PocoDb.Session
 
         //IInternalPocoSession
         public object GetPoco(IPocoId id) {
-            if (Metas.ContainsKey(id))
-                return PocoFactory.Build(Metas[id]);
+            if (IdsMetasAndProxies.Metas.ContainsKey(id))
+                return PocoFactory.Build(IdsMetasAndProxies.Metas[id], IdsMetasAndProxies);
             else {
                 var meta = Server.GetMeta(id);
 
                 if (meta == null)
                     throw new ArgumentException("id is not recognised");
 
-                Metas.Add(meta.Id, meta);
-                return PocoFactory.Build(meta);
+                IdsMetasAndProxies.Metas.Add(meta.Id, meta);
+                return PocoFactory.Build(meta, IdsMetasAndProxies);
             }
         }
 

@@ -1,49 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using PocoDb.Extensions;
-using PocoDb.Session;
+using PocoDb.Pocos;
 
 namespace PocoDb.Meta
 {
     public class PocoMetaBuilder : IPocoMetaBuilder
     {
-        public IInternalWritablePocoSession Session { get; private set; }
         public IPocoIdBuilder IdBuilder { get; private set; }
 
         public PocoMetaBuilder(IPocoIdBuilder idBuilder) {
             IdBuilder = idBuilder;
         }
 
-        public void Initialise(IInternalWritablePocoSession session) {
-            Session = session;
-        }
-
-        public IEnumerable<IPocoMeta> Build(object poco) {
+        public IEnumerable<IPocoMeta> Build(object poco, IIdsMetasAndProxies idsMetasAndProxies) {
             if (poco.ImplementsCollectionType())
                 return
                     (IEnumerable<IPocoMeta>)
-                    GenericHelper.InvokeGeneric(() => BuildCollectionMeta<object>(poco), poco.GetCollectionInnerType());
+                    GenericHelper.InvokeGeneric(() => BuildCollectionMeta<object>(poco, idsMetasAndProxies),
+                                                poco.GetCollectionInnerType());
 
-            return BuildPocoMeta(poco);
+            return BuildPocoMeta(poco, idsMetasAndProxies);
         }
 
-        IEnumerable<IPocoMeta> BuildPocoMeta(object poco) {
+        IEnumerable<IPocoMeta> BuildPocoMeta(object poco, IIdsMetasAndProxies idsMetasAndProxies) {
             var newMetas = new List<IPocoMeta>();
 
             var id = IdBuilder.New();
             var meta = new PocoMeta(id, poco.GetType());
 
             newMetas.Add(meta);
-            Session.TrackedIds.Add(poco, id);
+            idsMetasAndProxies.Ids.Add(poco, id);
 
             foreach (var property in meta.Type.PublicVirtualProperties()) {
                 var value = property.Get(poco);
 
                 if (value.IsPocoType()) {
-                    if (!Session.TrackedIds.ContainsKey(value))
-                        newMetas.AddRange(Build(value));
+                    if (!idsMetasAndProxies.Ids.ContainsKey(value))
+                        newMetas.AddRange(Build(value, idsMetasAndProxies));
 
-                    var childId = Session.TrackedIds[value];
+                    var childId = idsMetasAndProxies.Ids[value];
                     meta.Properties.Add(property, childId);
                 }
                 else
@@ -53,7 +49,7 @@ namespace PocoDb.Meta
             return newMetas;
         }
 
-        IEnumerable<IPocoMeta> BuildCollectionMeta<T>(object poco) {
+        IEnumerable<IPocoMeta> BuildCollectionMeta<T>(object poco, IIdsMetasAndProxies idsMetasAndProxies) {
             var collection = poco as ICollection<T>;
             if (collection == null)
                 throw new ArgumentException("poco doesn't implement ICollection<>");
@@ -64,14 +60,14 @@ namespace PocoDb.Meta
             var meta = new PocoMeta(id, typeof (ICollection<T>));
 
             newMetas.Add(meta);
-            Session.TrackedIds.Add(collection, id);
+            idsMetasAndProxies.Ids.Add(collection, id);
 
             foreach (var value in collection) {
                 if (value.IsPocoType()) {
-                    if (!Session.TrackedIds.ContainsKey(value))
-                        newMetas.AddRange(Build(value));
+                    if (!idsMetasAndProxies.Ids.ContainsKey(value))
+                        newMetas.AddRange(Build(value, idsMetasAndProxies));
 
-                    var childId = Session.TrackedIds[value];
+                    var childId = idsMetasAndProxies.Ids[value];
                     meta.Collection.Add(childId);
                 }
                 else
@@ -79,21 +75,6 @@ namespace PocoDb.Meta
             }
 
             return newMetas;
-        }
-    }
-
-    public class PocoMeta : IPocoMeta
-    {
-        public IPocoId Id { get; private set; }
-        public IDictionary<IProperty, object> Properties { get; private set; }
-        public ICollection<object> Collection { get; private set; }
-        public Type Type { get; private set; }
-
-        public PocoMeta(IPocoId id, Type type) {
-            Id = id;
-            Type = type;
-            Properties = new Dictionary<IProperty, object>();
-            Collection = new List<object>();
         }
     }
 }

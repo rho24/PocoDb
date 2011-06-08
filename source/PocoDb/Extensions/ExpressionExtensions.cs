@@ -74,6 +74,9 @@ namespace PocoDb.Extensions
 
 
         public static Type GetQueryPocoType(this Expression query) {
+            if (!query.IsQueryBase())
+                return GetQueryPocoType(query.GetInnerQuery());
+
             return query.Type.GetGenericArguments()[0];
         }
     }

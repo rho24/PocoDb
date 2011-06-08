@@ -12,13 +12,13 @@ namespace PocoDb.Linq
         public Type ElementType { get; private set; }
         public Expression Expression { get; private set; }
 
-        public PocoQueryable(PocoQueryProvider provider) {
+        public PocoQueryable(IQueryProvider provider) {
             Provider = provider;
             ElementType = typeof (T);
             Expression = Expression.Constant(this);
         }
 
-        public PocoQueryable(PocoQueryProvider provider, Expression expression) {
+        public PocoQueryable(IQueryProvider provider, Expression expression) {
             Provider = provider;
             ElementType = typeof (T);
             Expression = expression;

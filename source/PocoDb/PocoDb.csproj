@@ -90,11 +90,13 @@
     <Compile Include="Meta\IPocoMeta.cs" />
     <Compile Include="Meta\PocoId.cs" />
     <Compile Include="Meta\PocoIdBuilder.cs" />
+    <Compile Include="Meta\PocoMeta.cs" />
     <Compile Include="Meta\PocoMetaBuilder.cs" />
     <Compile Include="Persistence\ICommitStore.cs" />
     <Compile Include="Persistence\IMetaStore.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
+    <Compile Include="Pocos\IIdsMetasAndProxies.cs" />
     <Compile Include="Pocos\PocoProxyPropertyGetterInterceptor.cs" />
     <Compile Include="Pocos\PropertyHook.cs" />
     <Compile Include="Pocos\ReadOnlyCollectionProxyBuilder.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="ChangeTracking\ChangeTracker.cs" />
     <Compile Include="Queries\IQueryResult.cs" />
     <Compile Include="Queries\IQueryProcessor.cs" />
+    <Compile Include="Queries\QueryableToEnumerableConverter.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\EnumerablePocoQueryResult.cs" />
     <Compile Include="Queries\QueryProcessor.cs" />

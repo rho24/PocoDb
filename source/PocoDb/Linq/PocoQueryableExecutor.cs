@@ -34,7 +34,7 @@ namespace PocoDb.Linq
             var result = Session.Server.Query(new Query(expression));
 
             foreach (var meta in result.Metas) {
-                Session.Metas.Add(meta.Id, meta);
+                Session.IdsMetasAndProxies.Metas.Add(meta.Id, meta);
             }
             return result;
         }

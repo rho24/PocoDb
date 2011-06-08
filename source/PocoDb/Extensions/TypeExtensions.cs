@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using PocoDb.Meta;
 
@@ -59,6 +60,31 @@ namespace PocoDb.Extensions
             return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p => p.CanRead && p.CanWrite && p.GetGetMethod().IsVirtual && p.GetIndexParameters().Count() == 0)
                 .Select(p => Property.Create(p));
+        }
+
+        public static Type ConvertToEnumerable(this Type type) {
+            if (type == typeof (IQueryable<>))
+                return typeof (IEnumerable<>);
+
+            if (type.IsGenericType) {
+                var genericArguements = type.GetGenericArguments().Select(a => ConvertToEnumerable(a)).ToArray();
+
+                if (type.GetGenericTypeDefinition() == typeof (IQueryable<>))
+                    return typeof (IEnumerable<>).MakeGenericType(genericArguements);
+
+                return type.GetGenericTypeDefinition().MakeGenericType(genericArguements);
+            }
+
+            return type;
+        }
+
+        public static Type StripExpressionFromFunc(this Type type) {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Expression<>)) {
+                var genericArgument = type.GetGenericArguments()[0];
+                if (genericArgument.Name.StartsWith("Func`"))
+                    return genericArgument;
+            }
+            return type;
         }
     }
 }

@@ -32,11 +32,13 @@ namespace PocoDb.Specs.Saving
 
             A.CallTo(() => changes.AddedPocos).Returns(new[] {new TrackedAddedPoco(poco)}.ToArray());
 
-            A.CallTo(() => pocoMetaBuilder.Build(poco)).Returns(new[] {fake.an<IPocoMeta>()});
+            A.CallTo(() => pocoMetaBuilder.Build(poco, idsMetasAndProxies)).Returns(new[] {fake.an<IPocoMeta>()});
         };
 
         It should_contain_an_added_PocoMeta = () => commit.AddedPocos.Count().ShouldEqual(1);
-        It should_create_a_PocoMeta = () => A.CallTo(() => pocoMetaBuilder.Build(poco)).MustHaveHappened();
+
+        It should_create_a_PocoMeta =
+            () => A.CallTo(() => pocoMetaBuilder.Build(poco, idsMetasAndProxies)).MustHaveHappened();
 
         static DummyObject poco;
     }
@@ -51,7 +53,7 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedSetProperty(poco, property, "value")}.ToArray());
 
             pocoId = A.Fake<IPocoId>();
-            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{poco, pocoId}});
+            idsMetasAndProxies.Ids.Add(poco, pocoId);
         };
 
         It should_contain_a_set_property = () => commit.SetProperties.Count().ShouldEqual(1);
@@ -73,7 +75,7 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedCollectionAddition(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
-            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{collection, collectionId}});
+            idsMetasAndProxies.Ids.Add(collection, collectionId);
         };
 
         It should_contain_an_AddToCollection = () => commit.CollectionAdditions.Count().ShouldEqual(1);
@@ -96,7 +98,7 @@ namespace PocoDb.Specs.Saving
                 new[] {new TrackedCollectionRemoval(collection, "value")}.ToArray());
 
             collectionId = A.Fake<IPocoId>();
-            A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{collection, collectionId}});
+            idsMetasAndProxies.Ids.Add(collection, collectionId);
         };
 
         It should_contain_a_RemovedFromCollection = () => commit.CollectionRemovals.Count().ShouldEqual(1);

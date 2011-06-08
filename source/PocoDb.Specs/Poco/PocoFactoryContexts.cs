@@ -11,14 +11,15 @@ namespace PocoDb.Specs.Poco
     {
         Establish c = () => {
             session = fake.an<IInternalPocoSession>();
-            sut_setup.run(sut => sut.Initialise(session));
 
             proxyBuilder = depends.on<IPocoProxyBuilder>();
             collectionProxyBuilder = depends.on<ICollectionProxyBuilder>();
+            idsMetasAndProxies = new IdsMetasAndProxies();
         };
 
         protected static IInternalPocoSession session;
         protected static IPocoProxyBuilder proxyBuilder;
         protected static ICollectionProxyBuilder collectionProxyBuilder;
+        protected static IIdsMetasAndProxies idsMetasAndProxies;
     }
 }

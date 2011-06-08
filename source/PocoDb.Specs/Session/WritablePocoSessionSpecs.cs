@@ -4,6 +4,7 @@ using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Commits;
+using PocoDb.Pocos;
 
 namespace PocoDb.Specs.Session
 {
@@ -25,15 +26,18 @@ namespace PocoDb.Specs.Session
             commitBuilder = depends.on<ICommitBuilder>();
             commit = fake.an<ICommit>();
 
-            A.CallTo(() => commitBuilder.Build(A<ITrackedChanges>.Ignored)).Returns(commit);
+            A.CallTo(() => commitBuilder.Build(A<ITrackedChanges>.Ignored, A<IIdsMetasAndProxies>.Ignored)).Returns(
+                commit);
         };
 
         Because of = () => sut.SaveChanges();
 
         It should_create_commit =
-            () => A.CallTo(() => commitBuilder.Build(A<ITrackedChanges>.Ignored)).MustHaveHappened();
+            () =>
+            A.CallTo(() => commitBuilder.Build(A<ITrackedChanges>.Ignored, A<IIdsMetasAndProxies>.Ignored)).
+                MustHaveHappened();
 
-        It should_send_commit_to_server = () => A.CallTo(() => pocoDbServer.Commit(commit)).MustHaveHappened();
+        It should_send_commit_to_server = () => A.CallTo(() => server.Commit(commit)).MustHaveHappened();
 
         static ICommitBuilder commitBuilder;
         static ICommit commit;

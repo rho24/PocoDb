@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using PocoDb.Extensions;
+using PocoDb.Linq;
 using PocoDb.Meta;
 
 namespace PocoDb.Indexing
 {
     public class TypeIndex<T> : IIndex
     {
+        public Expression IndexExpression { get; private set; }
         public List<IPocoId> Ids { get; private set; }
 
         public TypeIndex() {
+            IndexExpression = Expression.Constant(new PocoQueryable<T>(null));
             Ids = new List<IPocoId>();
         }
 

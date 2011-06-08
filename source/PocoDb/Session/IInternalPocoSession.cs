@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using PocoDb.Meta;
+using PocoDb.Pocos;
 using PocoDb.Server;
 
 namespace PocoDb.Session
@@ -8,9 +8,7 @@ namespace PocoDb.Session
     public interface IInternalPocoSession
     {
         IPocoDbServer Server { get; }
-        IDictionary<IPocoId, IPocoMeta> Metas { get; }
-        IDictionary<IPocoId, object> TrackedPocos { get; }
-        IDictionary<object, IPocoId> TrackedIds { get; }
+        IIdsMetasAndProxies IdsMetasAndProxies { get; }
         object GetPoco(IPocoId id);
     }
 }

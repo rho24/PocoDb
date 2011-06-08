@@ -30,9 +30,6 @@ namespace PocoDb.Indexing
                 }
             }
 
-            if (currentMatch == null)
-                throw new NoIndexFoundException(expression.GetQueryPocoType());
-
             return currentMatch;
         }
 

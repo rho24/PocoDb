@@ -2,7 +2,7 @@ using System;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Meta;
-using PocoDb.Session;
+using PocoDb.Pocos;
 
 namespace PocoDb.Specs.Meta
 {
@@ -11,12 +11,10 @@ namespace PocoDb.Specs.Meta
     {
         Establish c = () => {
             pocoIdBuilder = depends.on<IPocoIdBuilder>();
-            session = fake.an<IInternalWritablePocoSession>();
-
-            sut_setup.run(sut => sut.Initialise(session));
+            idsMetasAndProxies = new IdsMetasAndProxies();
         };
 
         protected static IPocoIdBuilder pocoIdBuilder;
-        protected static IInternalWritablePocoSession session;
+        protected static IIdsMetasAndProxies idsMetasAndProxies;
     }
 }

@@ -3,6 +3,7 @@ using PocoDb.Commits;
 using PocoDb.Indexing;
 using PocoDb.Meta;
 using PocoDb.Persistence;
+using PocoDb.Pocos;
 using PocoDb.Queries;
 
 namespace PocoDb.Server
@@ -12,6 +13,7 @@ namespace PocoDb.Server
         IMetaStore MetaStore { get; }
         ICommitStore CommitStore { get; }
         IIndexManager IndexManager { get; }
+        IPocoFactory PocoFactory { get; }
 
         IQueryResult Query(IQuery query);
         void Commit(ICommit commit);
