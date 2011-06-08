@@ -8,6 +8,6 @@ namespace PocoDb.Specs.Indexing
     [Subject(typeof (IndexManager))]
     public class with_a_new_IndexManager : Observes<IndexManager>
     {
-        Establish c = () => { sut_setup.run(sut => sut.TypeIndexes.Add(typeof (DummyObject), new TypeIndex())); };
+        Establish c = () => { sut_setup.run(sut => sut.Indexes.Add(new TypeIndex<DummyObject>())); };
     }
 }

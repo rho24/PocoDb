@@ -14,7 +14,7 @@ namespace PocoDb.Specs.Indexing
 
         Because of = () => index = sut.RetrieveIndex(expression);
 
-        It should_return_a_TypeIndex = () => index.ShouldBeOfType<TypeIndex>();
+        It should_return_a_TypeIndex = () => index.ShouldBeOfType<TypeIndex<DummyObject>>();
 
         static Expression expression;
         static IIndex index;

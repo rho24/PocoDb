@@ -64,6 +64,7 @@
     <Compile Include="Commits\ICommitProcessor.cs" />
     <Compile Include="Commits\SetProperty.cs" />
     <Compile Include="Commits\CollectionRemoval.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
