@@ -14,7 +14,7 @@ namespace PocoDb.Specs.Queries
     public class when_a_queried_for_IEnumerable : with_a_new_QueryProcessor
     {
         Establish c = () => {
-            query = fake.an<IPocoQuery>();
+            query = fake.an<IQuery>();
             expression = Expression.Constant(new PocoQueryable<DummyObject>(null));
 
             A.CallTo(() => query.Expression).Returns(expression);
@@ -33,21 +33,22 @@ namespace PocoDb.Specs.Queries
         It should_retrieve_the_index = () => A.CallTo(() => indexManager.RetrieveIndex(expression)).MustHaveHappened();
         It should_get_ids_from_index = () => A.CallTo(() => index.GetIds()).MustHaveHappened();
         It should_retrieve_metas_from_MetaStore = () => A.CallTo(() => metaStore.Get(ids)).MustHaveHappened();
-        It should_return_the_ids = () => result.Ids.ShouldEqual(ids);
         It should_return_the_metas = () => result.Metas.ShouldEqual(metas);
+        It should_return_an_EnumerablePocoQueryResult = () => result.ShouldBeOfType<EnumerablePocoQueryResult>();
+        It should_return_the_ids = () => ((EnumerablePocoQueryResult) result).Ids.ShouldEqual(ids);
 
-        static IPocoQuery query;
+        static IQuery query;
         static Expression expression;
         static IIndex index;
         static IEnumerable<IPocoId> ids;
         static IEnumerable<IPocoMeta> metas;
-        static IPocoQueryResult result;
+        static IQueryResult result;
     }
 
     public class when_queried_for_First : with_a_new_QueryProcessor
     {
         Establish c = () => {
-            query = fake.an<IPocoQuery>();
+            query = fake.an<IQuery>();
             queryExpression = Expression.Constant(new PocoQueryable<DummyObject>(null));
 
             expression =
@@ -75,10 +76,11 @@ namespace PocoDb.Specs.Queries
 
         It should_get_ids_from_index = () => A.CallTo(() => index.GetIds()).MustHaveHappened();
         It should_retrieve_metas_from_MetaStore = () => A.CallTo(() => metaStore.Get(id)).MustHaveHappened();
-        It should_return_the_ids = () => result.Ids.ShouldContainOnly(id);
-        It should_return_the_meta = () => result.Metas.ShouldContainOnly(meta);
+        It should_return_the_metas = () => result.Metas.ShouldEqual(metas);
+        It should_return_an_SinglePocoQueryResult = () => result.ShouldBeOfType<SinglePocoQueryResult>();
+        It should_return_the_id = () => ((SinglePocoQueryResult) result).Id.ShouldEqual(id);
 
-        static IPocoQuery query;
+        static IQuery query;
         static ConstantExpression queryExpression;
         static Expression expression;
         static IIndex index;
@@ -86,6 +88,6 @@ namespace PocoDb.Specs.Queries
         static IEnumerable<IPocoId> ids;
         static IEnumerable<IPocoMeta> metas;
         static IPocoMeta meta;
-        static IPocoQueryResult result;
+        static IQueryResult result;
     }
 }

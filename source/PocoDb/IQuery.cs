@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace PocoDb
 {
-    public interface IPocoQuery
+    public interface IQuery
     {
         Expression Expression { get; }
     }

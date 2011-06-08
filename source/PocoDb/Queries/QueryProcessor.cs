@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using PocoDb.Extensions;
+using PocoDb.Meta;
 using PocoDb.Server;
 
 namespace PocoDb.Queries
@@ -13,23 +14,23 @@ namespace PocoDb.Queries
             Server = server;
         }
 
-        public IPocoQueryResult Process(IPocoQuery query) {
+        public IQueryResult Process(IQuery query) {
             if (query.Expression.IsFirstCall() || query.Expression.IsFirstOrDefaultCall()) {
                 var queryExpression = query.Expression.GetQuery();
                 var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
 
                 var id = indexMatch.Index.GetIds().FirstOrDefault();
 
-                var result = new PocoQueryResult();
-                result.Ids = new[] {id};
-                result.Metas = new[] {Server.MetaStore.Get(id)};
+                var result = new SinglePocoQueryResult();
+                result.Id = id;
+                result.Metas = id == null ? new IPocoMeta[] {} : new[] {Server.MetaStore.Get(id)};
 
                 return result;
             }
             else {
                 var indexMatch = Server.IndexManager.RetrieveIndex(query.Expression);
 
-                var result = new PocoQueryResult();
+                var result = new EnumerablePocoQueryResult();
                 result.Ids = indexMatch.Index.GetIds();
                 result.Metas = Server.MetaStore.Get(result.Ids);
 

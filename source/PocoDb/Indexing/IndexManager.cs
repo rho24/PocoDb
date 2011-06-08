@@ -17,7 +17,7 @@ namespace PocoDb.Indexing
 
         public IndexMatch RetrieveIndex(Expression expression) {
             if (!expression.IsQuery())
-                throw new ArgumentException("expression is not a PocoQuery");
+                throw new ArgumentException("expression is not a Query");
 
             IndexMatch currentMatch = null;
 

@@ -4,9 +4,8 @@ using PocoDb.Meta;
 
 namespace PocoDb.Queries
 {
-    public interface IPocoQueryResult
+    public interface IQueryResult
     {
         IEnumerable<IPocoMeta> Metas { get; }
-        IEnumerable<IPocoId> Ids { get; }
     }
 }

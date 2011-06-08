@@ -77,8 +77,9 @@
     <Compile Include="Indexing\NoIndexFoundException.cs" />
     <Compile Include="Indexing\TypeIndex.cs" />
     <Compile Include="IPocoDbClient.cs" />
-    <Compile Include="IPocoQuery.cs" />
+    <Compile Include="IQuery.cs" />
     <Compile Include="IWritablePocoSession.cs" />
+    <Compile Include="Linq\IncorrectQueryResultType.cs" />
     <Compile Include="Linq\IPocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryableExecutor.cs" />
     <Compile Include="Linq\PocoQueryProvider.cs" />
@@ -113,11 +114,12 @@
     <Compile Include="ChangeTracking\TrackedSetProperty.cs" />
     <Compile Include="ChangeTracking\TrackedCollectionRemoval.cs" />
     <Compile Include="ChangeTracking\ChangeTracker.cs" />
-    <Compile Include="Queries\IPocoQueryResult.cs" />
+    <Compile Include="Queries\IQueryResult.cs" />
     <Compile Include="Queries\IQueryProcessor.cs" />
-    <Compile Include="Queries\PocoQuery.cs" />
-    <Compile Include="Queries\PocoQueryResult.cs" />
+    <Compile Include="Queries\Query.cs" />
+    <Compile Include="Queries\EnumerablePocoQueryResult.cs" />
     <Compile Include="Queries\QueryProcessor.cs" />
+    <Compile Include="Queries\SinglePocoQueryResult.cs" />
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="Session\IInternalPocoSession.cs" />

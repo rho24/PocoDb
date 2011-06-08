@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using PocoDb.Linq;
 
 namespace PocoDb.Extensions
 {
@@ -43,7 +44,7 @@ namespace PocoDb.Extensions
             var query = callExpression.Arguments[0];
 
             if (!query.IsQuery())
-                throw new ArgumentException("expression does not contain a query");
+                throw new ArgumentException("expression does not contain a valid Query");
 
             return query;
         }
@@ -57,15 +58,15 @@ namespace PocoDb.Extensions
             if (constantExpression == null)
                 return false;
 
-            return constantExpression.Type.GetGenericTypeDefinition() == typeof (PocoDb.Linq.PocoQueryable<>);
+            return constantExpression.Type.GetGenericTypeDefinition() == typeof (PocoQueryable<>);
         }
 
         public static bool MatchesQuery(this Expression query, Expression otherQuery) {
             if (!query.IsQuery())
-                throw new ArgumentException("query is not a PocoQuery");
+                throw new ArgumentException("query is not a valid Query");
 
             if (!otherQuery.IsQuery())
-                throw new ArgumentException("otherQuery is not a PocoQuery");
+                throw new ArgumentException("otherQuery is not a valid Query");
 
             return query.Type == otherQuery.Type;
 
@@ -75,7 +76,7 @@ namespace PocoDb.Extensions
 
         public static Type QueryPocoType(this Expression query) {
             if (!query.IsQuery())
-                throw new ArgumentException("query is not a PocoQuery");
+                throw new ArgumentException("query is not a valid Query");
 
             return query.Type.GetGenericArguments()[0];
         }

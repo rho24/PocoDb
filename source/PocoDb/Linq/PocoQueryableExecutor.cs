@@ -19,28 +19,54 @@ namespace PocoDb.Linq
         public T Execute<T>(Expression expression) {
             var returnType = typeof (T);
 
+            //TODO: these need to be worked out the same on client and server...
             if (returnType.IsEnumerable())
                 return (T) GenericHelper.InvokeGeneric(() => ExecuteEnumerable<object>(expression),
                                                        returnType.EnumerableInnerType());
 
-            var result = GetQueryResult(expression);
+            if (returnType.IsPocoType())
+                return (T) GenericHelper.InvokeGeneric(() => ExecuteSingle<object>(expression), returnType);
 
-            return result.Ids.Select(id => (T) Session.GetPoco(id)).FirstOrDefault();
+            throw new NotImplementedException();
         }
 
-        IEnumerable<T> ExecuteEnumerable<T>(Expression expression) {
-            var result = GetQueryResult(expression);
-
-            return result.Ids.Select(id => (T) Session.GetPoco(id));
-        }
-
-        IPocoQueryResult GetQueryResult(Expression expression) {
-            var result = Session.Server.Query(new PocoQuery(expression));
+        IQueryResult GetQueryResult(Expression expression) {
+            var result = Session.Server.Query(new Query(expression));
 
             foreach (var meta in result.Metas) {
                 Session.Metas.Add(meta.Id, meta);
             }
             return result;
+        }
+
+        IEnumerable<T> ExecuteEnumerable<T>(Expression expression) {
+            var result = GetQueryResult(expression);
+
+            var enumerableResult = result as EnumerablePocoQueryResult;
+            if (enumerableResult == null)
+                throw new IncorrectQueryResultType(typeof (EnumerablePocoQueryResult), result.GetType());
+
+            return enumerableResult.Ids.Select(id => (T) Session.GetPoco(id));
+        }
+
+        T ExecuteSingle<T>(Expression expression) {
+            var result = GetQueryResult(expression);
+
+            var singleResult = result as SinglePocoQueryResult;
+            if (singleResult == null)
+                throw new IncorrectQueryResultType(typeof (SinglePocoQueryResult), result.GetType());
+
+            if (singleResult.Id == null) {
+                if (expression.IsFirstCall())
+                    throw new InvalidOperationException("No items in sequence");
+
+                if (expression.IsFirstOrDefaultCall())
+                    return default(T);
+
+                throw new NotSupportedException("Unknown expression type");
+            }
+
+            return (T) Session.GetPoco(singleResult.Id);
         }
     }
 }

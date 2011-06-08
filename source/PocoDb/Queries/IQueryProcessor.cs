@@ -4,6 +4,6 @@ namespace PocoDb.Queries
 {
     public interface IQueryProcessor
     {
-        IPocoQueryResult Process(IPocoQuery query);
+        IQueryResult Process(IQuery query);
     }
 }

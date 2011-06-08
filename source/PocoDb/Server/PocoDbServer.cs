@@ -24,7 +24,7 @@ namespace PocoDb.Server
             IndexManager = indexManager;
         }
 
-        public IPocoQueryResult Query(IPocoQuery query) {
+        public IQueryResult Query(IQuery query) {
             return QueryProcessor.Process(query);
         }
 

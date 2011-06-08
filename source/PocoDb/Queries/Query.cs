@@ -3,11 +3,11 @@ using System.Linq.Expressions;
 
 namespace PocoDb.Queries
 {
-    public class PocoQuery : IPocoQuery
+    public class Query : IQuery
     {
         public Expression Expression { get; private set; }
 
-        public PocoQuery(Expression expression) {
+        public Query(Expression expression) {
             Expression = expression;
         }
     }
