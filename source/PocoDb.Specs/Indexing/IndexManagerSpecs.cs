@@ -12,11 +12,12 @@ namespace PocoDb.Specs.Indexing
             () => { expression = Expression.Constant(new PocoQueryable<DummyObject>(fake.an<PocoQueryProvider>())); };
 
 
-        Because of = () => index = sut.RetrieveIndex(expression);
+        Because of = () => indexMatch = sut.RetrieveIndex(expression);
 
-        It should_return_a_TypeIndex = () => index.ShouldBeOfType<TypeIndex<DummyObject>>();
+        It should_return_an_exact_match = () => indexMatch.IsExact.ShouldBeTrue();
+        It should_return_a_TypeIndex = () => indexMatch.Index.ShouldBeOfType<TypeIndex<DummyObject>>();
 
         static Expression expression;
-        static IIndex index;
+        static IndexMatch indexMatch;
     }
 }

@@ -21,7 +21,7 @@ namespace PocoDb.Queries
             var index = IndexManager.RetrieveIndex(query.Expression);
 
             var result = new PocoQueryResult();
-            result.Ids = index.GetIds();
+            result.Ids = index.Index.GetIds();
 
             result.Metas = Server.MetaStore.Get(result.Ids);
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using PocoDb.Extensions;
 
 namespace PocoDb.Indexing
 {
@@ -13,13 +13,28 @@ namespace PocoDb.Indexing
             Indexes = new List<IIndex>();
         }
 
-        public IIndex RetrieveIndex(Expression expression) {
-            var exactIndex = Indexes.Where(i => i.IsExactMatch(expression)).FirstOrDefault();
+        public IndexMatch RetrieveIndex(Expression expression) {
+            if (!expression.IsQuery())
+                throw new ArgumentException("expression is not a PocoQuery");
 
-            if (exactIndex != null)
-                return exactIndex;
+            IndexMatch currentMatch = null;
 
-            throw new NotImplementedException();
+            foreach (var index in Indexes) {
+                var match = index.GetMatch(expression);
+
+                if (match.IsExact)
+                    return match;
+
+                if (match.IsPartial) {
+                    if (currentMatch == null || match.PartialDepth > currentMatch.PartialDepth)
+                        currentMatch = match;
+                }
+            }
+
+            if (currentMatch == null)
+                throw new NoIndexFoundException(expression.QueryPocoType());
+
+            return currentMatch;
         }
     }
 }

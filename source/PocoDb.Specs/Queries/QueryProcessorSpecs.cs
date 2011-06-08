@@ -21,7 +21,7 @@ namespace PocoDb.Specs.Queries
             ids = fake.an<IEnumerable<IPocoId>>();
             metas = fake.an<IEnumerable<IPocoMeta>>();
 
-            A.CallTo(() => indexManager.RetrieveIndex(expression)).Returns(index);
+            A.CallTo(() => indexManager.RetrieveIndex(expression)).Returns(IndexMatch.ExactMatch(index));
             A.CallTo(() => index.GetIds()).Returns(ids);
             A.CallTo(() => metaStore.Get(ids)).Returns(metas);
         };

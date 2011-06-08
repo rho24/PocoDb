@@ -9,6 +9,6 @@ namespace PocoDb.Indexing
     {
         IEnumerable<IPocoId> GetIds();
 
-        bool IsExactMatch(Expression expression);
+        IndexMatch GetMatch(Expression expression);
     }
 }

@@ -5,7 +5,7 @@ namespace PocoDb.Extensions
 {
     public static class ExpressionExtensions
     {
-        public static bool IsPocoQuery(this Expression expression) {
+        public static bool IsQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -18,15 +18,23 @@ namespace PocoDb.Extensions
         }
 
         public static bool MatchesQuery(this Expression query, Expression otherQuery) {
-            if (!query.IsPocoQuery())
+            if (!query.IsQuery())
                 throw new ArgumentException("query is not a PocoQuery");
 
-            if (!otherQuery.IsPocoQuery())
+            if (!otherQuery.IsQuery())
                 throw new ArgumentException("otherQuery is not a PocoQuery");
 
             return query.Type == otherQuery.Type;
 
             //TODO: this won't work for anything other than constants.
+        }
+
+
+        public static Type QueryPocoType(this Expression query) {
+            if (!query.IsQuery())
+                throw new ArgumentException("query is not a PocoQuery");
+
+            return query.Type.GetGenericArguments()[0];
         }
     }
 }

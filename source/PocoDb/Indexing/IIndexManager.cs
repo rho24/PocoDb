@@ -5,6 +5,6 @@ namespace PocoDb.Indexing
 {
     public interface IIndexManager
     {
-        IIndex RetrieveIndex(Expression expression);
+        IndexMatch RetrieveIndex(Expression expression);
     }
 }
