@@ -72,6 +72,8 @@
     <Compile Include="Indexing\IIndex.cs" />
     <Compile Include="Indexing\IIndexManager.cs" />
     <Compile Include="Indexing\IndexManager.cs" />
+    <Compile Include="Indexing\NoIndexFoundException.cs" />
+    <Compile Include="Indexing\TypeIndex.cs" />
     <Compile Include="IPocoDbClient.cs" />
     <Compile Include="IPocoQuery.cs" />
     <Compile Include="IWritablePocoSession.cs" />

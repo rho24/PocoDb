@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DummyObject.cs" />
+    <Compile Include="Indexing\IndexManagerContexts.cs" />
+    <Compile Include="Indexing\IndexManagerSpecs.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
     <Compile Include="Linq\PocoQueryableContexts.cs" />
