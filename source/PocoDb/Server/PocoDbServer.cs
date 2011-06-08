@@ -1,6 +1,7 @@
 ﻿using System;
 using PocoDb.Commits;
 using PocoDb.Indexing;
+using PocoDb.Meta;
 using PocoDb.Persistence;
 using PocoDb.Queries;
 
@@ -25,6 +26,10 @@ namespace PocoDb.Server
 
         public IPocoQueryResult Query(IPocoQuery query) {
             return QueryProcessor.Process(query);
+        }
+
+        public IPocoMeta GetMeta(IPocoId id) {
+            return MetaStore.Get(id);
         }
 
         public void Commit(ICommit commit) {

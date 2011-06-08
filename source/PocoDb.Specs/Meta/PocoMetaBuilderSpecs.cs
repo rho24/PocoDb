@@ -49,7 +49,7 @@ namespace PocoDb.Specs.Meta
 
         It should_set_poco_properties =
             () =>
-            meta.Properties.ContainsKey(new Property<DummyObject, DummyObject>(d => d.Child)).ShouldBeTrue();
+            meta.Properties.ContainsKey(new Property<DummyObject, ChildObject>(d => d.Child)).ShouldBeTrue();
 
         static DummyObject poco;
         static IPocoId id;
@@ -84,12 +84,12 @@ namespace PocoDb.Specs.Meta
     {
         Establish c = () => {
             poco = new DummyObject();
-            child = new DummyObject();
+            child = new ChildObject();
             poco.Child = child;
 
             childId = fake.an<IPocoId>();
 
-            property = new Property<DummyObject, DummyObject>(d => d.Child);
+            property = new Property<DummyObject, ChildObject>(d => d.Child);
 
             A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>() {{child, childId}});
         };
@@ -100,7 +100,7 @@ namespace PocoDb.Specs.Meta
         It should_set_the_poco_property_to_the_child_id = () => metas.First().Properties[property].ShouldEqual(childId);
 
         static DummyObject poco;
-        static DummyObject child;
+        static ChildObject child;
         static IPocoId childId;
         static IProperty property;
         static IEnumerable<IPocoMeta> metas;
@@ -110,13 +110,13 @@ namespace PocoDb.Specs.Meta
     {
         Establish c = () => {
             poco = new DummyObject();
-            child = new DummyObject();
+            child = new ChildObject();
             poco.Child = child;
 
             id = fake.an<IPocoId>();
             childId = fake.an<IPocoId>();
 
-            property = new Property<DummyObject, DummyObject>(d => d.Child);
+            property = new Property<DummyObject, ChildObject>(d => d.Child);
 
             A.CallTo(() => pocoIdBuilder.New()).ReturnsNextFromSequence(new[] {id, childId});
             A.CallTo(() => session.TrackedIds).Returns(new Dictionary<object, IPocoId>());
@@ -130,11 +130,11 @@ namespace PocoDb.Specs.Meta
         It should_set_the_meta_type = () => metas.First().Type.ShouldEqual(typeof (DummyObject));
         It should_track_the_new_id = () => session.TrackedIds[poco].ShouldEqual(id);
         It should_set_the_child_meta_id = () => metas.Skip(1).First().Id.ShouldEqual(childId);
-        It should_set_the_child_meta_type = () => metas.Skip(1).First().Type.ShouldEqual(typeof (DummyObject));
+        It should_set_the_child_meta_type = () => metas.Skip(1).First().Type.ShouldEqual(typeof (ChildObject));
         It should_track_the_new_child_id = () => session.TrackedIds[child].ShouldEqual(childId);
 
         static DummyObject poco;
-        static DummyObject child;
+        static ChildObject child;
         static IPocoId id;
         static IPocoId childId;
         static IProperty property;

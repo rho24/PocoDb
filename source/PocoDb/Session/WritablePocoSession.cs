@@ -63,11 +63,17 @@ namespace PocoDb.Session
 
         //IInternalPocoSession
         public object GetPoco(IPocoId id) {
-            var meta = Metas[id];
-            if (meta == null)
-                throw new ArgumentException("id is not recognised");
+            if (Metas.ContainsKey(id))
+                return PocoFactory.Build(Metas[id]);
+            else {
+                var meta = Server.GetMeta(id);
 
-            return PocoFactory.Build(meta);
+                if (meta == null)
+                    throw new ArgumentException("id is not recognised");
+
+                Metas.Add(meta.Id, meta);
+                return PocoFactory.Build(meta);
+            }
         }
 
         public void Dispose() {}

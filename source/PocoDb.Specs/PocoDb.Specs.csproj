@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChildObject.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Indexing\IndexManagerContexts.cs" />
     <Compile Include="Indexing\IndexManagerSpecs.cs" />

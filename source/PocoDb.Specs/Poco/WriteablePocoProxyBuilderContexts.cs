@@ -36,7 +36,7 @@ namespace PocoDb.Specs.Poco
                 new Dictionary<IProperty, object>() {
                                                         {new Property<DummyObject, string>(d => d.FirstName), null},
                                                         {new Property<DummyObject, string>(d => d.LastName), null},
-                                                        {new Property<DummyObject, DummyObject>(d => d.Child), null}
+                                                        {new Property<DummyObject, ChildObject>(d => d.Child), null}
                                                     });
 
             sut_setup.run(sut => proxy = (DummyObject) sut.BuildProxy(meta));
@@ -56,7 +56,7 @@ namespace PocoDb.Specs.Poco
                 new Dictionary<IProperty, object>() {
                                                         {new Property<DummyObject, string>(d => d.FirstName), "value"},
                                                         {new Property<DummyObject, string>(d => d.LastName), "value"},
-                                                        {new Property<DummyObject, DummyObject>(d => d.Child), childId}
+                                                        {new Property<DummyObject, ChildObject>(d => d.Child), childId}
                                                     });
 
             sut_setup.run(sut => proxy = (DummyObject) sut.BuildProxy(meta));

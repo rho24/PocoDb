@@ -45,11 +45,11 @@ namespace PocoDb.Specs.Poco
         Establish c = () => {
             meta = fake.an<IPocoMeta>();
             childId = fake.an<IPocoId>();
-            childPoco = fake.an<DummyObject>();
+            childPoco = fake.an<ChildObject>();
 
             A.CallTo(() => meta.Type).Returns(typeof (DummyObject));
             A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>()
-            {{new Property<DummyObject, DummyObject>(p => p.Child), childId}});
+            {{new Property<DummyObject, ChildObject>(p => p.Child), childId}});
 
             A.CallTo(() => session.GetPoco(childId)).Returns(childPoco);
         };
@@ -61,7 +61,7 @@ namespace PocoDb.Specs.Poco
         static IPocoMeta meta;
         static DummyObject poco;
         static IPocoId childId;
-        static DummyObject childPoco;
+        static ChildObject childPoco;
     }
 
     public class when_setting_a_property_on_a_writable_poco_proxy : with_a_writable_poco_proxy
