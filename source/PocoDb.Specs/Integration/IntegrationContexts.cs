@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 
@@ -22,7 +23,8 @@ namespace PocoDb.Specs.Integration
     {
         Establish c = () => sut_setup.run(sut => {
             using (var session = sut.BeginWritableSession()) {
-                session.Add(new DummyObject() {Child = new ChildObject()});
+                session.Add(new DummyObject()
+                {FirstName = "value", Child = new ChildObject() {Collection = new List<string>() {"value"}}});
                 session.SaveChanges();
             }
         });

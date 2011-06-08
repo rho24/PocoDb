@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 
@@ -72,5 +73,38 @@ namespace PocoDb.Specs.Integration
 
         It should_have_saved_change =
             () => sut.BeginSession().Get<ChildObject>().FirstOrDefault().Counter.ShouldEqual(5);
+    }
+
+    public class when_a_collection_is_added : with_a_new_PocoDbClient
+    {
+        Because of = () => {
+            using (var session = sut.BeginWritableSession()) {
+                session.Add(new ChildObject() {Collection = new List<string>() {"value1", "value2"}});
+                session.SaveChanges();
+            }
+        };
+
+        It should_save_the_collection = () => sut.BeginSession().Get<ChildObject>().First().Collection.ShouldNotBeNull();
+
+        It should_save_the_collection_values =
+            () => sut.BeginSession().Get<ChildObject>().First().Collection.ShouldContain("value1", "value2");
+    }
+
+    public class when_a_collection_is_updated : with_a_populated_poco_and_child_PocoDbClient
+    {
+        Because of = () => {
+            using (var session = sut.BeginWritableSession()) {
+                var child = session.GetWritable<ChildObject>().First();
+                child.Collection.Remove("value");
+                child.Collection.Add("newValue");
+                session.SaveChanges();
+            }
+        };
+
+        It should_save_the_add =
+            () => sut.BeginSession().Get<ChildObject>().First().Collection.ShouldContain("newValue");
+
+        It should_save_the_remove =
+            () => sut.BeginSession().Get<ChildObject>().First().Collection.ShouldNotContain("value");
     }
 }
