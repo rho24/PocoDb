@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Indexing;
-using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Queries;
 
@@ -15,7 +13,7 @@ namespace PocoDb.Specs.Queries
     {
         Establish c = () => {
             query = fake.an<IQuery>();
-            expression = Expression.Constant(new PocoQueryable<DummyObject>(null));
+            expression = QueryExpressions.DummyObjectIEnumerable;
 
             A.CallTo(() => query.Expression).Returns(expression);
 
@@ -49,12 +47,9 @@ namespace PocoDb.Specs.Queries
     {
         Establish c = () => {
             query = fake.an<IQuery>();
-            queryExpression = Expression.Constant(new PocoQueryable<DummyObject>(null));
+            queryExpression = QueryExpressions.DummyObjectIEnumerable;
 
-            expression =
-                Expression.Call(
-                    typeof (Queryable).GetMethods().Where(m => m.Name.StartsWith("First")).First().MakeGenericMethod(
-                        typeof (DummyObject)), queryExpression);
+            expression = QueryExpressions.DummyObjectFirst;
 
             A.CallTo(() => query.Expression).Returns(expression);
 
@@ -81,7 +76,7 @@ namespace PocoDb.Specs.Queries
         It should_return_the_id = () => ((SinglePocoQueryResult) result).Id.ShouldEqual(id);
 
         static IQuery query;
-        static ConstantExpression queryExpression;
+        static Expression queryExpression;
         static Expression expression;
         static IIndex index;
         static IPocoId id;

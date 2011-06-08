@@ -94,6 +94,7 @@
     <Compile Include="PropertySpecs.cs" />
     <Compile Include="Queries\QueryProcessorContexts.cs" />
     <Compile Include="Queries\QueryProcessorSpecs.cs" />
+    <Compile Include="QueryExpressions.cs" />
     <Compile Include="Server\CommitProcessorContexts.cs" />
     <Compile Include="Server\CommitProcessorSpecs.cs" />
     <Compile Include="Server\PocoDbServerContexts.cs" />

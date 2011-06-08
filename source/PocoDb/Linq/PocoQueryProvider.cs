@@ -17,7 +17,7 @@ namespace PocoDb.Linq
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression) {
-            throw new NotImplementedException();
+            return new PocoQueryable<TElement>(this, expression);
         }
 
         public object Execute(Expression expression) {

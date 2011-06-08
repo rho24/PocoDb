@@ -1,2 +1,8 @@
 IEnumerable<>/.ToArray() - .Constant<PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]>(PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject])
 .First()/.FirstOrDefault() - .Call System.Linq.Queryable.First(.Constant<PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]>(PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]))
+.Where() - .Call System.Linq.Queryable.Where(
+    .Constant<PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]>(PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]),
+    '(.Lambda #Lambda1<System.Func`2[PocoDb.Specs.DummyObject,System.Boolean]>))
+    .Lambda #Lambda1<System.Func`2[PocoDb.Specs.DummyObject,System.Boolean]>(PocoDb.Specs.DummyObject $d) {
+        $d.FirstName == "value"
+	}

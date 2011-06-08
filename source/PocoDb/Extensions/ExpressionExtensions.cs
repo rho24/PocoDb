@@ -32,7 +32,7 @@ namespace PocoDb.Extensions
                    callExpression.Method.Name == "FirstOrDefault";
         }
 
-        public static Expression GetQuery(this Expression expression) {
+        public static Expression GetInnerQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -53,31 +53,27 @@ namespace PocoDb.Extensions
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            var constantExpression = expression as ConstantExpression;
+            var callExpression = expression as MethodCallExpression;
+            if (callExpression != null) {
+                if (callExpression.Arguments.Count == 0)
+                    return false;
 
+                return callExpression.Arguments[0].IsQuery();
+            }
+
+            return expression.IsQueryBase();
+        }
+
+        public static bool IsQueryBase(this Expression query) {
+            var constantExpression = query as ConstantExpression;
             if (constantExpression == null)
                 return false;
 
             return constantExpression.Type.GetGenericTypeDefinition() == typeof (PocoQueryable<>);
         }
 
-        public static bool MatchesQuery(this Expression query, Expression otherQuery) {
-            if (!query.IsQuery())
-                throw new ArgumentException("query is not a valid Query");
 
-            if (!otherQuery.IsQuery())
-                throw new ArgumentException("otherQuery is not a valid Query");
-
-            return query.Type == otherQuery.Type;
-
-            //TODO: this won't work for anything other than constants.
-        }
-
-
-        public static Type QueryPocoType(this Expression query) {
-            if (!query.IsQuery())
-                throw new ArgumentException("query is not a valid Query");
-
+        public static Type GetQueryPocoType(this Expression query) {
             return query.Type.GetGenericArguments()[0];
         }
     }

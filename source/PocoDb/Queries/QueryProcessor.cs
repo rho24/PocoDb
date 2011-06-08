@@ -16,7 +16,7 @@ namespace PocoDb.Queries
 
         public IQueryResult Process(IQuery query) {
             if (query.Expression.IsFirstCall() || query.Expression.IsFirstOrDefaultCall()) {
-                var queryExpression = query.Expression.GetQuery();
+                var queryExpression = query.Expression.GetInnerQuery();
                 var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
 
                 var id = indexMatch.Index.GetIds().FirstOrDefault();

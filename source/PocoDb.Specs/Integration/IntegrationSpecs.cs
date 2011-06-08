@@ -14,6 +14,15 @@ namespace PocoDb.Specs.Integration
     public class when_querying_count
     {}
 
+
+    public class when_querying_with_a_where_clause : with_a_populated_poco_and_child_PocoDbClient
+    {
+        Because of = () => result = sut.BeginSession().Get<DummyObject>().Where(d => d.FirstName == "value").First();
+
+        It should_return_the_poco = () => result.ShouldNotBeNull();
+        static DummyObject result;
+    }
+
     public class when_an_object_is_added : with_a_new_PocoDbClient
     {
         Because of = () => {

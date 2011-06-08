@@ -18,9 +18,9 @@ namespace PocoDb.Linq
             Expression = Expression.Constant(this);
         }
 
-        public PocoQueryable(PocoQueryProvider provider, Type elementType, Expression expression) {
+        public PocoQueryable(PocoQueryProvider provider, Expression expression) {
             Provider = provider;
-            ElementType = elementType;
+            ElementType = typeof (T);
             Expression = expression;
         }
 

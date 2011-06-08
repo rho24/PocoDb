@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using PocoDb.Extensions;
 using PocoDb.Meta;
 
 namespace PocoDb.Indexing
@@ -18,9 +19,19 @@ namespace PocoDb.Indexing
         }
 
         public IndexMatch GetMatch(Expression expression) {
-            return expression.Type.GetGenericArguments()[0] == typeof (T)
-                       ? IndexMatch.ExactMatch(this)
-                       : IndexMatch.NoMatch(this);
+            if (expression.GetQueryPocoType() != typeof (T))
+                return IndexMatch.NoMatch(this);
+
+            if (expression.IsQueryBase())
+                return IndexMatch.ExactMatch(this);
+
+            var depth = 0;
+            while (!expression.IsQueryBase()) {
+                depth++;
+                expression = expression.GetInnerQuery();
+            }
+
+            return IndexMatch.PartialMatch(this, depth);
         }
 
         public void NotifyMetaChange(IPocoMeta meta) {
