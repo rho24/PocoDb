@@ -10,5 +10,6 @@ namespace PocoDb.Indexing
         IEnumerable<IPocoId> GetIds();
 
         IndexMatch GetMatch(Expression expression);
+        void NotifyMetaChange(IPocoMeta meta);
     }
 }

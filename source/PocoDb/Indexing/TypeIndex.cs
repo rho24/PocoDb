@@ -22,5 +22,10 @@ namespace PocoDb.Indexing
                        ? IndexMatch.ExactMatch(this)
                        : IndexMatch.NoMatch(this);
         }
+
+        public void NotifyMetaChange(IPocoMeta meta) {
+            if (meta.Type == typeof (T) && !Ids.Contains(meta.Id))
+                Ids.Add(meta.Id);
+        }
     }
 }
