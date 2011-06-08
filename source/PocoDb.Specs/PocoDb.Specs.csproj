@@ -67,6 +67,7 @@
     <Compile Include="Indexing\TypeIndexContexts.cs" />
     <Compile Include="Indexing\TypeIndexSpecs.cs" />
     <Compile Include="Integration\IntegrationContexts.cs" />
+    <Compile Include="Integration\IntegrationSpecs.cs" />
     <Compile Include="LambdaExpressionHelperSpecs.cs" />
     <Compile Include="Linq\PocoQueryableContexts.cs" />
     <Compile Include="Linq\PocoQueryableSpecs.cs" />

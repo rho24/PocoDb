@@ -18,6 +18,7 @@ namespace PocoDb.Specs.Server
         Because of = () => sut.Apply(commit);
 
         It should_add_the_meta_to_the_store = () => A.CallTo(() => metaStore.AddNew(meta)).MustHaveHappened();
+        It should_notify_the_IndexManager = () => A.CallTo(() => indexManager.NotifyMetaChange(meta)).MustHaveHappened();
 
         static IPocoMeta meta;
     }

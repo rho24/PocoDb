@@ -29,6 +29,7 @@ namespace PocoDb.Pocos
                             : PocoProxyBuilder.BuildProxy(meta);
 
             Session.TrackedPocos.Add(meta.Id, proxy);
+            Session.TrackedIds.Add(proxy, meta.Id);
 
             return proxy;
         }

@@ -15,10 +15,11 @@ namespace PocoDb
         IPocoDbServer Server { get; set; }
 
         public PocoDbClient() {
-            var queryProcessor = new QueryProcessor(new IndexManager());
+            var queryProcessor = new QueryProcessor();
             var commitProcessor = new CommitProcessor();
+            var indexManager = new IndexManager();
             Server = new PocoDbServer(new InMemoryMetaStore(), new InMemoryCommitStore(), queryProcessor,
-                                      commitProcessor);
+                                      commitProcessor, indexManager);
 
             queryProcessor.Initialise(Server);
             commitProcessor.Initialise(Server);

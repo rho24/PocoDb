@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace PocoDb.Commits
+namespace PocoDb.Meta
 {
-    public class CommitId : ICommitId
+    public class PocoId : IPocoId
     {
         public Guid Id { get; private set; }
 
-        public CommitId() {
+        public PocoId() {
             Id = Guid.NewGuid();
         }
 
         public override bool Equals(object obj) {
-            var otherId = obj as CommitId;
+            var otherId = obj as PocoId;
 
             if (otherId == null)
                 return false;

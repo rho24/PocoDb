@@ -14,6 +14,7 @@ namespace PocoDb.Commits
         public void Apply(ICommit commit) {
             foreach (var addObject in commit.AddedPocos) {
                 Server.MetaStore.AddNew(addObject.Meta);
+                Server.IndexManager.NotifyMetaChange(addObject.Meta);
             }
 
             foreach (var propertySet in commit.SetProperties) {

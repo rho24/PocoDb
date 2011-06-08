@@ -39,8 +39,6 @@ namespace PocoDb.Session
             return PocoFactory.Build(meta);
         }
 
-        public void Dispose() {
-            throw new NotImplementedException();
-        }
+        public void Dispose() {}
     }
 }

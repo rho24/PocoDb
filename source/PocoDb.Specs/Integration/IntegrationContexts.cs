@@ -4,8 +4,8 @@ using Machine.Specifications;
 
 namespace PocoDb.Specs.Integration
 {
-    [Subject(typeof (IPocoDbClient))]
-    public abstract class with_a_new_PocoDbClient : Observes<IPocoDbClient>
+    [Subject(typeof (PocoDbClient))]
+    public abstract class with_a_new_PocoDbClient : Observes<PocoDbClient>
     {}
 
     public abstract class with_a_populated_PocoDbClient : with_a_new_PocoDbClient

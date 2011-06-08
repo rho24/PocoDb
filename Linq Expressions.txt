@@ -1,0 +1,2 @@
+IEnumerable<>/.ToArray() - .Constant<PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]>(PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject])
+.First()/.FirstOrDefault() - .Call System.Linq.Queryable.First(.Constant<PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]>(PocoDb.Linq.PocoQueryable`1[PocoDb.Specs.DummyObject]))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
@@ -6,6 +7,18 @@ using PocoDb.Commits;
 
 namespace PocoDb.Specs.Session
 {
+    public class when_a_poco_is_added : with_a_new_WritablePocoSession
+    {
+        Establish c = () => { poco = new DummyObject(); };
+
+        Because of = () => sut.Add(poco);
+
+        It should_track_the_added_poco =
+            () => sut.ChangeTracker.Changes.AddedPocos.Where(a => a.Poco == poco).Count().ShouldEqual(1);
+
+        static DummyObject poco;
+    }
+
     public class when_saved_changes_is_called : with_a_new_WritablePocoSession
     {
         Establish c = () => {

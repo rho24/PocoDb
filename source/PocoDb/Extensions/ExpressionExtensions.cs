@@ -1,18 +1,61 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace PocoDb.Extensions
 {
     public static class ExpressionExtensions
     {
+        public static bool IsFirstCall(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "First";
+        }
+
+        public static bool IsFirstOrDefaultCall(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) &&
+                   callExpression.Method.Name == "FirstOrDefault";
+        }
+
+        public static Expression GetQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                throw new ArgumentException("expression is not a CallExpression");
+
+            var query = callExpression.Arguments[0];
+
+            if (!query.IsQuery())
+                throw new ArgumentException("expression does not contain a query");
+
+            return query;
+        }
+
         public static bool IsQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            if (!(expression is ConstantExpression))
-                return false;
+            var constantExpression = expression as ConstantExpression;
 
-            var constantExpression = (ConstantExpression) expression;
+            if (constantExpression == null)
+                return false;
 
             return constantExpression.Type.GetGenericTypeDefinition() == typeof (PocoDb.Linq.PocoQueryable<>);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using PocoDb.Commits;
+using PocoDb.Indexing;
 using PocoDb.Persistence;
 using PocoDb.Queries;
 
@@ -7,18 +8,19 @@ namespace PocoDb.Server
 {
     public class PocoDbServer : IPocoDbServer
     {
-        protected IQueryProcessor QueryProcessor { get; private set; }
-        public ICommitProcessor CommitProcessor { get; private set; }
-
         public IMetaStore MetaStore { get; private set; }
         public ICommitStore CommitStore { get; private set; }
+        public IQueryProcessor QueryProcessor { get; private set; }
+        public ICommitProcessor CommitProcessor { get; private set; }
+        public IIndexManager IndexManager { get; private set; }
 
         public PocoDbServer(IMetaStore metaStore, ICommitStore commitStore, IQueryProcessor queryProcessor,
-                            ICommitProcessor commitProcessor) {
+                            ICommitProcessor commitProcessor, IIndexManager indexManager) {
             MetaStore = metaStore;
             CommitStore = commitStore;
             QueryProcessor = queryProcessor;
             CommitProcessor = commitProcessor;
+            IndexManager = indexManager;
         }
 
         public IPocoQueryResult Query(IPocoQuery query) {

@@ -87,6 +87,7 @@
     <Compile Include="Meta\IPocoIdBuilder.cs" />
     <Compile Include="IPocoSession.cs" />
     <Compile Include="Meta\IPocoMeta.cs" />
+    <Compile Include="Meta\PocoId.cs" />
     <Compile Include="Meta\PocoIdBuilder.cs" />
     <Compile Include="Meta\PocoMetaBuilder.cs" />
     <Compile Include="Persistence\ICommitStore.cs" />

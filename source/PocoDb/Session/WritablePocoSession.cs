@@ -43,12 +43,15 @@ namespace PocoDb.Session
 
         //IWritablePocoSession
         public IQueryable<T> GetWritable<T>() {
-            throw new NotImplementedException();
+            return Get<T>();
         }
 
         //IWritablePocoSession
         public void Add<T>(T poco) {
-            throw new NotImplementedException();
+            if (poco == null)
+                throw new ArgumentNullException("poco");
+
+            ChangeTracker.TrackAddedObject(poco);
         }
 
         //IWritablePocoSession
@@ -67,8 +70,6 @@ namespace PocoDb.Session
             return PocoFactory.Build(meta);
         }
 
-        public void Dispose() {
-            throw new NotImplementedException();
-        }
+        public void Dispose() {}
     }
 }
