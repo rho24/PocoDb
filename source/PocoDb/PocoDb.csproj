@@ -77,7 +77,6 @@
     <Compile Include="Indexing\NoIndexFoundException.cs" />
     <Compile Include="Indexing\TypeIndex.cs" />
     <Compile Include="IPocoDbClient.cs" />
-    <Compile Include="IQuery.cs" />
     <Compile Include="IWritablePocoSession.cs" />
     <Compile Include="Linq\IncorrectQueryResultType.cs" />
     <Compile Include="Linq\IPocoQueryableExecutor.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="ChangeTracking\TrackedSetProperty.cs" />
     <Compile Include="ChangeTracking\TrackedCollectionRemoval.cs" />
     <Compile Include="ChangeTracking\ChangeTracker.cs" />
+    <Compile Include="Queries\IQuery.cs" />
     <Compile Include="Queries\IQueryResult.cs" />
     <Compile Include="Queries\IQueryProcessor.cs" />
     <Compile Include="Queries\Query.cs" />

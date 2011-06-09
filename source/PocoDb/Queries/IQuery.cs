@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace PocoDb
+namespace PocoDb.Queries
 {
     public interface IQuery
     {
