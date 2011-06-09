@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using PocoDb.Extensions;
 using PocoDb.Meta;
-using PocoDb.Session;
 
 namespace PocoDb.Pocos
 {

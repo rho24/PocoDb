@@ -4,7 +4,6 @@ using Castle.DynamicProxy;
 using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
-using PocoDb.Session;
 
 namespace PocoDb.Pocos
 {
@@ -27,7 +26,8 @@ namespace PocoDb.Pocos
 
         public object BuildProxy(IPocoMeta meta) {
             var propertyInterceptor = GenericHelper.InvokeGeneric(
-                () => new WritablePropertyInterceptor<object>(meta, PocoGetter, ChangeTracker), meta.Type) as IInterceptor;
+                () => new WritablePropertyInterceptor<object>(meta, PocoGetter, ChangeTracker), meta.Type) as
+                                      IInterceptor;
 
             return Generator.CreateClassProxy(meta.Type, ProxyOptions, propertyInterceptor);
         }

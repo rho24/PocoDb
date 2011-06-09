@@ -1,6 +1,7 @@
 using System;
 using PocoDb.Commits;
 using PocoDb.Indexing;
+using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Persistence;
 using PocoDb.Pocos;

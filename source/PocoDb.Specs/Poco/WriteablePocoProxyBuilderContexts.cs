@@ -6,7 +6,6 @@ using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Meta;
 using PocoDb.Pocos;
-using PocoDb.Session;
 
 namespace PocoDb.Specs.Poco
 {

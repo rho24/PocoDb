@@ -2,7 +2,6 @@
 using Castle.DynamicProxy;
 using PocoDb.Extensions;
 using PocoDb.Meta;
-using PocoDb.Session;
 
 namespace PocoDb.Pocos
 {

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PocoDb.Extensions;
 using PocoDb.Indexing;
 using PocoDb.Linq;
 using PocoDb.Meta;
-using PocoDb.Pocos;
 using PocoDb.Server;
 
 namespace PocoDb.Queries
@@ -51,7 +49,7 @@ namespace PocoDb.Queries
         IQueryResult ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
             var pocoGetter = new ServerPocoGetter(Server);
             var ids = index.GetIds();
-            var pocos = ids.Select(i => (T)pocoGetter.GetPoco(i));
+            var pocos = ids.Select(i => (T) pocoGetter.GetPoco(i));
 
             var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
 
@@ -71,49 +69,5 @@ namespace PocoDb.Queries
 
             return result;
         }
-    }
-
-    public class ServerPocoGetter : ICanGetPocos
-    {
-        public IPocoDbServer Server { get; private set; }
-        public IIdsMetasAndProxies IdsMetasAndProxies { get; private set; }
-
-        public ServerPocoGetter(IPocoDbServer server) {
-            Server = server;
-            IdsMetasAndProxies = new IdsMetasAndProxies();
-        }
-
-        public object GetPoco(IPocoId id) {
-            var meta = Server.MetaStore.Get(id);
-
-            if (meta == null)
-                throw new ArgumentException("id is not recognised");
-            
-            var pocoProxyBuilder = new ReadOnlyPocoProxyBuilder();
-            var collectionProxyBuilder = new ReadOnlyCollectionProxyBuilder();
-            pocoProxyBuilder.Initialise(this);
-            collectionProxyBuilder.Initialise(this);
-            var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
-
-            return pocoFactory.Build(meta, IdsMetasAndProxies);
-        }
-    }
-
-    internal class IndexQueryableExecutor : IPocoQueryableExecutor
-    {
-        public IIndex Index { get; private set; }
-
-        public IndexQueryableExecutor(IIndex index) {
-            Index = index;
-        }
-
-        public T Execute<T>(Expression expression) {
-            throw new NotImplementedException();
-        }
-    }
-
-    public interface IQueryableToEnumerableConverter
-    {
-        Expression Convert<T>(Expression expression, Expression replace, IEnumerable<T> with);
     }
 }

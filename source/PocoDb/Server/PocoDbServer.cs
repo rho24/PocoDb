@@ -3,7 +3,6 @@ using PocoDb.Commits;
 using PocoDb.Indexing;
 using PocoDb.Meta;
 using PocoDb.Persistence;
-using PocoDb.Pocos;
 using PocoDb.Queries;
 
 namespace PocoDb.Server

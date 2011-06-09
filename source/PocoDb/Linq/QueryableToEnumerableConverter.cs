@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using PocoDb.Extensions;
 
-namespace PocoDb.Queries
+namespace PocoDb.Linq
 {
     public class QueryableToEnumerableConverter : IQueryableToEnumerableConverter
     {
@@ -28,7 +28,7 @@ namespace PocoDb.Queries
                 if (node.Method.DeclaringType == typeof (Queryable)) {
                     var genericTypes =
                         node.Method.GetGenericArguments().Select(t => t.ConvertToEnumerable().StripExpressionFromFunc())
-                            .ToArray();
+                            .ToArray<Type>();
 
                     var requiredMethodParameterTypes =
                         node.Method.GetParameters().Select(

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
-using PocoDb.Session;
 
 namespace PocoDb.Pocos
 {
@@ -24,7 +23,9 @@ namespace PocoDb.Pocos
 
             var innerType = meta.Type.GetGenericArguments()[0];
 
-            return GenericHelper.InvokeGeneric(() => new WritableCollectionProxy<object>(meta, PocoGetter, ChangeTracker), innerType);
+            return
+                GenericHelper.InvokeGeneric(() => new WritableCollectionProxy<object>(meta, PocoGetter, ChangeTracker),
+                                            innerType);
         }
 
         class WritableCollectionProxy<T> : ICollection<T>
