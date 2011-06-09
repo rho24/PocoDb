@@ -15,16 +15,14 @@ namespace PocoDb.Server
         public IQueryProcessor QueryProcessor { get; private set; }
         public ICommitProcessor CommitProcessor { get; private set; }
         public IIndexManager IndexManager { get; private set; }
-        public IPocoFactory PocoFactory { get; private set; }
 
         public PocoDbServer(IMetaStore metaStore, ICommitStore commitStore, IQueryProcessor queryProcessor,
-                            ICommitProcessor commitProcessor, IIndexManager indexManager, IPocoFactory pocoFactory) {
+                            ICommitProcessor commitProcessor, IIndexManager indexManager) {
             MetaStore = metaStore;
             CommitStore = commitStore;
             QueryProcessor = queryProcessor;
             CommitProcessor = commitProcessor;
             IndexManager = indexManager;
-            PocoFactory = pocoFactory;
         }
 
         public IQueryResult Query(IQuery query) {

@@ -51,7 +51,7 @@ namespace PocoDb.Specs.Poco
             A.CallTo(() => meta.Properties).Returns(new Dictionary<IProperty, object>()
             {{new Property<DummyObject, ChildObject>(p => p.Child), childId}});
 
-            A.CallTo(() => session.GetPoco(childId)).Returns(childPoco);
+            A.CallTo(() => pocoGetter.GetPoco(childId)).Returns(childPoco);
         };
 
         Because of = () => poco = sut.BuildProxy(meta) as DummyObject;
@@ -71,7 +71,7 @@ namespace PocoDb.Specs.Poco
         Because of = () => proxy.FirstName = "value";
 
         It should_track_the_change =
-            () => A.CallTo(() => changes.TrackPropertySet(proxy, property, "value")).MustHaveHappened();
+            () => A.CallTo(() => changeTracker.TrackPropertySet(proxy, property, "value")).MustHaveHappened();
 
         It should_update_the_value = () => proxy.FirstName.ShouldEqual("value");
 
@@ -86,7 +86,7 @@ namespace PocoDb.Specs.Poco
         Because of = () => proxy.FirstName = "new value";
 
         It should_not_track_the_change =
-            () => A.CallTo(() => changes.TrackPropertySet(proxy, property, "new value")).MustHaveHappened();
+            () => A.CallTo(() => changeTracker.TrackPropertySet(proxy, property, "new value")).MustHaveHappened();
 
         It should_update_the_value = () => proxy.FirstName.ShouldEqual("new value");
 
@@ -101,7 +101,7 @@ namespace PocoDb.Specs.Poco
         Because of = () => proxy.FirstName = "value";
 
         It should_not_track_the_change =
-            () => A.CallTo(() => changes.TrackPropertySet(proxy, property, "value")).MustNotHaveHappened();
+            () => A.CallTo(() => changeTracker.TrackPropertySet(proxy, property, "value")).MustNotHaveHappened();
 
         It should_should_have_the_same_value = () => proxy.FirstName.ShouldEqual("value");
 

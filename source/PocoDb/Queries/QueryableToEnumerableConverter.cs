@@ -41,7 +41,7 @@ namespace PocoDb.Queries
                     var methodsWithSameParameters = methodsWithSameName.Where(m => {
                         var parameterTypes = m.GetParameters().Select(p => p.ParameterType).ToArray();
 
-                        return requiredMethodParameterTypes.All(t => parameterTypes.Contains(t));
+                        return requiredMethodParameterTypes.SequenceEqual(parameterTypes);
                     });
 
                     var enumerableMethod = methodsWithSameParameters.FirstOrDefault();

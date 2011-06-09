@@ -13,7 +13,6 @@ namespace PocoDb.Server
         IMetaStore MetaStore { get; }
         ICommitStore CommitStore { get; }
         IIndexManager IndexManager { get; }
-        IPocoFactory PocoFactory { get; }
 
         IQueryResult Query(IQuery query);
         void Commit(ICommit commit);

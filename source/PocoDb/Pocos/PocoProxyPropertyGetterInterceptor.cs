@@ -10,12 +10,12 @@ namespace PocoDb.Pocos
     public class PocoProxyPropertyGetterInterceptor<T> : IInterceptor
     {
         public IPocoMeta Meta { get; private set; }
-        public IInternalPocoSession Session { get; private set; }
+        public ICanGetPocos PocoGetter { get; private set; }
         public List<IProperty> InitialisedProperties { get; private set; }
 
-        public PocoProxyPropertyGetterInterceptor(IPocoMeta meta, IInternalPocoSession session) {
+        public PocoProxyPropertyGetterInterceptor(IPocoMeta meta, ICanGetPocos pocoGetter) {
             Meta = meta;
-            Session = session;
+            PocoGetter = pocoGetter;
 
             InitialisedProperties = new List<IProperty>();
         }
@@ -33,7 +33,7 @@ namespace PocoDb.Pocos
             if (!InitialisedProperties.Contains(property)) {
                 var value = Meta.Properties[property];
                 if (value is IPocoId)
-                    value = Session.GetPoco((IPocoId) value);
+                    value = PocoGetter.GetPoco((IPocoId) value);
 
                 InitialisedProperties.Add(property);
                 property.Set(invocation.InvocationTarget, value);

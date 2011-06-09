@@ -19,12 +19,9 @@ namespace PocoDb
             var queryProcessor = new QueryProcessor(partialQueryReplacer);
             var commitProcessor = new CommitProcessor();
             var indexManager = new IndexManager();
-            var pocoProxyBuilder = new ReadOnlyPocoProxyBuilder();
-            var collectionProxyBuilder = new ReadOnlyCollectionProxyBuilder();
-            var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
 
             Server = new PocoDbServer(new InMemoryMetaStore(), new InMemoryCommitStore(), queryProcessor,
-                                      commitProcessor, indexManager, pocoFactory);
+                                      commitProcessor, indexManager);
 
             queryProcessor.Initialise(Server);
             commitProcessor.Initialise(Server);
@@ -52,8 +49,8 @@ namespace PocoDb
             var commitBuilder = new CommitBuilder(idGenerator, pocoMetaBuilder);
             var session = new WritablePocoSession(Server, pocoFactory, commitBuilder);
 
-            pocoProxyBuilder.Initialise(session);
-            collectionProxyBuilder.Initialise(session);
+            pocoProxyBuilder.Initialise(session, session.ChangeTracker);
+            collectionProxyBuilder.Initialise(session, session.ChangeTracker);
 
             return session;
         }

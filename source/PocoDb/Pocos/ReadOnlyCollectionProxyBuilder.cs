@@ -9,10 +9,10 @@ namespace PocoDb.Pocos
 {
     public class ReadOnlyCollectionProxyBuilder : ICollectionProxyBuilder
     {
-        public IInternalPocoSession Session { get; private set; }
+        public ICanGetPocos PocoGetter { get; private set; }
 
-        public void Initialise(IInternalPocoSession session) {
-            Session = session;
+        public void Initialise(ICanGetPocos pocoGetter) {
+            PocoGetter = pocoGetter;
         }
 
         public object BuildProxy(IPocoMeta meta) {
@@ -21,18 +21,18 @@ namespace PocoDb.Pocos
 
             var innerType = meta.Type.GetGenericArguments()[0];
 
-            return GenericHelper.InvokeGeneric(() => new ReadOnlyCollectionProxy<object>(meta, Session), innerType);
+            return GenericHelper.InvokeGeneric(() => new ReadOnlyCollectionProxy<object>(meta, PocoGetter), innerType);
         }
 
         class ReadOnlyCollectionProxy<T> : ICollection<T>
         {
             public IPocoMeta Meta { get; private set; }
-            public IInternalPocoSession Session { get; private set; }
+            public ICanGetPocos PocoGetter { get; private set; }
             public ICollection<T> InnerCollection { get; private set; }
 
-            public ReadOnlyCollectionProxy(IPocoMeta meta, IInternalPocoSession session) {
+            public ReadOnlyCollectionProxy(IPocoMeta meta, ICanGetPocos pocoGetter) {
                 Meta = meta;
-                Session = session;
+                PocoGetter = pocoGetter;
 
                 Initialise();
             }
@@ -40,7 +40,7 @@ namespace PocoDb.Pocos
             void Initialise() {
                 InnerCollection = new List<T>();
                 foreach (var o in Meta.Collection) {
-                    var value = o is IPocoId ? Session.GetPoco((IPocoId) o) : o;
+                    var value = o is IPocoId ? PocoGetter.GetPoco((IPocoId) o) : o;
 
                     if (value is T)
                         InnerCollection.Add((T) value);

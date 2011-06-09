@@ -49,13 +49,14 @@ namespace PocoDb.Queries
         }
 
         IQueryResult ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
-            var idsMetasAndProxies = new IdsMetasAndProxies();
-            var pocos =
-                Server.MetaStore.Get(index.GetIds()).Select(m => (T) Server.PocoFactory.Build(m, idsMetasAndProxies));
+            var pocoGetter = new ServerPocoGetter(Server);
+            var ids = index.GetIds();
+            var pocos = ids.Select(i => (T)pocoGetter.GetPoco(i));
+
             var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
 
             var result = Expression.Lambda<Func<T>>(newQuery).Compile().Invoke();
-            var id = idsMetasAndProxies.Ids[result];
+            var id = pocoGetter.IdsMetasAndProxies.Ids[result];
             var meta = Server.MetaStore.Get(id);
 
             return new SinglePocoQueryResult() {Id = id, Metas = new[] {meta}};
@@ -69,6 +70,32 @@ namespace PocoDb.Queries
             result.Metas = id == null ? new IPocoMeta[] {} : new[] {Server.MetaStore.Get(id)};
 
             return result;
+        }
+    }
+
+    public class ServerPocoGetter : ICanGetPocos
+    {
+        public IPocoDbServer Server { get; private set; }
+        public IIdsMetasAndProxies IdsMetasAndProxies { get; private set; }
+
+        public ServerPocoGetter(IPocoDbServer server) {
+            Server = server;
+            IdsMetasAndProxies = new IdsMetasAndProxies();
+        }
+
+        public object GetPoco(IPocoId id) {
+            var meta = Server.MetaStore.Get(id);
+
+            if (meta == null)
+                throw new ArgumentException("id is not recognised");
+            
+            var pocoProxyBuilder = new ReadOnlyPocoProxyBuilder();
+            var collectionProxyBuilder = new ReadOnlyCollectionProxyBuilder();
+            pocoProxyBuilder.Initialise(this);
+            collectionProxyBuilder.Initialise(this);
+            var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
+
+            return pocoFactory.Build(meta, IdsMetasAndProxies);
         }
     }
 

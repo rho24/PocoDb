@@ -5,10 +5,9 @@ using PocoDb.Server;
 
 namespace PocoDb.Session
 {
-    public interface IInternalPocoSession
+    public interface IInternalPocoSession: ICanGetPocos
     {
         IPocoDbServer Server { get; }
         IIdsMetasAndProxies IdsMetasAndProxies { get; }
-        object GetPoco(IPocoId id);
     }
 }

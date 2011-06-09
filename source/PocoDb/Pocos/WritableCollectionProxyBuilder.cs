@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 using PocoDb.Session;
@@ -9,10 +10,12 @@ namespace PocoDb.Pocos
 {
     public class WritableCollectionProxyBuilder : ICollectionProxyBuilder
     {
-        public IInternalWritablePocoSession Session { get; private set; }
+        public ICanGetPocos PocoGetter { get; private set; }
+        public IChangeTracker ChangeTracker { get; private set; }
 
-        public void Initialise(IInternalWritablePocoSession session) {
-            Session = session;
+        public void Initialise(ICanGetPocos pocoGetter, IChangeTracker changeTracker) {
+            PocoGetter = pocoGetter;
+            ChangeTracker = changeTracker;
         }
 
         public object BuildProxy(IPocoMeta meta) {
@@ -21,18 +24,20 @@ namespace PocoDb.Pocos
 
             var innerType = meta.Type.GetGenericArguments()[0];
 
-            return GenericHelper.InvokeGeneric(() => new WritableCollectionProxy<object>(meta, Session), innerType);
+            return GenericHelper.InvokeGeneric(() => new WritableCollectionProxy<object>(meta, PocoGetter, ChangeTracker), innerType);
         }
 
         class WritableCollectionProxy<T> : ICollection<T>
         {
             public IPocoMeta Meta { get; private set; }
-            public IInternalWritablePocoSession Session { get; private set; }
+            public ICanGetPocos PocoGetter { get; private set; }
+            public IChangeTracker ChangeTracker { get; private set; }
             public ICollection<T> InnerCollection { get; private set; }
 
-            public WritableCollectionProxy(IPocoMeta meta, IInternalWritablePocoSession session) {
+            public WritableCollectionProxy(IPocoMeta meta, ICanGetPocos pocoGetter, IChangeTracker changeTracker) {
                 Meta = meta;
-                Session = session;
+                PocoGetter = pocoGetter;
+                ChangeTracker = changeTracker;
 
                 Initialise();
             }
@@ -40,7 +45,7 @@ namespace PocoDb.Pocos
             void Initialise() {
                 InnerCollection = new List<T>();
                 foreach (var o in Meta.Collection) {
-                    var value = o is IPocoId ? Session.GetPoco((IPocoId) o) : o;
+                    var value = o is IPocoId ? PocoGetter.GetPoco((IPocoId) o) : o;
 
                     if (value is T)
                         InnerCollection.Add((T) value);
@@ -52,13 +57,13 @@ namespace PocoDb.Pocos
             public bool IsReadOnly { get { return false; } }
 
             public void Add(T item) {
-                Session.ChangeTracker.TrackAddToCollection(this, item);
+                ChangeTracker.TrackAddToCollection(this, item);
                 InnerCollection.Add(item);
             }
 
             public void Clear() {
                 foreach (var value in InnerCollection) {
-                    Session.ChangeTracker.TrackRemoveFromCollection(this, value);
+                    ChangeTracker.TrackRemoveFromCollection(this, value);
                 }
 
                 InnerCollection.Clear();
@@ -73,7 +78,7 @@ namespace PocoDb.Pocos
             }
 
             public bool Remove(T item) {
-                Session.ChangeTracker.TrackRemoveFromCollection(this, item);
+                ChangeTracker.TrackRemoveFromCollection(this, item);
                 return InnerCollection.Remove(item);
             }
 

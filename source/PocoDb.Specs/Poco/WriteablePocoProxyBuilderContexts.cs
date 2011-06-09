@@ -14,16 +14,14 @@ namespace PocoDb.Specs.Poco
     public class with_a_new_WriteablePocoProxyBuilder : Observes<WriteablePocoProxyBuilder>
     {
         Establish c = () => {
-            session = fake.an<IInternalWritablePocoSession>();
-            changes = fake.an<IChangeTracker>();
+            pocoGetter = fake.an<ICanGetPocos>();
+            changeTracker = fake.an<IChangeTracker>();
 
-            A.CallTo(() => session.ChangeTracker).Returns(changes);
-
-            sut_setup.run(sut => sut.Initialise(session));
+            sut_setup.run(sut => sut.Initialise(pocoGetter, changeTracker));
         };
 
-        protected static IInternalWritablePocoSession session;
-        protected static IChangeTracker changes;
+        protected static ICanGetPocos pocoGetter;
+        protected static IChangeTracker changeTracker;
     }
 
     [Subject(typeof (WriteablePocoProxyBuilder))]

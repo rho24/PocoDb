@@ -96,6 +96,7 @@
     <Compile Include="Persistence\IMetaStore.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
+    <Compile Include="Pocos\ICanGetPocos.cs" />
     <Compile Include="Pocos\IIdsMetasAndProxies.cs" />
     <Compile Include="Pocos\PocoProxyPropertyGetterInterceptor.cs" />
     <Compile Include="Pocos\PropertyHook.cs" />

@@ -8,7 +8,7 @@ namespace PocoDb.Pocos
 {
     public class ReadOnlyPocoProxyBuilder : IPocoProxyBuilder
     {
-        public IInternalPocoSession Session { get; private set; }
+        public ICanGetPocos PocoGetter { get; private set; }
         public ProxyGenerator Generator { get; private set; }
         public ProxyGenerationOptions ProxyOptions { get; private set; }
 
@@ -17,13 +17,13 @@ namespace PocoDb.Pocos
             ProxyOptions = new ProxyGenerationOptions(new PropertyHook());
         }
 
-        public void Initialise(IInternalPocoSession session) {
-            Session = session;
+        public void Initialise(ICanGetPocos pocoGetter) {
+            PocoGetter = pocoGetter;
         }
 
         public object BuildProxy(IPocoMeta meta) {
             var propertyGetterInterceptor = GenericHelper.InvokeGeneric(
-                () => new PocoProxyPropertyGetterInterceptor<object>(meta, Session), meta.Type) as IInterceptor;
+                () => new PocoProxyPropertyGetterInterceptor<object>(meta, PocoGetter), meta.Type) as IInterceptor;
 
             return Generator.CreateClassProxy(meta.Type, ProxyOptions, propertyGetterInterceptor);
         }
