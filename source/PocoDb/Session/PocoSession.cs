@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PocoDb.Linq;
 using PocoDb.Meta;
@@ -38,6 +39,22 @@ namespace PocoDb.Session
 
                 IdsMetasAndProxies.Metas.Add(meta.Id, meta);
                 return PocoFactory.Build(meta, IdsMetasAndProxies);
+            }
+        }
+
+        public IEnumerable<object> GetPocos(IEnumerable<IPocoId> ids) {
+            foreach (var id in ids) {
+                if (IdsMetasAndProxies.Metas.ContainsKey(id))
+                    yield return PocoFactory.Build(IdsMetasAndProxies.Metas[id], IdsMetasAndProxies);
+                else {
+                    var meta = Server.GetMeta(id);
+
+                    if (meta == null)
+                        throw new ArgumentException("id is not recognised");
+
+                    IdsMetasAndProxies.Metas.Add(meta.Id, meta);
+                    yield return PocoFactory.Build(meta, IdsMetasAndProxies);
+                }
             }
         }
 

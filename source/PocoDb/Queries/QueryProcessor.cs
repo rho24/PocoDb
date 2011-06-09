@@ -49,7 +49,7 @@ namespace PocoDb.Queries
         IQueryResult ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
             var pocoGetter = new ServerPocoGetter(Server);
             var ids = index.GetIds();
-            var pocos = ids.Select(i => (T) pocoGetter.GetPoco(i));
+            var pocos = pocoGetter.GetPocos(ids).Cast<T>();
 
             var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
 
