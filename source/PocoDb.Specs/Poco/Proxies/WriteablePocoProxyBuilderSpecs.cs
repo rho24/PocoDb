@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Meta;
 
-namespace PocoDb.Specs.Poco
+namespace PocoDb.Specs.Poco.Proxies
 {
     public class when_a_writable_poco_proxy_is_built : with_a_new_WriteablePocoProxyBuilder
     {

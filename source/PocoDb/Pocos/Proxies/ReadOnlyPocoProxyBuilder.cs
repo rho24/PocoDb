@@ -1,9 +1,8 @@
-﻿using System;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
     public class ReadOnlyPocoProxyBuilder : IPocoProxyBuilder
     {

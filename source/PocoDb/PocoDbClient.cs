@@ -5,6 +5,7 @@ using PocoDb.Linq;
 using PocoDb.Meta;
 using PocoDb.Persistence;
 using PocoDb.Pocos;
+using PocoDb.Pocos.Proxies;
 using PocoDb.Queries;
 using PocoDb.Server;
 using PocoDb.Session;

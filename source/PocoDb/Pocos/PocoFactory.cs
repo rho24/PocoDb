@@ -1,6 +1,7 @@
 using System;
 using PocoDb.Extensions;
 using PocoDb.Meta;
+using PocoDb.Pocos.Proxies;
 
 namespace PocoDb.Pocos
 {

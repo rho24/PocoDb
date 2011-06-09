@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Meta;
-using PocoDb.Pocos;
+using PocoDb.Pocos.Proxies;
 using PocoDb.Session;
 
-namespace PocoDb.Specs.Poco
+namespace PocoDb.Specs.Poco.Proxies
 {
     [Subject(typeof (ReadOnlyCollectionProxyBuilder))]
     public class with_a_new_ReadOnlyCollectionProxyBuilder : Observes<ReadOnlyCollectionProxyBuilder>

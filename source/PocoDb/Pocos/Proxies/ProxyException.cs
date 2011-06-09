@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
     internal class ProxyException : Exception
     {

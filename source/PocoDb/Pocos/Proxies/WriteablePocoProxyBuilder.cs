@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Castle.DynamicProxy;
 using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
     public class WriteablePocoProxyBuilder : IPocoProxyBuilder
     {

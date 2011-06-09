@@ -3,7 +3,7 @@ using System.Reflection;
 using Castle.DynamicProxy;
 using PocoDb.Extensions;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
     public class PropertyHook : IProxyGenerationHook
     {

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using PocoDb.ChangeTracking;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
-    public class WritableCollectionProxyBuilder : ICollectionProxyBuilder
+    public class ReadOnlyCollectionProxyBuilder : ICollectionProxyBuilder
     {
         public ICanGetPocos PocoGetter { get; private set; }
-        public IChangeTracker ChangeTracker { get; private set; }
 
-        public void Initialise(ICanGetPocos pocoGetter, IChangeTracker changeTracker) {
+        public void Initialise(ICanGetPocos pocoGetter) {
             PocoGetter = pocoGetter;
-            ChangeTracker = changeTracker;
         }
 
         public object BuildProxy(IPocoMeta meta) {
@@ -23,22 +20,18 @@ namespace PocoDb.Pocos
 
             var innerType = meta.Type.GetGenericArguments()[0];
 
-            return
-                GenericHelper.InvokeGeneric(() => new WritableCollectionProxy<object>(meta, PocoGetter, ChangeTracker),
-                                            innerType);
+            return GenericHelper.InvokeGeneric(() => new ReadOnlyCollectionProxy<object>(meta, PocoGetter), innerType);
         }
 
-        class WritableCollectionProxy<T> : ICollection<T>
+        class ReadOnlyCollectionProxy<T> : ICollection<T>
         {
             public IPocoMeta Meta { get; private set; }
             public ICanGetPocos PocoGetter { get; private set; }
-            public IChangeTracker ChangeTracker { get; private set; }
             public ICollection<T> InnerCollection { get; private set; }
 
-            public WritableCollectionProxy(IPocoMeta meta, ICanGetPocos pocoGetter, IChangeTracker changeTracker) {
+            public ReadOnlyCollectionProxy(IPocoMeta meta, ICanGetPocos pocoGetter) {
                 Meta = meta;
                 PocoGetter = pocoGetter;
-                ChangeTracker = changeTracker;
 
                 Initialise();
             }
@@ -58,15 +51,10 @@ namespace PocoDb.Pocos
             public bool IsReadOnly { get { return false; } }
 
             public void Add(T item) {
-                ChangeTracker.TrackAddToCollection(this, item);
                 InnerCollection.Add(item);
             }
 
             public void Clear() {
-                foreach (var value in InnerCollection) {
-                    ChangeTracker.TrackRemoveFromCollection(this, value);
-                }
-
                 InnerCollection.Clear();
             }
 
@@ -79,7 +67,6 @@ namespace PocoDb.Pocos
             }
 
             public bool Remove(T item) {
-                ChangeTracker.TrackRemoveFromCollection(this, item);
                 return InnerCollection.Remove(item);
             }
 

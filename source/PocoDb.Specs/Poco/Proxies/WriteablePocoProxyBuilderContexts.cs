@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Meta;
 using PocoDb.Pocos;
+using PocoDb.Pocos.Proxies;
 
-namespace PocoDb.Specs.Poco
+namespace PocoDb.Specs.Poco.Proxies
 {
     [Subject(typeof (WriteablePocoProxyBuilder))]
     public class with_a_new_WriteablePocoProxyBuilder : Observes<WriteablePocoProxyBuilder>

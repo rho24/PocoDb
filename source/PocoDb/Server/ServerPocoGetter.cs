@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PocoDb.Meta;
 using PocoDb.Pocos;
+using PocoDb.Pocos.Proxies;
 
 namespace PocoDb.Server
 {

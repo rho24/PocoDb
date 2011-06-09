@@ -1,7 +1,6 @@
-﻿using System;
-using PocoDb.Meta;
+﻿using PocoDb.Meta;
 
-namespace PocoDb.Pocos
+namespace PocoDb.Pocos.Proxies
 {
     public interface ICollectionProxyBuilder
     {

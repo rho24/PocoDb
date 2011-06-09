@@ -2,6 +2,7 @@
 using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Pocos;
+using PocoDb.Pocos.Proxies;
 using PocoDb.Session;
 
 namespace PocoDb.Specs.Poco
