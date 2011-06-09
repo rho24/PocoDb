@@ -24,12 +24,12 @@ namespace PocoDb.Specs
 
         static IWritablePocoSession session;
     }
-    
+
     public class when_BeginSession_is_called_before_initialisation
     {
         It should_throw;
     }
-    
+
     public class when_BeginWritableSession_is_called_before_initialisation
     {
         It should_throw;

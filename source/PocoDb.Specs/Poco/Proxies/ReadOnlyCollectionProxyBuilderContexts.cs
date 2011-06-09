@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
@@ -46,6 +47,7 @@ namespace PocoDb.Specs.Poco.Proxies
 
         Because of = () => proxy.Add("value");
 
-        It should_contain_the_value_twice = () => ShouldExtensionMethods.ShouldEqual(proxy.Where(v => v == "value").Count(), 2);
+        It should_contain_the_value_twice =
+            () => ShouldExtensionMethods.ShouldEqual(proxy.Where(v => v == "value").Count(), 2);
     }
 }

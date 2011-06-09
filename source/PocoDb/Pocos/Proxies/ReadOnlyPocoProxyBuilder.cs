@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿using System;
+using Castle.DynamicProxy;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 
