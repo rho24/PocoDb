@@ -9,7 +9,7 @@ using PocoDb.Queries;
 
 namespace PocoDb.Specs.Queries
 {
-    public class when_a_queried_for_IEnumerable : with_a_new_QueryProcessor
+    public class when_queried_for_IEnumerable : with_a_new_QueryProcessor
     {
         Establish c = () => {
             query = fake.an<IQuery>();
@@ -85,4 +85,7 @@ namespace PocoDb.Specs.Queries
         static IPocoMeta meta;
         static IQueryResult result;
     }
+
+    public class when_queried_for_FirstOrDefault
+    {}
 }
