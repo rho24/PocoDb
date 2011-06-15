@@ -5,7 +5,8 @@ namespace PocoDb.Commits
     public class CommitIdGenerator : ICommitIdGenerator
     {
         public ICommitId New() {
-            return new CommitId();
+            var id = Guid.NewGuid();
+            return new CommitId(id);
         }
     }
 }

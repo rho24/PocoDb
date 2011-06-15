@@ -6,8 +6,8 @@ namespace PocoDb.Commits
     {
         public Guid Id { get; private set; }
 
-        public CommitId() {
-            Id = Guid.NewGuid();
+        public CommitId(Guid id) {
+            Id = id;
         }
 
         public override bool Equals(object obj) {
