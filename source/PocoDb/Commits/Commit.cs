@@ -7,10 +7,10 @@ namespace PocoDb.Commits
     {
         public ICommitId Id { get; private set; }
 
-        public List<AddedPoco> AddedPocos { get; private set; }
-        public List<SetProperty> SetProperties { get; private set; }
-        public List<CollectionAddition> CollectionAdditions { get; private set; }
-        public List<CollectionRemoval> CollectionRemovals { get; private set; }
+        public ICollection<AddedPoco> AddedPocos { get; set; }
+        public ICollection<SetProperty> SetProperties { get; set; }
+        public ICollection<CollectionAddition> CollectionAdditions { get; set; }
+        public ICollection<CollectionRemoval> CollectionRemovals { get; set; }
 
         IEnumerable<AddedPoco> ICommit.AddedPocos { get { return AddedPocos; } }
         IEnumerable<SetProperty> ICommit.SetProperties { get { return SetProperties; } }

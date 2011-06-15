@@ -5,7 +5,8 @@ namespace PocoDb.Meta
     public class PocoIdBuilder : IPocoIdBuilder
     {
         public IPocoId New() {
-            return new PocoId();
+            var id = Guid.NewGuid();
+            return new PocoId(id);
         }
     }
 }

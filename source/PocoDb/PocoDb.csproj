@@ -116,6 +116,8 @@
     <Compile Include="Persistence\IMetaStore.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
+    <Compile Include="Persistence\SqlServer\PropertyConverter.cs" />
+    <Compile Include="Persistence\SqlServer\SqlCommit.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStore.cs" />
     <Compile Include="Pocos\ICanGetPocos.cs" />
     <Compile Include="Pocos\IIdsMetasAndProxies.cs" />

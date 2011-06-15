@@ -54,6 +54,9 @@
     <Reference Include="Machine.Specifications">
       <HintPath>..\packages\Machine.Specifications.0.4.13.0\lib\Machine.Specifications.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -86,6 +89,8 @@
     <Compile Include="Persistence\InMemoryMetaStoreContexts.cs" />
     <Compile Include="Persistence\InMemoryMetaStoreSpecs.cs" />
     <Compile Include="Persistence\SqlServer\AppStart.cs" />
+    <Compile Include="Persistence\SqlServer\PropertyConverterContexts.cs" />
+    <Compile Include="Persistence\SqlServer\PropertyConverterSpecs.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStoreContexts.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStoreSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
@@ -127,7 +132,9 @@
       <Name>PocoDb</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

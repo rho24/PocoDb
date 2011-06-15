@@ -6,8 +6,8 @@ namespace PocoDb.Meta
     {
         public Guid Id { get; private set; }
 
-        public PocoId() {
-            Id = Guid.NewGuid();
+        public PocoId(Guid id) {
+            Id = id;
         }
 
         public override bool Equals(object obj) {
