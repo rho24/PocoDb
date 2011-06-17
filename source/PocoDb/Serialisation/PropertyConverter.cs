@@ -2,14 +2,14 @@
 using Newtonsoft.Json;
 using PocoDb.Meta;
 
-namespace PocoDb.Persistence.SqlServer
+namespace PocoDb.Serialisation
 {
     public class PropertyConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {}
+        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer) {}
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer) {
+                                        Newtonsoft.Json.JsonSerializer serializer) {
             try {
                 do reader.Read(); while (reader.TokenType != JsonToken.String);
 

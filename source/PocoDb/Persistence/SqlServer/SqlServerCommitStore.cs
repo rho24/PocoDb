@@ -2,28 +2,27 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
-using Newtonsoft.Json;
 using PocoDb.Commits;
+using PocoDb.Serialisation;
 
 namespace PocoDb.Persistence.SqlServer
 {
     public class SqlServerCommitStore : ICommitStore
     {
         public string NameOrConnectionString { get; private set; }
-        public JsonSerializerSettings JsonSettings { get; private set; }
+        protected ISerializer Serializer { get; private set; }
 
-        public SqlServerCommitStore(string nameOrConnectionString) {
+        public SqlServerCommitStore(string nameOrConnectionString, ISerializer serializer) {
             NameOrConnectionString = nameOrConnectionString;
-            JsonSettings = new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.Objects};
-            JsonSettings.Converters.Add(new PropertyConverter());
+            Serializer = serializer;
         }
 
         public void Save(ICommit commit) {
             if (commit == null)
                 throw new ArgumentNullException("commit");
 
-            var id = JsonConvert.SerializeObject(commit.Id, Formatting.None, JsonSettings);
-            var value = JsonConvert.SerializeObject(commit, Formatting.None, JsonSettings);
+            var id = Serializer.Serialize(commit.Id);
+            var value = Serializer.Serialize(commit);
 
             using (var context = new Context(NameOrConnectionString)) {
                 if (context.Commits.Any(c => c.Id == id))
@@ -38,7 +37,7 @@ namespace PocoDb.Persistence.SqlServer
             if (id == null)
                 throw new ArgumentNullException("id");
 
-            var serialisedId = JsonConvert.SerializeObject(id, Formatting.None, JsonSettings);
+            var serialisedId = Serializer.Serialize(id);
 
             using (var context = new Context(NameOrConnectionString)) {
                 var sqlCommit = context.Commits.FirstOrDefault(c => c.Id == serialisedId);
@@ -46,8 +45,8 @@ namespace PocoDb.Persistence.SqlServer
                 if (sqlCommit == null)
                     return null;
 
-                var commit = JsonConvert.DeserializeObject(sqlCommit.Value, JsonSettings);
-                return commit as ICommit;
+                var commit = Serializer.Deserialize<ICommit>(sqlCommit.Value);
+                return commit;
             }
         }
 

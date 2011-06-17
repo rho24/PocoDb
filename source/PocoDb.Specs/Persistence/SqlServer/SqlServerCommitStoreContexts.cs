@@ -4,6 +4,7 @@ using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 using PocoDb.Persistence.SqlServer;
+using PocoDb.Serialisation;
 
 namespace PocoDb.Specs.Persistence.SqlServer
 {
@@ -14,6 +15,7 @@ namespace PocoDb.Specs.Persistence.SqlServer
         Establish c = () => {
             SQLCEEntityFramework.Start();
             depends.on<string>("PocoDbTestDb");
+            depends.on<ISerializer>(new JsonSerializer());
 
             var context = new SqlServerCommitStore.Context("PocoDbTestDb");
 

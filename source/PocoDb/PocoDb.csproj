@@ -116,7 +116,6 @@
     <Compile Include="Persistence\IMetaStore.cs" />
     <Compile Include="Persistence\InMemoryCommitStore.cs" />
     <Compile Include="Persistence\InMemoryMetaStore.cs" />
-    <Compile Include="Persistence\SqlServer\PropertyConverter.cs" />
     <Compile Include="Persistence\SqlServer\SqlCommit.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStore.cs" />
     <Compile Include="Pocos\ICanGetPocos.cs" />
@@ -147,6 +146,9 @@
     <Compile Include="Queries\EnumerablePocoQueryResult.cs" />
     <Compile Include="Queries\QueryProcessor.cs" />
     <Compile Include="Queries\SinglePocoQueryResult.cs" />
+    <Compile Include="Serialisation\ISerializer.cs" />
+    <Compile Include="Serialisation\JsonSerializer.cs" />
+    <Compile Include="Serialisation\PropertyConverter.cs" />
     <Compile Include="Server\IPocoDbServer.cs" />
     <Compile Include="Server\PocoDbServer.cs" />
     <Compile Include="Server\ServerPocoGetter.cs" />

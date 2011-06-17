@@ -89,8 +89,6 @@
     <Compile Include="Persistence\InMemoryMetaStoreContexts.cs" />
     <Compile Include="Persistence\InMemoryMetaStoreSpecs.cs" />
     <Compile Include="Persistence\SqlServer\AppStart.cs" />
-    <Compile Include="Persistence\SqlServer\PropertyConverterContexts.cs" />
-    <Compile Include="Persistence\SqlServer\PropertyConverterSpecs.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStoreContexts.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStoreSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
@@ -110,6 +108,8 @@
     <Compile Include="Queries\QueryProcessorContexts.cs" />
     <Compile Include="Queries\QueryProcessorSpecs.cs" />
     <Compile Include="QueryExpressions.cs" />
+    <Compile Include="Serialisation\JsonSerializerContexts.cs" />
+    <Compile Include="Serialisation\JsonSerializerSpecs.cs" />
     <Compile Include="Server\CommitProcessorContexts.cs" />
     <Compile Include="Server\CommitProcessorSpecs.cs" />
     <Compile Include="Server\PocoDbServerContexts.cs" />
