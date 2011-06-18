@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
+using System.Data;
 using PocoDb.Commits;
 using PocoDb.Serialisation;
 
@@ -10,10 +8,11 @@ namespace PocoDb.Persistence.SqlServer
     public class SqlServerCommitStore : ICommitStore
     {
         public string NameOrConnectionString { get; private set; }
+        public IDbConnectionFactory DbConnectionFactory { get; private set; }
         protected ISerializer Serializer { get; private set; }
 
-        public SqlServerCommitStore(string nameOrConnectionString, ISerializer serializer) {
-            NameOrConnectionString = nameOrConnectionString;
+        public SqlServerCommitStore(IDbConnectionFactory dbConnectionFactory, ISerializer serializer) {
+            DbConnectionFactory = dbConnectionFactory;
             Serializer = serializer;
         }
 
@@ -24,12 +23,21 @@ namespace PocoDb.Persistence.SqlServer
             var id = Serializer.Serialize(commit.Id);
             var value = Serializer.Serialize(commit);
 
-            using (var context = new Context(NameOrConnectionString)) {
-                if (context.Commits.Any(c => c.Id == id))
-                    throw new InvalidOperationException("Store already contains id");
+            using (var connection = DbConnectionFactory.CreateOpenConnection())
+            using (var trans = connection.BeginTransaction(IsolationLevel.Serializable))
+            using (var command = connection.CreateCommand()) {
+                command.CommandText = "INSERT INTO SqlCommits (Id, Value) VALUES (@Id, @Value)";
+                command.Parameters.Add(command.CreateParameter());
+                command.Parameters[0].ParameterName = "Id";
+                command.Parameters[0].Value = id;
+                command.Parameters.Add(command.CreateParameter());
+                command.Parameters[1].ParameterName = "Value";
+                command.Parameters[1].Value = value;
 
-                context.Commits.Add(new SqlCommit() {Id = id, Value = value});
-                context.SaveChanges();
+                if (command.ExecuteNonQuery() == 0)
+                    throw new InvalidOperationException("Failed to insert a row");
+
+                trans.Commit();
             }
         }
 
@@ -39,29 +47,21 @@ namespace PocoDb.Persistence.SqlServer
 
             var serialisedId = Serializer.Serialize(id);
 
-            using (var context = new Context(NameOrConnectionString)) {
-                var sqlCommit = context.Commits.FirstOrDefault(c => c.Id == serialisedId);
+            using (var connection = DbConnectionFactory.CreateOpenConnection())
+            using (var command = connection.CreateCommand()) {
+                command.CommandText = "SELECT Value FROM SqlCommits WHERE Id = @Id";
+                command.Parameters.Add(command.CreateParameter());
+                command.Parameters[0].ParameterName = "Id";
+                command.Parameters[0].Value = serialisedId;
 
-                if (sqlCommit == null)
+                var result = command.ExecuteReader();
+
+                if (!result.Read())
                     return null;
 
-                var commit = Serializer.Deserialize<ICommit>(sqlCommit.Value);
-                return commit;
-            }
-        }
+                var value = result["Value"].ToString();
 
-        public class Context : DbContext
-        {
-            public DbSet<SqlCommit> Commits { get; set; }
-
-            public Context(string nameOrConnectionString) : base(nameOrConnectionString) {}
-
-            protected override void OnModelCreating(ModelBuilder modelBuilder) {
-                modelBuilder.Entity<SqlCommit>()
-                    .HasKey(c => c.Id)
-                    .Property(c => c.Value).IsRequired();
-
-                base.OnModelCreating(modelBuilder);
+                return Serializer.Deserialize<ICommit>(value);
             }
         }
     }
