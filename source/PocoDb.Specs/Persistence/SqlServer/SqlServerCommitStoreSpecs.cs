@@ -37,4 +37,19 @@ namespace PocoDb.Specs.Persistence.SqlServer
 
         static ICommit retrievedCommit;
     }
+    
+    public class when_two_commits_are_added : with_a_populated_SqlServerCommitStore
+    {
+        Establish c = () => {
+            commit2 = new Commit(new CommitId(Guid.Empty, DateTime.Now.AddSeconds(5)));
+        };
+
+        Because of = () => {
+            sut.Save(commit2);
+        };
+
+        It should_be_retrievable = () => sut.Get(commit2.Id).ShouldNotBeNull();
+
+        static ICommit commit2;
+    }
 }
