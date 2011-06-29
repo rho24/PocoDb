@@ -2,6 +2,6 @@
 
 namespace PocoDb.Commits
 {
-    public interface ICommitId
+    public interface ICommitId : IComparable<ICommitId>
     {}
 }

@@ -7,7 +7,7 @@ namespace PocoDb.Specs.Persistence.SqlServer
 {
     public class when_a_commit_is_added : with_a_new_SqlServerCommitStore
     {
-        Establish c = () => { commit = new Commit(new CommitId(Guid.Empty)); };
+        Establish c = () => { commit = new Commit(new CommitId(Guid.Empty, DateTime.MinValue)); };
 
         Because of = () => sut.Save(commit);
 
@@ -18,7 +18,7 @@ namespace PocoDb.Specs.Persistence.SqlServer
 
     public class when_retrieving_a_non_existant_commit : with_a_new_SqlServerCommitStore
     {
-        Because of = () => commit = sut.Get(new CommitId(Guid.Empty));
+        Because of = () => commit = sut.Get(new CommitId(Guid.Empty, DateTime.MinValue));
 
         It should_return_null = () => commit.ShouldBeNull();
 

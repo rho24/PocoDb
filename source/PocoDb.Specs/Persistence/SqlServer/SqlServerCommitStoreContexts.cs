@@ -76,7 +76,7 @@ namespace PocoDb.Specs.Persistence.SqlServer
     public class with_a_populated_SqlServerCommitStore : with_a_new_SqlServerCommitStore
     {
         Establish c = () => {
-            commit = new Commit(new CommitId(Guid.Empty));
+            commit = new Commit(new CommitId(Guid.Empty, DateTime.MinValue));
             commit.AddedPocos.Add(new AddedPoco(new PocoMeta(new PocoId(Guid.Empty), typeof (DummyObject))));
             commit.SetProperties.Add(new SetProperty(new PocoId(Guid.Empty),
                                                      new Property<DummyObject, string>(d => d.FirstName), "value"));

@@ -6,7 +6,7 @@ namespace PocoDb.Commits
     {
         public ICommitId New() {
             var id = Guid.NewGuid();
-            return new CommitId(id);
+            return new CommitId(id, DateTime.Now);
         }
     }
 }
