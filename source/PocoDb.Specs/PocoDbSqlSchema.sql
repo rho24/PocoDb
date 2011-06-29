@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [SqlCommits] (
-  [Id] nvarchar(128) NOT NULL
-, [Value] nvarchar(4000) NOT NULL
+  [Id] nvarchar(MAX) NOT NULL
+, [Value] nvarchar(MAX) NOT NULL
 , [SequenceNumber] int NOT NULL IDENTITY (1,1)
 );
 GO
