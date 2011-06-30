@@ -89,8 +89,6 @@
     <Compile Include="Persistence\InMemoryCommitStoreSpecs.cs" />
     <Compile Include="Persistence\InMemoryMetaStoreContexts.cs" />
     <Compile Include="Persistence\InMemoryMetaStoreSpecs.cs" />
-    <Compile Include="Persistence\SqlServer\SqlServerCommitStoreContexts.cs" />
-    <Compile Include="Persistence\SqlServer\SqlServerCommitStoreSpecs.cs" />
     <Compile Include="PocoDbClientContexts.cs" />
     <Compile Include="PocoDbClientSpecs.cs" />
     <Compile Include="Poco\PocoFactoryContexts.cs" />

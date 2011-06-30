@@ -8,23 +8,22 @@ namespace PocoDb.Persistence
     public class InMemoryMetaStore : IMetaStore
     {
         protected IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
-        readonly ReaderWriterLockSlim _locker = new ReaderWriterLockSlim();
+        readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public InMemoryMetaStore() {
             Metas = new Dictionary<IPocoId, IPocoMeta>();
         }
 
         public IPocoMeta Get(IPocoId id) {
-            if (_locker.TryEnterReadLock(TimeSpan.FromMilliseconds(100))) {
-                try {
-                    return Metas.ContainsKey(id) ? Metas[id] : null;
-                }
-                finally {
-                    _locker.ExitReadLock();
-                }
-            }
+            if (!_lock.TryEnterReadLock(TimeSpan.FromMilliseconds(100)))
+                throw new ApplicationException("Could not enter read lock");
 
-            throw new ApplicationException("Could not enter read lock");
+            try {
+                return Metas.ContainsKey(id) ? Metas[id] : null;
+            }
+            finally {
+                _lock.ExitReadLock();
+            }
         }
 
         public IEnumerable<IPocoMeta> Get(IEnumerable<IPocoId> ids) {
@@ -38,7 +37,7 @@ namespace PocoDb.Persistence
         }
 
         public void AddNew(IPocoMeta meta) {
-            if (!_locker.TryEnterWriteLock(TimeSpan.FromMilliseconds(100)))
+            if (!_lock.TryEnterWriteLock(TimeSpan.FromMilliseconds(100)))
                 throw new ApplicationException("Could not enter write lock");
 
             try {
@@ -48,12 +47,12 @@ namespace PocoDb.Persistence
                 Metas.Add(meta.Id, meta);
             }
             finally {
-                _locker.ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
 
         public void Update(IPocoMeta meta) {
-            if (!_locker.TryEnterWriteLock(TimeSpan.FromMilliseconds(100)))
+            if (!_lock.TryEnterWriteLock(TimeSpan.FromMilliseconds(100)))
                 throw new ApplicationException("Could not enter write lock");
 
             try {
@@ -63,7 +62,7 @@ namespace PocoDb.Persistence
                 Metas[meta.Id] = meta;
             }
             finally {
-                _locker.ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
     }
