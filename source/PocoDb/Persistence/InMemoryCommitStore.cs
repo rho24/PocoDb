@@ -20,5 +20,9 @@ namespace PocoDb.Persistence
         public ICommit Get(ICommitId id) {
             return Commits.Where(c => c.Id == id).FirstOrDefault();
         }
+
+        public IEnumerable<ICommit> GetAll() {
+            return Commits.OrderBy(c => c.Id);
+        }
     }
 }

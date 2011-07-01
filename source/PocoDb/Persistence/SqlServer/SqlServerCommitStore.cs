@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using PocoDb.Commits;
 using PocoDb.Serialisation;
@@ -62,6 +63,21 @@ namespace PocoDb.Persistence.SqlServer
                 var value = result["Value"].ToString();
 
                 return Serializer.Deserialize<ICommit>(value);
+            }
+        }
+
+        public IEnumerable<ICommit> GetAll() {
+            using (var connection = DbConnectionFactory.CreateOpenConnection())
+            using (var command = connection.CreateCommand()) {
+                command.CommandText = "SELECT Value FROM SqlCommits ORDER BY Id";
+
+                var result = command.ExecuteReader();
+
+                while (result.Read()) {
+                    var value = result["Value"].ToString();
+
+                    yield return Serializer.Deserialize<ICommit>(value);
+                }
             }
         }
     }

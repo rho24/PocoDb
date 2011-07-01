@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
 using PocoDb.Commits;
@@ -37,19 +38,29 @@ namespace PocoDb.Specs.Persistence.SqlServer
 
         static ICommit retrievedCommit;
     }
-    
-    public class when_two_commits_are_added : with_a_populated_SqlServerCommitStore
+
+    public class when_retrieving_multiple_commits : with_a_new_SqlServerCommitStore
     {
         Establish c = () => {
-            commit2 = new Commit(new CommitId(Guid.Empty, DateTime.Now.AddSeconds(5)));
+            var time = DateTime.Now;
+            commit1 = new Commit(new CommitId(Guid.NewGuid(), time));
+
+            commit2 = new Commit(new CommitId(Guid.NewGuid(), time.AddSeconds(5)));
+
+            sut_setup.run(sut => {
+                sut.Save(commit1);
+                sut.Save(commit2);
+            });
         };
 
-        Because of = () => {
-            sut.Save(commit2);
-        };
+        Because of = () => commits = sut.GetAll().ToList();
 
-        It should_be_retrievable = () => sut.Get(commit2.Id).ShouldNotBeNull();
+        It should_return_all_commits = () => commits.Count.ShouldEqual(2);
+        It should_return_the_first = () => commits[0].Id.ShouldEqual(commit1.Id);
+        It should_return_the_second = () => commits[1].Id.ShouldEqual(commit2.Id);
 
+        static ICommit commit1;
         static ICommit commit2;
+        static List<ICommit> commits;
     }
 }

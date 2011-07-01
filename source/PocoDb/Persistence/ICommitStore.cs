@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PocoDb.Commits;
 
 namespace PocoDb.Persistence
@@ -7,5 +8,6 @@ namespace PocoDb.Persistence
     {
         void Save(ICommit commit);
         ICommit Get(ICommitId id);
+        IEnumerable<ICommit> GetAll();
     }
 }
