@@ -73,6 +73,7 @@
     <Compile Include="ChildObject.cs" />
     <Compile Include="Commits\CommitIdContexts.cs" />
     <Compile Include="Commits\CommitIdSpecs.cs" />
+    <Compile Include="CompactDbHelper.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="Indexing\IndexManagerContexts.cs" />
     <Compile Include="Indexing\IndexManagerSpecs.cs" />

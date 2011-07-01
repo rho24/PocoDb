@@ -7,7 +7,10 @@ namespace PocoDb.Specs.Integration
 {
     [Subject(typeof (PocoDbClient))]
     public abstract class with_a_new_PocoDbClient : Observes<PocoDbClient>
-    {}
+    {
+        Establish c = () => sut_factory.create_using(() =>
+                                                     new PocoDbClient(CompactDbHelper.CreateFreshDb()));
+    }
 
     public abstract class with_a_populated_poco_PocoDbClient : with_a_new_PocoDbClient
     {

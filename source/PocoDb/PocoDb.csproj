@@ -105,6 +105,7 @@
     <Compile Include="Persistence\SqlServer\IDbConnectionFactory.cs" />
     <Compile Include="Persistence\SqlServer\SqlCommit.cs" />
     <Compile Include="Persistence\SqlServer\SqlServerCommitStore.cs" />
+    <Compile Include="Persistence\SqlServer\SqlServerConnectionFactory.cs" />
     <Compile Include="Pocos\ICanGetPocos.cs" />
     <Compile Include="Pocos\IIdsMetasAndProxies.cs" />
     <Compile Include="Pocos\Proxies\ICollectionProxyBuilder.cs" />

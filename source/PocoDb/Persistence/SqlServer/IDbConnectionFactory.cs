@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data.Common;
 
-public interface IDbConnectionFactory
+namespace PocoDb.Persistence.SqlServer
 {
-    DbConnection CreateOpenConnection();
+    public interface IDbConnectionFactory
+    {
+        DbConnection CreateOpenConnection();
+    }
 }
