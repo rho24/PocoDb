@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
@@ -79,5 +80,37 @@ namespace PocoDb.Specs.Serialisation
 
         static ICommitId id;
         static string json;
+    }
+
+    public class when_a_generic_dictionary_is_serialized : with_a_new_JsonSerializer
+    {
+        Establish c = () => {
+            dictionary = new Dictionary<int, string>();
+            dictionary.Add(1, "one");
+            dictionary.Add(2, "two");
+        };
+
+        Because of = () => json = sut.Serialize(dictionary);
+
+        It should_serialize_into_list_of_key_value_pairs =
+            () => json.ShouldEqual("[{\"Key\":1,\"Value\":\"one\"},{\"Key\":2,\"Value\":\"two\"}]");
+
+        static Dictionary<int, string> dictionary;
+        static string json;
+    }
+
+
+    public class when_a_generic_dictionary_is_deserialized : with_a_new_JsonSerializer
+    {
+        Establish c = () => { json = "[{\"Key\":1,\"Value\":\"one\"},{\"Key\":2,\"Value\":\"two\"}]"; };
+
+        Because of = () => dictionary = sut.Deserialize<IDictionary<int, object>>(json);
+
+        It should_not_return_null = () => dictionary.ShouldNotBeNull();
+        It should_contain_the_first_value = () => dictionary[1].ShouldEqual("one");
+        It should_contain_the_second_value = () => dictionary[2].ShouldEqual("two");
+
+        static string json;
+        static IDictionary<int, object> dictionary;
     }
 }
