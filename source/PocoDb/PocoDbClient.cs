@@ -38,7 +38,7 @@ namespace PocoDb
             commitProcessor.Initialise(Server);
 
             foreach (var commit in commitStore.GetAll()) {
-                Server.Commit(commit);
+                commitProcessor.Apply(commit);
             }
         }
 
