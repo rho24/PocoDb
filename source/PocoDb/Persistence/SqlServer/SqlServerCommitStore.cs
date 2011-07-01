@@ -27,6 +27,7 @@ namespace PocoDb.Persistence.SqlServer
             using (var connection = DbConnectionFactory.CreateOpenConnection())
             using (var trans = connection.BeginTransaction(IsolationLevel.Serializable))
             using (var command = connection.CreateCommand()) {
+                command.Transaction = trans;
                 command.CommandText = "INSERT INTO SqlCommits (Id, Value) VALUES (@Id, @Value)";
                 command.Parameters.Add(command.CreateParameter());
                 command.Parameters[0].ParameterName = "Id";
