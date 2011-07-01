@@ -6,24 +6,23 @@ namespace PocoDb.Serialisation
 {
     public class PropertyConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer) {}
+        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer) {
+            var serializedProperty = new SerializedProperty {
+                                                                TypeName = value.GetType().FullName,
+                                                                PropertyName = ((IProperty) value).PropertyName
+                                                            };
+
+            serializer.Serialize(writer, serializedProperty);
+        }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
                                         Newtonsoft.Json.JsonSerializer serializer) {
             try {
-                do reader.Read(); while (reader.TokenType != JsonToken.String);
+                var serializedProperty = serializer.Deserialize<SerializedProperty>(reader);
 
-                var propertyType = Type.GetType(reader.Value.ToString()).GetGenericArguments()[0];
+                var pocoType = Type.GetType(serializedProperty.TypeName).GetGenericArguments()[0];
 
-                do reader.Read(); while (reader.TokenType != JsonToken.String);
-
-                var propertyName = reader.Value.ToString();
-
-                var propertyInfo = propertyType.GetProperty(propertyName);
-
-                do reader.Read(); while (reader.TokenType != JsonToken.EndObject);
-
-                do reader.Read(); while (reader.TokenType != JsonToken.EndObject);
+                var propertyInfo = pocoType.GetProperty(serializedProperty.PropertyName);
 
                 return Property.Create(propertyInfo);
             }
@@ -33,7 +32,14 @@ namespace PocoDb.Serialisation
         }
 
         public override bool CanConvert(Type objectType) {
-            return objectType == typeof (IProperty);
+            return objectType == typeof (IProperty) ||
+                   (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof (Property<,>));
+        }
+
+        public class SerializedProperty
+        {
+            public string TypeName { get; set; }
+            public string PropertyName { get; set; }
         }
     }
 }

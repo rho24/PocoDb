@@ -9,6 +9,8 @@ namespace PocoDb.Meta
     {
         public PropertyInfo Info { get; private set; }
 
+        public string PropertyName { get { return Info.Name; } }
+
         public Property(PropertyInfo info) {
             if (info == null)
                 throw new ArgumentNullException("info");

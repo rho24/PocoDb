@@ -134,6 +134,7 @@
     <Compile Include="Queries\EnumerablePocoQueryResult.cs" />
     <Compile Include="Queries\QueryProcessor.cs" />
     <Compile Include="Queries\SinglePocoQueryResult.cs" />
+    <Compile Include="Serialisation\CommitIdConverter.cs" />
     <Compile Include="Serialisation\ISerializer.cs" />
     <Compile Include="Serialisation\JsonSerializer.cs" />
     <Compile Include="Serialisation\PropertyConverter.cs" />

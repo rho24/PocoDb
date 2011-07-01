@@ -14,7 +14,7 @@ namespace PocoDb.Specs.Serialisation
         It should_equal_the_correct_value =
             () =>
             json.ShouldEqual(
-                "{\"$type\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs],[System.String, mscorlib]], PocoDb\",\"Info\":{\"Name\":\"FirstName\",\"AssemblyName\":\"PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"ClassName\":\"PocoDb.Specs.DummyObject\",\"Signature\":\"System.String FirstName\",\"MemberType\":16,\"GenericArguments\":null}}");
+                "{\"$type\":\"PocoDb.Serialisation.PropertyConverter+SerializedProperty, PocoDb\",\"TypeName\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\",\"PropertyName\":\"FirstName\"}");
 
         static Property<DummyObject, string> property;
         static string json;
@@ -24,7 +24,7 @@ namespace PocoDb.Specs.Serialisation
     {
         Establish c = () => {
             json =
-                "{\"$type\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs],[System.String, mscorlib]], PocoDb\",\"Info\":{\"Name\":\"FirstName\",\"AssemblyName\":\"PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"ClassName\":\"PocoDb.Specs.DummyObject\",\"Signature\":\"System.String FirstName\",\"MemberType\":16,\"GenericArguments\":null}}";
+                "{\"$type\":\"PocoDb.Serialisation.PropertyConverter+SerializedProperty, PocoDb\",\"TypeName\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\",\"PropertyName\":\"FirstName\"}";
         };
 
         Because of = () => property = sut.Deserialize<IProperty>(json);
