@@ -129,7 +129,7 @@ namespace PocoDb.Specs.Serialisation
         It should_be_the_correct_value =
             () =>
             json.ShouldEqual(
-                "{\"$type\":\"PocoDb.Meta.PocoMeta, PocoDb\",\"Id\":{\"$type\":\"PocoDb.Meta.PocoId, PocoDb\",\"Id\":\"00000000-0000-0000-0000-000000000000\"},\"Properties\":[{\"Key\":{\"$type\":\"PocoDb.Serialisation.PropertyConverter+SerializedProperty, PocoDb\",\"TypeName\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\",\"PropertyName\":\"FirstName\"},\"Value\":\"value1\"}],\"Collection\":[\"value2\"],\"Type\":\"PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\"}");
+                "{\"$type\":\"PocoDb.Meta.PocoMeta, PocoDb\",\"Id\":{\"$type\":\"PocoDb.Meta.PocoId, PocoDb\",\"Id\":\"00000000-0000-0000-0000-000000000000\"},\"Type\":\"PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"Properties\":[{\"Key\":{\"$type\":\"PocoDb.Serialisation.PropertyConverter+SerializedProperty, PocoDb\",\"TypeName\":\"PocoDb.Meta.Property`2[[PocoDb.Specs.DummyObject, PocoDb.Specs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\",\"PropertyName\":\"FirstName\"},\"Value\":\"value1\"}],\"Collection\":[\"value2\"]}");
 
         static PocoMeta meta;
         static string json;

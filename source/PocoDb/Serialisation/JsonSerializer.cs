@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using PocoDb.Extensions;
 using PocoDb.Meta;
 
@@ -16,7 +15,6 @@ namespace PocoDb.Serialisation
             JsonSettings = new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.Objects};
             JsonSettings.Converters.Add(new GenericDictionaryConverter());
             JsonSettings.Converters.Add(new PropertyConverter());
-            JsonSettings.Converters.Add(new IsoDateTimeConverter());
             JsonSettings.Converters.Add(new CommitIdConverter());
             JsonSettings.Converters.Add(new PocoMetaConverter());
         }
