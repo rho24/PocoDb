@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace PocoDb.Extensions
 {
-    //TODO: need to clean this up alot.
     public static class GenericHelper
     {
         public static void InvokeGeneric(Expression<Action> expression, params Type[] genericTypes) {
@@ -49,13 +47,6 @@ namespace PocoDb.Extensions
             }
 
             throw new ArgumentException("expression is not a method call");
-        }
-
-        class ObjectAndMethodAndArguments
-        {
-            public object Object { get; set; }
-            public MethodBase Method { get; set; }
-            public object[] Arguments { get; set; }
         }
 
         static object GetObjectValue(Expression expression) {

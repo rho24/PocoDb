@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PocoDb.Extensions;
+using PocoDb.Meta;
 
 namespace PocoDb.Serialisation
 {
@@ -17,6 +18,7 @@ namespace PocoDb.Serialisation
             JsonSettings.Converters.Add(new PropertyConverter());
             JsonSettings.Converters.Add(new IsoDateTimeConverter());
             JsonSettings.Converters.Add(new CommitIdConverter());
+            JsonSettings.Converters.Add(new PocoMetaConverter());
         }
 
         public string Serialize(object obj) {
@@ -29,6 +31,22 @@ namespace PocoDb.Serialisation
 
         public T Deserialize<T>(string str) {
             return JsonConvert.DeserializeObject<T>(str, JsonSettings);
+        }
+    }
+
+    public class PocoMetaConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer) {
+            throw new InvalidOperationException("Should only be used for reading");
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+                                        Newtonsoft.Json.JsonSerializer serializer) {
+            return serializer.Deserialize<PocoMeta>(reader);
+        }
+
+        public override bool CanConvert(Type objectType) {
+            return objectType == typeof (IPocoMeta);
         }
     }
 

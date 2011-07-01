@@ -6,9 +6,9 @@ namespace PocoDb.Meta
     public class PocoMeta : IPocoMeta
     {
         public IPocoId Id { get; private set; }
-        public IDictionary<IProperty, object> Properties { get; private set; }
-        public ICollection<object> Collection { get; private set; }
         public Type Type { get; private set; }
+        public IDictionary<IProperty, object> Properties { get; set; }
+        public ICollection<object> Collection { get; set; }
 
         public PocoMeta(IPocoId id, Type type) {
             Id = id;
