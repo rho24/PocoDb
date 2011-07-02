@@ -56,12 +56,13 @@ namespace PocoDb.Persistence.SqlServer
                 command.Parameters[0].ParameterName = "Id";
                 command.Parameters[0].Value = serialisedId;
 
-                var result = command.ExecuteReader();
+                string value;
+                using (var result = command.ExecuteReader()) {
+                    if (!result.Read())
+                        return null;
 
-                if (!result.Read())
-                    return null;
-
-                var value = result["Value"].ToString();
+                    value = result["Value"].ToString();
+                }
 
                 return Serializer.Deserialize<ICommit>(value);
             }
@@ -72,12 +73,12 @@ namespace PocoDb.Persistence.SqlServer
             using (var command = connection.CreateCommand()) {
                 command.CommandText = "SELECT Value FROM SqlCommits ORDER BY Id";
 
-                var result = command.ExecuteReader();
+                using (var result = command.ExecuteReader()) {
+                    while (result.Read()) {
+                        var value = result["Value"].ToString();
 
-                while (result.Read()) {
-                    var value = result["Value"].ToString();
-
-                    yield return Serializer.Deserialize<ICommit>(value);
+                        yield return Serializer.Deserialize<ICommit>(value);
+                    }
                 }
             }
         }
