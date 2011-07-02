@@ -26,14 +26,16 @@ namespace PocoDb.Queries
             if (query.Expression.IsFirstCall() || query.Expression.IsFirstOrDefaultCall()) {
                 var queryExpression = query.Expression.GetInnerQuery();
                 var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
-
+                IPocoId id;
                 if (indexMatch.IsPartial)
-                    return
-                        (IQueryResult)
+                    id = 
+                        (IPocoId)
                         GenericHelper.InvokeGeneric(() => ProcessWithPartialIndex<object>(indexMatch.Index, query),
                                                     query.Expression.Type);
 
-                return ProcessWithExactIndex(indexMatch.Index);
+                id = ProcessWithExactIndex(indexMatch.Index);
+
+                return BuildSingleResult(id);
             }
             else {
                 var indexMatch = Server.IndexManager.RetrieveIndex(query.Expression);
@@ -46,7 +48,7 @@ namespace PocoDb.Queries
             }
         }
 
-        IQueryResult ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
+        IPocoId ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
             var pocoGetter = new ServerPocoGetter(Server);
             var ids = index.GetIds();
             var pocos = pocoGetter.GetPocos(ids).Cast<T>();
@@ -54,15 +56,14 @@ namespace PocoDb.Queries
             var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
 
             var result = Expression.Lambda<Func<T>>(newQuery).Compile().Invoke();
-            var id = pocoGetter.IdsMetasAndProxies.Ids[result];
-            var meta = Server.MetaStore.Get(id);
-
-            return new SinglePocoQueryResult() {Id = id, Metas = new[] {meta}};
+            return result == null ? null : pocoGetter.IdsMetasAndProxies.Ids[result];
         }
 
-        IQueryResult ProcessWithExactIndex(IIndex index) {
-            var id = index.GetIds().FirstOrDefault();
+        IPocoId ProcessWithExactIndex(IIndex index) {
+            return index.GetIds().FirstOrDefault();
+        }
 
+        IQueryResult BuildSingleResult(IPocoId id) {
             var result = new SinglePocoQueryResult();
             result.Id = id;
             result.Metas = id == null ? new IPocoMeta[] {} : new[] {Server.MetaStore.Get(id)};
