@@ -28,12 +28,12 @@ namespace PocoDb.Queries
                 var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
                 IPocoId id;
                 if (indexMatch.IsPartial)
-                    id = 
+                    id =
                         (IPocoId)
                         GenericHelper.InvokeGeneric(() => ProcessWithPartialIndex<object>(indexMatch.Index, query),
                                                     query.Expression.Type);
-
-                id = ProcessWithExactIndex(indexMatch.Index);
+                else
+                    id = ProcessWithExactIndex(indexMatch.Index);
 
                 return BuildSingleResult(id);
             }
