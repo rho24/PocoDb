@@ -14,5 +14,13 @@ namespace PocoDb.Pocos.Proxies
         public void NonProxyableMemberNotification(Type type, MemberInfo memberInfo) {}
 
         public void MethodsInspected() {}
+
+        public override bool Equals(object obj) {
+            return obj is PropertyHook;
+        }
+
+        public override int GetHashCode() {
+            return "PropertyHook".GetHashCode();
+        }
     }
 }
