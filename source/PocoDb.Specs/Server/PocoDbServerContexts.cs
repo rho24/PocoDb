@@ -1,7 +1,7 @@
 ﻿using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Server;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Server
 {

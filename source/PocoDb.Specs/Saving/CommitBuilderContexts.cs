@@ -1,10 +1,10 @@
 ﻿using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Commits;
 using PocoDb.Meta;
 using PocoDb.Pocos;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Saving
 {

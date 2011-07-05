@@ -1,8 +1,8 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Meta;
 using PocoDb.Pocos;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Meta
 {

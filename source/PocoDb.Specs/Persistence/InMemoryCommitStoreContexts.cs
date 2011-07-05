@@ -1,9 +1,9 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 using PocoDb.Persistence;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Persistence
 {

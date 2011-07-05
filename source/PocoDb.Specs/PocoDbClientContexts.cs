@@ -1,6 +1,6 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs
 {

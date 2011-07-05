@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Meta;
 using PocoDb.Pocos.Proxies;
 using PocoDb.Session;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Poco.Proxies
 {

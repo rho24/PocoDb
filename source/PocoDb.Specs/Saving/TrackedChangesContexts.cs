@@ -1,9 +1,9 @@
 ﻿using System;
-using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.ChangeTracking;
 using PocoDb.Meta;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Saving
 {

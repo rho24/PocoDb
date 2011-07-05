@@ -1,8 +1,8 @@
 ﻿using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Pocos.Proxies;
 using PocoDb.Session;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Poco.Proxies
 {

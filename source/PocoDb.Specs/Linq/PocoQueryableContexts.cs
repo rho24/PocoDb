@@ -1,7 +1,7 @@
 ﻿using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Linq;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Linq
 {

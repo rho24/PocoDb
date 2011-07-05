@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Extensions;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs
 {

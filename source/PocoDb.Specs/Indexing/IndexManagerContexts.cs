@@ -1,7 +1,7 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Indexing;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Indexing
 {

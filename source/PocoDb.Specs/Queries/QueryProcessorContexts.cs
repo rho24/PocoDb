@@ -1,11 +1,11 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Indexing;
 using PocoDb.Persistence;
 using PocoDb.Queries;
 using PocoDb.Server;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Queries
 {

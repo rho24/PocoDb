@@ -1,10 +1,10 @@
 using System;
-using developwithpassion.specifications.fakeiteasy;
 using Machine.Specifications;
 using PocoDb.Commits;
 using PocoDb.Meta;
 using PocoDb.Persistence.SqlServer;
 using PocoDb.Serialisation;
+using developwithpassion.specifications.fakeiteasy;
 
 namespace PocoDb.Specs.Persistence.SqlServer
 {
