@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PocoDb.Extensions;
@@ -30,25 +31,33 @@ namespace PocoDb.Queries
                 if (indexMatch.IsPartial)
                     id =
                         (IPocoId)
-                        GenericHelper.InvokeGeneric(() => ProcessWithPartialIndex<object>(indexMatch.Index, query),
-                                                    query.Expression.Type);
+                        GenericHelper.InvokeGeneric(
+                            () => ProcessElementQueryWithPartialIndex<object>(indexMatch.Index, query),
+                            query.Expression.Type);
                 else
-                    id = ProcessWithExactIndex(indexMatch.Index);
+                    id = indexMatch.Index.GetIds().FirstOrDefault();
 
                 return BuildSingleResult(id);
             }
             else {
                 var indexMatch = Server.IndexManager.RetrieveIndex(query.Expression);
+                IEnumerable<IPocoId> ids;
+                if (indexMatch.IsExact) {
+                    ids = indexMatch.Index.GetIds();
+                    BuildEnumerableResult(ids);
+                }
+                else {
+                    ids = (IEnumerable<IPocoId>)
+                          GenericHelper.InvokeGeneric(
+                              () => ProcessIEnumerableQueryWithPartialIndex<object>(indexMatch.Index, query),
+                              query.Expression.Type.QueryableInnerType());
+                }
 
-                var result = new EnumerablePocoQueryResult();
-                result.Ids = indexMatch.Index.GetIds();
-                result.Metas = Server.MetaStore.Get(result.Ids);
-
-                return result;
+                return BuildEnumerableResult(ids);
             }
         }
 
-        IPocoId ProcessWithPartialIndex<T>(IIndex index, IQuery query) {
+        IPocoId ProcessElementQueryWithPartialIndex<T>(IIndex index, IQuery query) {
             var pocoGetter = new ServerPocoGetter(Server);
             var ids = index.GetIds();
             var pocos = pocoGetter.GetPocos(ids).Cast<T>();
@@ -59,8 +68,23 @@ namespace PocoDb.Queries
             return result == null ? null : pocoGetter.IdsMetasAndProxies.Ids[result];
         }
 
-        IPocoId ProcessWithExactIndex(IIndex index) {
-            return index.GetIds().FirstOrDefault();
+        IEnumerable<IPocoId> ProcessIEnumerableQueryWithPartialIndex<T>(IIndex index, IQuery query) {
+            var pocoGetter = new ServerPocoGetter(Server);
+            var ids = index.GetIds();
+            var pocos = pocoGetter.GetPocos(ids).Cast<T>();
+
+            var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
+
+            var result = Expression.Lambda<Func<IEnumerable<T>>>(newQuery).Compile().Invoke();
+            return result.Select(p => pocoGetter.IdsMetasAndProxies.Ids[p]);
+        }
+
+        IQueryResult BuildEnumerableResult(IEnumerable<IPocoId> ids) {
+            var result = new EnumerablePocoQueryResult();
+            result.Ids = ids;
+            result.Metas = Server.MetaStore.Get(result.Ids);
+
+            return result;
         }
 
         IQueryResult BuildSingleResult(IPocoId id) {

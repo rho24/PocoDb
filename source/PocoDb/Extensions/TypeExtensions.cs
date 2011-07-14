@@ -13,8 +13,19 @@ namespace PocoDb.Extensions
             return type.Name == "IEnumerable`1";
         }
 
+        public static bool IsQueryable(this Type type) {
+            return type.Name == "IQueryable`1";
+        }
+
         public static Type EnumerableInnerType(this Type type) {
             if (!type.IsEnumerable())
+                throw new ArgumentException("type is not IEnumerable");
+
+            return type.GetGenericArguments()[0];
+        }
+
+        public static Type QueryableInnerType(this Type type) {
+            if (!type.IsQueryable())
                 throw new ArgumentException("type is not IEnumerable");
 
             return type.GetGenericArguments()[0];
