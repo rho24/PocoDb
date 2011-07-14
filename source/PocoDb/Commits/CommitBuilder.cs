@@ -54,10 +54,12 @@ namespace PocoDb.Commits
 
             if (trackedSetProperty.Value.IsPocoType()) {
                 var valueId = ResolveId(trackedSetProperty.Value, commit, idsMetasAndProxies);
-                commit.SetProperties.Add(new SetProperty(pocoId, trackedSetProperty.Property, valueId));
+                commit.UpdatedPocos.Add(Tuple.Create(pocoId, new SetProperty(trackedSetProperty.Property, valueId)));
             }
             else
-                commit.SetProperties.Add(new SetProperty(pocoId, trackedSetProperty.Property, trackedSetProperty.Value));
+                commit.UpdatedPocos.Add(Tuple.Create(pocoId,
+                                                     new SetProperty(trackedSetProperty.Property,
+                                                                     trackedSetProperty.Value)));
         }
 
         void RecordAddToCollection(TrackedCollectionAddition trackedCollectionAddition, Commit commit,

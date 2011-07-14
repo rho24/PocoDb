@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FakeItEasy;
 using Machine.Specifications;
 using PocoDb.Commits;
@@ -23,7 +24,7 @@ namespace PocoDb.Specs.Server
         static IPocoMeta meta;
     }
 
-    public class when_applying_a_commit_with_a_PropertySet : with_a_new_CommitProcessor
+    public class when_applying_a_commit_with_an_UpdatedPoco : with_a_new_CommitProcessor
     {
         Establish c = () => {
             id = fake.an<IPocoId>();
@@ -33,7 +34,12 @@ namespace PocoDb.Specs.Server
             A.CallTo(() => meta.Properties).Returns(metaProperties);
 
             A.CallTo(() => metaStore.GetWritable(id)).Returns(meta);
-            A.CallTo(() => commit.SetProperties).Returns(new[] {new SetProperty(id, property, "value")});
+            var updatedPocos = new List<Tuple<IPocoId, SetProperty>>() {
+                                                                           Tuple.Create(id,
+                                                                                        new SetProperty(property,
+                                                                                                        "value"))
+                                                                       };
+            A.CallTo(() => commit.UpdatedPocos).Returns(updatedPocos.ToLookup(u => u.Item1, u => u.Item2));
         };
 
         Because of = () => sut.Apply(commit);

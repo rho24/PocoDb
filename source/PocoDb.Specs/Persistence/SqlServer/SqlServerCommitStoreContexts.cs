@@ -26,8 +26,9 @@ namespace PocoDb.Specs.Persistence.SqlServer
         Establish c = () => {
             commit = new Commit(new CommitId(Guid.Empty, DateTime.MinValue));
             commit.AddedPocos.Add(new AddedPoco(new PocoMeta(new PocoId(Guid.Empty), typeof (DummyObject))));
-            commit.SetProperties.Add(new SetProperty(new PocoId(Guid.Empty),
-                                                     new Property<DummyObject, string>(d => d.FirstName), "value"));
+            commit.UpdatedPocos.Add(Tuple.Create((IPocoId) new PocoId(Guid.Empty),
+                                                 new SetProperty(new Property<DummyObject, string>(d => d.FirstName),
+                                                                 "value")));
             commit.CollectionAdditions.Add(new CollectionAddition(new PocoId(Guid.Empty), "value"));
             commit.CollectionRemovals.Add(new CollectionRemoval(new PocoId(Guid.Empty), "value"));
 

@@ -39,7 +39,7 @@ namespace PocoDb.Specs.Persistence
 
         It should_not_be_null = () => retrievedCommit.ShouldNotBeNull();
         It should_have_an_AddedPoco = () => retrievedCommit.AddedPocos.Count().ShouldEqual(1);
-        It should_have_a_SetProperty = () => retrievedCommit.SetProperties.Count().ShouldEqual(1);
+        It should_have_a_SetProperty = () => retrievedCommit.UpdatedPocos.Count().ShouldEqual(1);
         It should_have_a_CollectionAddition = () => retrievedCommit.CollectionAdditions.Count().ShouldEqual(1);
         It should_have_a_CollectionRemoval = () => retrievedCommit.CollectionRemovals.Count().ShouldEqual(1);
 

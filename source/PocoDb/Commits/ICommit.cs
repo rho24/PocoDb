@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using PocoDb.Meta;
 
 namespace PocoDb.Commits
 {
@@ -7,7 +9,7 @@ namespace PocoDb.Commits
     {
         ICommitId Id { get; }
         IEnumerable<AddedPoco> AddedPocos { get; }
-        IEnumerable<SetProperty> SetProperties { get; }
+        ILookup<IPocoId, SetProperty> UpdatedPocos { get; }
         IEnumerable<CollectionAddition> CollectionAdditions { get; }
         IEnumerable<CollectionRemoval> CollectionRemovals { get; }
     }

@@ -17,9 +17,11 @@ namespace PocoDb.Commits
                 Server.IndexManager.NotifyMetaChange(addObject.Meta);
             }
 
-            foreach (var propertySet in commit.SetProperties) {
-                var meta = Server.MetaStore.GetWritable(propertySet.PocoId);
-                meta.Properties[propertySet.Property] = propertySet.Value;
+            foreach (var propertySet in commit.UpdatedPocos) {
+                var meta = Server.MetaStore.GetWritable(propertySet.Key);
+                foreach (var setProperty in propertySet) {
+                    meta.Properties[setProperty.Property] = setProperty.Value;
+                }
 
                 Server.MetaStore.Update(meta);
             }

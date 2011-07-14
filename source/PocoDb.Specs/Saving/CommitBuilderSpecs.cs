@@ -56,10 +56,10 @@ namespace PocoDb.Specs.Saving
             idsMetasAndProxies.Ids.Add(poco, pocoId);
         };
 
-        It should_contain_a_set_property = () => commit.SetProperties.Count().ShouldEqual(1);
-        It should_reference_the_PocoId = () => commit.SetProperties.First().PocoId.ShouldEqual(pocoId);
-        It should_reference_the_Property = () => commit.SetProperties.First().Property.ShouldEqual(property);
-        It should_reference_the_value = () => commit.SetProperties.First().Value.ShouldEqual("value");
+        It should_contain_a_set_property = () => commit.UpdatedPocos.Count().ShouldEqual(1);
+        It should_reference_the_PocoId = () => commit.UpdatedPocos.Contains(pocoId).ShouldBeTrue();
+        It should_reference_the_Property = () => commit.UpdatedPocos.First().First().Property.ShouldEqual(property);
+        It should_reference_the_value = () => commit.UpdatedPocos.First().First().Value.ShouldEqual("value");
 
         static DummyObject poco;
         static IPocoId pocoId;
