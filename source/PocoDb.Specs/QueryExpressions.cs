@@ -11,6 +11,7 @@ namespace PocoDb.Specs
         public static Expression DummyObjectIEnumerable { get; private set; }
         public static Expression DummyObjectFirst { get; private set; }
         public static Expression DummyObjectFirstOrDefault { get; private set; }
+        public static Expression DummyObjectSingle { get; private set; }
         public static Expression DummyObjectWhere { get; private set; }
         public static Expression ChildObjectIEnumerable { get; private set; }
 
@@ -23,6 +24,7 @@ namespace PocoDb.Specs
             var firstMethod = typeof (Queryable).GetMethods().Where(m => m.Name.StartsWith("First")).First();
             var firstOrDefaultMethod =
                 typeof (Queryable).GetMethods().Where(m => m.Name.StartsWith("FirstOrDefault")).First();
+            var singleMethod = typeof (Queryable).GetMethods().Where(m => m.Name.StartsWith("Single")).First();
             var whereMethod = typeof (Queryable).GetMethods().Where(m => m.Name.StartsWith("Where")).First();
 
             DummyObjectFirst = Expression.Call(firstMethod.MakeGenericMethod(typeof (DummyObject)),
@@ -30,6 +32,9 @@ namespace PocoDb.Specs
 
             DummyObjectFirstOrDefault = Expression.Call(firstOrDefaultMethod.MakeGenericMethod(typeof (DummyObject)),
                                                         DummyObjectIEnumerable);
+
+            DummyObjectSingle = Expression.Call(singleMethod.MakeGenericMethod(typeof (DummyObject)),
+                                                DummyObjectIEnumerable);
 
             DummyObjectWhere = Expression.Call(whereMethod.MakeGenericMethod(typeof (DummyObject)),
                                                DummyObjectIEnumerable,

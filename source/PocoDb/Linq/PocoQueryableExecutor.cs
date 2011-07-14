@@ -57,10 +57,10 @@ namespace PocoDb.Linq
                 throw new IncorrectQueryResultType(typeof (SinglePocoQueryResult), result.GetType());
 
             if (singleResult.Id == null) {
-                if (expression.IsFirstCall())
+                if (expression.IsFirstQuery() || expression.IsSingleQuery())
                     throw new InvalidOperationException("No items in sequence");
 
-                if (expression.IsFirstOrDefaultCall())
+                if (expression.IsFirstOrDefaultQuery() || expression.IsSingleOrDefaultQuery())
                     return default(T);
 
                 throw new NotSupportedException("Unknown expression type");

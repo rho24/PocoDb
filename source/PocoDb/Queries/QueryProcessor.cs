@@ -23,7 +23,7 @@ namespace PocoDb.Queries
         }
 
         public IQueryResult Process(IQuery query) {
-            if (query.Expression.IsFirstCall() || query.Expression.IsFirstOrDefaultCall()) {
+            if (query.Expression.IsElementQuery()) {
                 var queryExpression = query.Expression.GetInnerQuery();
                 var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
                 IPocoId id;

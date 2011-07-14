@@ -7,7 +7,15 @@ namespace PocoDb.Extensions
 {
     public static class ExpressionExtensions
     {
-        public static bool IsFirstCall(this Expression expression) {
+        public static bool IsElementQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            return expression.IsFirstQuery() || expression.IsFirstOrDefaultQuery() || expression.IsSingleQuery() ||
+                   expression.IsSingleOrDefaultQuery();
+        }
+
+        public static bool IsFirstQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -19,7 +27,7 @@ namespace PocoDb.Extensions
             return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "First";
         }
 
-        public static bool IsFirstOrDefaultCall(this Expression expression) {
+        public static bool IsFirstOrDefaultQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -30,6 +38,31 @@ namespace PocoDb.Extensions
 
             return callExpression.Method.DeclaringType == typeof (Queryable) &&
                    callExpression.Method.Name == "FirstOrDefault";
+        }
+
+        public static bool IsSingleQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "Single";
+        }
+
+        public static bool IsSingleOrDefaultQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) &&
+                   callExpression.Method.Name == "SingleOrDefault";
         }
 
         public static Expression GetInnerQuery(this Expression expression) {

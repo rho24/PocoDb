@@ -88,4 +88,47 @@ namespace PocoDb.Specs.Queries
 
     public class when_queried_for_FirstOrDefault
     {}
+
+    public class when_queried_for_Single : with_a_new_QueryProcessor
+    {
+        Establish c = () => {
+            query = fake.an<IQuery>();
+            queryExpression = QueryExpressions.DummyObjectIEnumerable;
+
+            expression = QueryExpressions.DummyObjectSingle;
+
+            A.CallTo(() => query.Expression).Returns(expression);
+
+            index = fake.an<IIndex>();
+            id = fake.an<IPocoId>();
+            ids = new[] {id};
+            meta = fake.an<IPocoMeta>();
+            metas = new[] {meta};
+
+            A.CallTo(() => indexManager.RetrieveIndex(queryExpression)).Returns(IndexMatch.ExactMatch(index));
+            A.CallTo(() => index.GetIds()).Returns(ids);
+            A.CallTo(() => metaStore.Get(id)).Returns(meta);
+        };
+
+        Because of = () => result = sut.Process(query);
+
+        It should_retrieve_the_index =
+            () => A.CallTo(() => indexManager.RetrieveIndex(queryExpression)).MustHaveHappened();
+
+        It should_get_ids_from_index = () => A.CallTo(() => index.GetIds()).MustHaveHappened();
+        It should_retrieve_metas_from_MetaStore = () => A.CallTo(() => metaStore.Get(id)).MustHaveHappened();
+        It should_return_the_metas = () => result.Metas.ShouldEqual(metas);
+        It should_return_an_SinglePocoQueryResult = () => result.ShouldBeOfType<SinglePocoQueryResult>();
+        It should_return_the_id = () => ((SinglePocoQueryResult) result).Id.ShouldEqual(id);
+
+        static IQuery query;
+        static Expression queryExpression;
+        static Expression expression;
+        static IIndex index;
+        static IPocoId id;
+        static IEnumerable<IPocoId> ids;
+        static IEnumerable<IPocoMeta> metas;
+        static IPocoMeta meta;
+        static IQueryResult result;
+    }
 }
