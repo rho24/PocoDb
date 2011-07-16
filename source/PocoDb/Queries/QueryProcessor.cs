@@ -23,74 +23,78 @@ namespace PocoDb.Queries
             Server = server;
         }
 
-        public IQueryResult Process(IQuery query) {
-            if (query.Expression.IsElementQuery()) {
-                var queryExpression = query.Expression.GetInnerQuery();
-                var indexMatch = Server.IndexManager.RetrieveIndex(queryExpression);
-                IPocoId id;
-                if (indexMatch.IsPartial)
-                    id =
-                        (IPocoId)
-                        GenericHelper.InvokeGeneric(
-                            () => ProcessElementQueryWithPartialIndex<object>(indexMatch.Index, query),
-                            query.Expression.Type);
-                else
-                    id = indexMatch.Index.GetIds().FirstOrDefault();
+        public SingleQueryResult ProcessSingle(IQuery query) {
+            var ids = GetIds(query.Expression.GetInnerQuery());
 
-                return BuildSingleResult(id);
-            }
-            else {
-                var indexMatch = Server.IndexManager.RetrieveIndex(query.Expression);
-                IEnumerable<IPocoId> ids;
-                if (indexMatch.IsExact) {
-                    ids = indexMatch.Index.GetIds();
-                    BuildEnumerableResult(ids);
-                }
-                else {
-                    ids = (IEnumerable<IPocoId>)
-                          GenericHelper.InvokeGeneric(
-                              () => ProcessIEnumerableQueryWithPartialIndex<object>(indexMatch.Index, query),
-                              query.Expression.Type.QueryableInnerType());
-                }
-
-                return BuildEnumerableResult(ids);
-            }
+            return BuildSingleResult(ids);
         }
 
-        IPocoId ProcessElementQueryWithPartialIndex<T>(IIndex index, IQuery query) {
+        public ElementQueryResult ProcessElement(IQuery query) {
+            var ids = GetIds(query.Expression.GetInnerQuery());
+
+            var id = query.Expression.IsLastQuery() ? ids.LastOrDefault() : ids.FirstOrDefault();
+
+            return BuildElementResult(id);
+        }
+
+        public EnumerableQueryResult ProcessEnumerable(IQuery query) {
+            var ids = GetIds(query.Expression);
+
+            return BuildEnumerableResult(ids);
+        }
+
+        IEnumerable<IPocoId> GetIds(Expression expression) {
+            var indexMatch = Server.IndexManager.RetrieveIndex(expression);
+            IEnumerable<IPocoId> ids;
+            if (indexMatch.IsExact)
+                ids = indexMatch.Index.GetIds();
+            else
+                ids = (IEnumerable<IPocoId>)
+                      GenericHelper.InvokeGeneric(
+                          () => GetIdsFromPartialIndex<object>(indexMatch.Index, expression),
+                          expression.Type.QueryableInnerType());
+            return ids;
+        }
+
+        IEnumerable<IPocoId> GetIdsFromPartialIndex<T>(IIndex index, Expression expression) {
             var pocoGetter = new ServerPocoGetter(Server);
             var ids = index.GetIds();
             var pocos = pocoGetter.GetPocos(ids).Cast<T>();
 
-            var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
+            var newExpression = QueryableToEnumerableConverter.Convert(expression, index.IndexExpression, pocos);
 
-            var result = Expression.Lambda<Func<T>>(newQuery).Compile().Invoke();
-            return result == null ? null : pocoGetter.IdsMetasAndProxies.Ids[result];
-        }
-
-        IEnumerable<IPocoId> ProcessIEnumerableQueryWithPartialIndex<T>(IIndex index, IQuery query) {
-            var pocoGetter = new ServerPocoGetter(Server);
-            var ids = index.GetIds();
-            var pocos = pocoGetter.GetPocos(ids).Cast<T>();
-
-            var newQuery = QueryableToEnumerableConverter.Convert(query.Expression, index.IndexExpression, pocos);
-
-            var result = Expression.Lambda<Func<IEnumerable<T>>>(newQuery).Compile().Invoke();
+            var result = Expression.Lambda<Func<IEnumerable<T>>>(newExpression).Compile().Invoke();
             return result.Select(p => pocoGetter.IdsMetasAndProxies.Ids[p]);
         }
 
-        IQueryResult BuildEnumerableResult(IEnumerable<IPocoId> ids) {
-            var result = new EnumerablePocoQueryResult();
-            result.Ids = ids;
-            result.Metas = Server.MetaStore.Get(result.Ids);
+        SingleQueryResult BuildSingleResult(IEnumerable<IPocoId> ids) {
+            var first = ids.FirstWithStats();
+
+            if (first.HasMany)
+                return new SingleQueryResult {HasMany = true};
+
+            var result = new SingleQueryResult {ElementId = first.Element};
+
+            if (result.ElementId != null)
+                result.Metas = new[] {Server.MetaStore.Get(result.ElementId)};
 
             return result;
         }
 
-        IQueryResult BuildSingleResult(IPocoId id) {
-            var result = new SinglePocoQueryResult();
-            result.Id = id;
-            result.Metas = id == null ? new IPocoMeta[] {} : new[] {Server.MetaStore.Get(id)};
+        ElementQueryResult BuildElementResult(IPocoId id) {
+            var result = new ElementQueryResult {ElementId = id};
+
+            if (result.ElementId != null)
+                result.Metas = new[] {Server.MetaStore.Get(result.ElementId)};
+
+            return result;
+        }
+
+        EnumerableQueryResult BuildEnumerableResult(IEnumerable<IPocoId> ids) {
+            var result = new EnumerableQueryResult {
+                                                       ElementIds = ids,
+                                                       Metas = Server.MetaStore.Get(ids)
+                                                   };
 
             return result;
         }

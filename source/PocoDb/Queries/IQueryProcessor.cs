@@ -4,6 +4,8 @@ namespace PocoDb.Queries
 {
     public interface IQueryProcessor
     {
-        IQueryResult Process(IQuery query);
+        SingleQueryResult ProcessSingle(IQuery query);
+        ElementQueryResult ProcessElement(IQuery query);
+        EnumerableQueryResult ProcessEnumerable(IQuery query);
     }
 }

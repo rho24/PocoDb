@@ -69,6 +69,7 @@
     <Compile Include="Commits\ICommitProcessor.cs" />
     <Compile Include="Commits\SetProperty.cs" />
     <Compile Include="Commits\CollectionRemoval.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericHelper.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -127,13 +128,15 @@
     <Compile Include="ChangeTracking\TrackedSetProperty.cs" />
     <Compile Include="ChangeTracking\TrackedCollectionRemoval.cs" />
     <Compile Include="ChangeTracking\ChangeTracker.cs" />
+    <Compile Include="Queries\ElementQueryResult.cs" />
     <Compile Include="Queries\IQuery.cs" />
     <Compile Include="Queries\IQueryResult.cs" />
     <Compile Include="Queries\IQueryProcessor.cs" />
     <Compile Include="Queries\Query.cs" />
-    <Compile Include="Queries\EnumerablePocoQueryResult.cs" />
+    <Compile Include="Queries\EnumerableQueryResult.cs" />
     <Compile Include="Queries\QueryProcessor.cs" />
-    <Compile Include="Queries\SinglePocoQueryResult.cs" />
+    <Compile Include="Queries\QueryResultBase.cs" />
+    <Compile Include="Queries\SingleQueryResult.cs" />
     <Compile Include="Serialisation\CommitIdConverter.cs" />
     <Compile Include="Serialisation\ISerializer.cs" />
     <Compile Include="Serialisation\JsonSerializer.cs" />

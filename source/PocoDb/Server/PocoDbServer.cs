@@ -24,12 +24,20 @@ namespace PocoDb.Server
             IndexManager = indexManager;
         }
 
-        public IQueryResult Query(IQuery query) {
-            return QueryProcessor.Process(query);
-        }
-
         public IPocoMeta GetMeta(IPocoId id) {
             return MetaStore.Get(id);
+        }
+
+        public SingleQueryResult QuerySingle(Query query) {
+            return QueryProcessor.ProcessSingle(query);
+        }
+
+        public ElementQueryResult QueryElement(Query query) {
+            return QueryProcessor.ProcessElement(query);
+        }
+
+        public EnumerableQueryResult QueryEnumerable(Query query) {
+            return QueryProcessor.ProcessEnumerable(query);
         }
 
         public void Commit(ICommit commit) {

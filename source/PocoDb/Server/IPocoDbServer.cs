@@ -13,7 +13,10 @@ namespace PocoDb.Server
         ICommitStore CommitStore { get; }
         IIndexManager IndexManager { get; }
 
-        IQueryResult Query(IQuery query);
+        SingleQueryResult QuerySingle(Query query);
+        ElementQueryResult QueryElement(Query query);
+        EnumerableQueryResult QueryEnumerable(Query query);
+
         void Commit(ICommit commit);
         IPocoMeta GetMeta(IPocoId id);
     }

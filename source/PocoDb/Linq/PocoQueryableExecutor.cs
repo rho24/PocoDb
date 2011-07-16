@@ -17,56 +17,64 @@ namespace PocoDb.Linq
         }
 
         public T Execute<T>(Expression expression) {
-            var returnType = typeof (T);
+            //expression = ExpressionProcessor.Process(expression);
 
-            //TODO: these need to be worked out the same on client and server...
+            var returnType = typeof (T);
+            if (expression.IsSingleQuery())
+                return (T) GenericHelper.InvokeGeneric(() => ExecuteSingle<object>(expression), returnType);
+
+            if (expression.IsElementQuery())
+                return (T) GenericHelper.InvokeGeneric(() => ExecuteElement<object>(expression), returnType);
+
             if (returnType.IsEnumerable())
                 return (T) GenericHelper.InvokeGeneric(() => ExecuteEnumerable<object>(expression),
                                                        returnType.EnumerableInnerType());
 
-            if (returnType.IsPocoType())
-                return (T) GenericHelper.InvokeGeneric(() => ExecuteSingle<object>(expression), returnType);
-
-            throw new NotImplementedException();
-        }
-
-        IQueryResult GetQueryResult(Expression expression) {
-            var result = Session.Server.Query(new Query(expression));
-
-            foreach (var meta in result.Metas) {
-                Session.IdsMetasAndProxies.Metas.Add(meta.Id, meta);
-            }
-            return result;
-        }
-
-        IEnumerable<T> ExecuteEnumerable<T>(Expression expression) {
-            var result = GetQueryResult(expression);
-
-            var enumerableResult = result as EnumerablePocoQueryResult;
-            if (enumerableResult == null)
-                throw new IncorrectQueryResultType(typeof (EnumerablePocoQueryResult), result.GetType());
-
-            return enumerableResult.Ids.Select(id => (T) Session.GetPoco(id));
+            throw new NotSupportedException("Unknown expression type");
         }
 
         T ExecuteSingle<T>(Expression expression) {
-            var result = GetQueryResult(expression);
+            var result = Session.Server.QuerySingle(new Query(expression));
 
-            var singleResult = result as SinglePocoQueryResult;
-            if (singleResult == null)
-                throw new IncorrectQueryResultType(typeof (SinglePocoQueryResult), result.GetType());
-
-            if (singleResult.Id == null) {
-                if (expression.IsFirstQuery() || expression.IsSingleQuery())
-                    throw new InvalidOperationException("No items in sequence");
-
-                if (expression.IsFirstOrDefaultQuery() || expression.IsSingleOrDefaultQuery())
+            if (result.ElementId == null) {
+                if (expression.IsOrDefaultQuery())
                     return default(T);
 
-                throw new NotSupportedException("Unknown expression type");
+                throw new InvalidOperationException("Source has no elements");
             }
 
-            return (T) Session.GetPoco(singleResult.Id);
+            if (result.HasMany)
+                throw new InvalidOperationException("Source has more than one element");
+
+            ImportMetas(result);
+            return (T) Session.GetPoco(result.ElementId);
+        }
+
+        T ExecuteElement<T>(Expression expression) {
+            var result = Session.Server.QueryElement(new Query(expression));
+
+            if (result.ElementId == null) {
+                if (expression.IsOrDefaultQuery())
+                    return default(T);
+
+                throw new InvalidOperationException("Source has no elements");
+            }
+
+            ImportMetas(result);
+            return (T) Session.GetPoco(result.ElementId);
+        }
+
+        IEnumerable<T> ExecuteEnumerable<T>(Expression expression) {
+            var result = Session.Server.QueryEnumerable(new Query(expression));
+
+            ImportMetas(result);
+            return result.ElementIds.Select(id => (T) Session.GetPoco(id));
+        }
+
+        void ImportMetas(IQueryResult result) {
+            foreach (var meta in result.Metas) {
+                Session.IdsMetasAndProxies.Metas.Add(meta.Id, meta);
+            }
         }
     }
 }

@@ -7,15 +7,69 @@ namespace PocoDb.Extensions
 {
     public static class ExpressionExtensions
     {
+        public static bool IsSingleQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            return expression.IsSingleCall() || expression.IsSingleOrDefaultCall();
+        }
+
         public static bool IsElementQuery(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            return expression.IsFirstQuery() || expression.IsFirstOrDefaultQuery() || expression.IsSingleQuery() ||
-                   expression.IsSingleOrDefaultQuery();
+            return expression.IsSingleCall() || expression.IsSingleOrDefaultCall() || expression.IsFirstCall() ||
+                   expression.IsFirstOrDefaultCall() || expression.IsLastCall() || expression.IsLastOrDefaultCall();
         }
 
         public static bool IsFirstQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            return expression.IsFirstCall() || expression.IsFirstOrDefaultCall();
+        }
+
+        public static bool IsLastQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            return expression.IsLastCall() || expression.IsLastOrDefaultCall();
+        }
+
+        public static bool IsOrDefaultQuery(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            return expression.IsSingleOrDefaultCall() || expression.IsFirstOrDefaultCall() ||
+                   expression.IsLastOrDefaultCall();
+        }
+
+        public static bool IsSingleCall(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "Single";
+        }
+
+        public static bool IsSingleOrDefaultCall(this Expression expression) {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var callExpression = expression as MethodCallExpression;
+
+            if (callExpression == null)
+                return false;
+
+            return callExpression.Method.DeclaringType == typeof (Queryable) &&
+                   callExpression.Method.Name == "SingleOrDefault";
+        }
+
+        public static bool IsFirstCall(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -27,7 +81,7 @@ namespace PocoDb.Extensions
             return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "First";
         }
 
-        public static bool IsFirstOrDefaultQuery(this Expression expression) {
+        public static bool IsFirstOrDefaultCall(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -40,7 +94,7 @@ namespace PocoDb.Extensions
                    callExpression.Method.Name == "FirstOrDefault";
         }
 
-        public static bool IsSingleQuery(this Expression expression) {
+        public static bool IsLastCall(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -49,10 +103,10 @@ namespace PocoDb.Extensions
             if (callExpression == null)
                 return false;
 
-            return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "Single";
+            return callExpression.Method.DeclaringType == typeof (Queryable) && callExpression.Method.Name == "Last";
         }
 
-        public static bool IsSingleOrDefaultQuery(this Expression expression) {
+        public static bool IsLastOrDefaultCall(this Expression expression) {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
@@ -62,7 +116,7 @@ namespace PocoDb.Extensions
                 return false;
 
             return callExpression.Method.DeclaringType == typeof (Queryable) &&
-                   callExpression.Method.Name == "SingleOrDefault";
+                   callExpression.Method.Name == "LastOrDefault";
         }
 
         public static Expression GetInnerQuery(this Expression expression) {
