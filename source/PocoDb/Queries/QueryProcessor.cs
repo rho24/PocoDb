@@ -45,15 +45,17 @@ namespace PocoDb.Queries
 
         IEnumerable<IPocoId> GetIds(Expression expression) {
             var indexMatch = Server.IndexManager.RetrieveIndex(expression);
-            IEnumerable<IPocoId> ids;
+
             if (indexMatch.IsExact)
-                ids = indexMatch.Index.GetIds();
-            else
-                ids = (IEnumerable<IPocoId>)
-                      GenericHelper.InvokeGeneric(
-                          () => GetIdsFromPartialIndex<object>(indexMatch.Index, expression),
-                          expression.Type.QueryableInnerType());
-            return ids;
+                return indexMatch.Index.GetIds();
+
+            if (indexMatch.IsPartial)
+                return (IEnumerable<IPocoId>)
+                       GenericHelper.InvokeGeneric(
+                           () => GetIdsFromPartialIndex<object>(indexMatch.Index, expression),
+                           expression.Type.QueryableInnerType());
+
+            return Enumerable.Empty<IPocoId>();
         }
 
         IEnumerable<IPocoId> GetIdsFromPartialIndex<T>(IIndex index, Expression expression) {

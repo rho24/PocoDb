@@ -22,7 +22,7 @@ namespace PocoDb.Indexing
                 throw new ApplicationException("Could not enter read lock");
 
             try {
-                IndexMatch currentMatch = null;
+                IndexMatch currentMatch = IndexMatch.NoMatch();
 
                 foreach (var index in Indexes) {
                     var match = index.GetMatch(expression);

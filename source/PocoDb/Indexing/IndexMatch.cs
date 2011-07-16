@@ -27,5 +27,9 @@ namespace PocoDb.Indexing
         public static IndexMatch NoMatch(IIndex index) {
             return new IndexMatch(index, false, false, 0);
         }
+
+        public static IndexMatch NoMatch() {
+            return new IndexMatch(null, false, false, 0);
+        }
     }
 }
