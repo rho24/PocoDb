@@ -12,19 +12,22 @@ namespace PocoDb.Session
     {
         public IPocoDbServer Server { get; private set; }
         public IPocoFactory PocoFactory { get; private set; }
+        public IExpressionProcessor ExpressionProcessor { get; private set; }
         public IIdsMetasAndProxies IdsMetasAndProxies { get; private set; }
 
 
-        public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory) {
+        public PocoSession(IPocoDbServer server, IPocoFactory pocoFactory, IExpressionProcessor expressionProcessor) {
             Server = server;
             PocoFactory = pocoFactory;
+            ExpressionProcessor = expressionProcessor;
 
             IdsMetasAndProxies = new IdsMetasAndProxies();
         }
 
         //IPocoSession
+
         public IQueryable<T> Get<T>() {
-            return new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(this)));
+            return new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(this, ExpressionProcessor)));
         }
 
         //IInternalPocoSession

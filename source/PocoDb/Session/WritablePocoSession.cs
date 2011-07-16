@@ -15,6 +15,7 @@ namespace PocoDb.Session
         public IPocoDbServer Server { get; private set; }
         public IPocoFactory PocoFactory { get; private set; }
         public ICommitBuilder CommitBuilder { get; set; }
+        public IExpressionProcessor ExpressionProcessor { get; private set; }
         public IDictionary<IPocoId, IPocoMeta> Metas { get; private set; }
         public IDictionary<IPocoId, object> TrackedPocos { get; private set; }
         public IDictionary<object, IPocoId> TrackedIds { get; private set; }
@@ -22,10 +23,12 @@ namespace PocoDb.Session
         public IIdsMetasAndProxies IdsMetasAndProxies { get; private set; }
 
 
-        public WritablePocoSession(IPocoDbServer server, IPocoFactory pocoFactory, ICommitBuilder commitBuilder) {
+        public WritablePocoSession(IPocoDbServer server, IPocoFactory pocoFactory, ICommitBuilder commitBuilder,
+                                   IExpressionProcessor expressionProcessor) {
             Server = server;
             PocoFactory = pocoFactory;
             CommitBuilder = commitBuilder;
+            ExpressionProcessor = expressionProcessor;
 
             Metas = new Dictionary<IPocoId, IPocoMeta>();
             TrackedPocos = new Dictionary<IPocoId, object>();
@@ -37,7 +40,7 @@ namespace PocoDb.Session
 
         //IPocoSession
         public IQueryable<T> Get<T>() {
-            return new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(this)));
+            return new PocoQueryable<T>(new PocoQueryProvider(new PocoQueryableExecutor(this, ExpressionProcessor)));
         }
 
         //IWritablePocoSession

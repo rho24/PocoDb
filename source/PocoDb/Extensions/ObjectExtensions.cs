@@ -33,5 +33,9 @@ namespace PocoDb.Extensions
         public static Type GetCollectionInnerType(this object value) {
             return value.GetType().GetCollectionInnerType();
         }
+
+        public static T As<T>(this object obj) where T : class {
+            return obj as T;
+        }
     }
 }

@@ -46,7 +46,8 @@ namespace PocoDb
             var pocoProxyBuilder = new ReadOnlyPocoProxyBuilder();
             var collectionProxyBuilder = new ReadOnlyCollectionProxyBuilder();
             var pocoFactory = new PocoFactory(pocoProxyBuilder, collectionProxyBuilder);
-            var session = new PocoSession(Server, pocoFactory);
+            var expressionProcessor = new ExpressionProcessor();
+            var session = new PocoSession(Server, pocoFactory, expressionProcessor);
 
             pocoProxyBuilder.Initialise(session);
             collectionProxyBuilder.Initialise(session);
@@ -62,7 +63,8 @@ namespace PocoDb
             var pocoIdBuilder = new PocoIdBuilder();
             var pocoMetaBuilder = new PocoMetaBuilder(pocoIdBuilder);
             var commitBuilder = new CommitBuilder(idGenerator, pocoMetaBuilder);
-            var session = new WritablePocoSession(Server, pocoFactory, commitBuilder);
+            var expressionProcessor = new ExpressionProcessor();
+            var session = new WritablePocoSession(Server, pocoFactory, commitBuilder, expressionProcessor);
 
             pocoProxyBuilder.Initialise(session, session.ChangeTracker);
             collectionProxyBuilder.Initialise(session, session.ChangeTracker);

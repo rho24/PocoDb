@@ -11,13 +11,15 @@ namespace PocoDb.Linq
     public class PocoQueryableExecutor : IPocoQueryableExecutor
     {
         public IInternalPocoSession Session { get; private set; }
+        protected IExpressionProcessor ExpressionProcessor { get; private set; }
 
-        public PocoQueryableExecutor(IInternalPocoSession session) {
+        public PocoQueryableExecutor(IInternalPocoSession session, IExpressionProcessor expressionProcessor) {
             Session = session;
+            ExpressionProcessor = expressionProcessor;
         }
 
         public T Execute<T>(Expression expression) {
-            //expression = ExpressionProcessor.Process(expression);
+            expression = ExpressionProcessor.Process(expression);
 
             var returnType = typeof (T);
             if (expression.IsSingleQuery())

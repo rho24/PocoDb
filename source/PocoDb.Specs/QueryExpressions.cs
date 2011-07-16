@@ -13,10 +13,13 @@ namespace PocoDb.Specs
         public static Expression DummyObjectFirstOrDefault { get; private set; }
         public static Expression DummyObjectSingle { get; private set; }
         public static Expression DummyObjectWhere { get; private set; }
+        public static Expression DummyObjectWhereWithFieldConstant { get; private set; }
+        public static Expression DummyObjectWhereWithPropertyConstant { get; private set; }
+        public static Expression DummyObjectWhereWithMethodConstant { get; private set; }
         public static Expression ChildObjectIEnumerable { get; private set; }
 
         static QueryExpressions() {
-            DummyObjectQueryable = new PocoQueryable<DummyObject>(null);
+            DummyObjectQueryable = new PocoQueryable<DummyObject>(new PocoQueryProvider(null));
 
             DummyObjectIEnumerable = Expression.Constant(DummyObjectQueryable);
             ChildObjectIEnumerable = Expression.Constant(new PocoQueryable<ChildObject>(null));
@@ -36,9 +39,20 @@ namespace PocoDb.Specs
             DummyObjectSingle = Expression.Call(singleMethod.MakeGenericMethod(typeof (DummyObject)),
                                                 DummyObjectIEnumerable);
 
-            DummyObjectWhere = Expression.Call(whereMethod.MakeGenericMethod(typeof (DummyObject)),
-                                               DummyObjectIEnumerable,
-                                               (Expression<Func<DummyObject, bool>>) (d => d.FirstName == "value"));
+            DummyObjectWhere = DummyObjectQueryable.Where(d => d.FirstName == "value").Expression;
+
+            var field = "value";
+            DummyObjectWhereWithFieldConstant = DummyObjectQueryable.Where(d => d.FirstName == field).Expression;
+
+            var prop = new DummyObject() {FirstName = "value"};
+            DummyObjectWhereWithPropertyConstant =
+                DummyObjectQueryable.Where(d => d.FirstName == prop.FirstName).Expression;
+
+            DummyObjectWhereWithMethodConstant = DummyObjectQueryable.Where(d => d.FirstName == GetValue()).Expression;
+        }
+
+        static string GetValue() {
+            return "value";
         }
     }
 }
